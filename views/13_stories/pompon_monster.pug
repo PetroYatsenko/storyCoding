@@ -1,0 +1,40 @@
+extends ../13_stories/lesson_layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/lesson.css') 
+
+block scripts
+  script(src='/javascripts/pompon_monster.js')
+  
+block content
+  header
+    h1= story_name
+    each val, index in story_items
+      p.story_text(id='story_item_' + index)= val
+  div#tables_wrapper    
+    section#content
+      div.boy_talent
+        h2= boy_talent
+        button(type='button' id='boy_button' class='go_ahead') #{boy_action}
+      div.parents_talent
+        h2= mom_talent
+        button(type='button' id='mom_button' class='go_ahead') #{mom_action}
+      div.pompon_hat
+        h2= pompon_color
+        img#pompon_color.pompon_color(src="/images/pompons/hat/pompon_darkblue.png")
+    section#middle  
+      div.hero_greeting
+        h2= greetings
+      div#hole.black_back
+        img#pompon_img(src="/images/pompons/monster/monster_cover.png")      
+    aside#sidebar
+      section.monster_talent
+        h2= monster_talent
+        button(type='button' id='monster_button' class='go_ahead') #{monster_action}
+      section.loop_ring
+        h2= monster_danger
+        button(type='button' id='monster_danger' class='go_ahead')
+      section.you_can
+        h2= your_talent
+        button(type='button' id='go_ahead' class='go_ahead') #{your_action}  
+      

@@ -1,0 +1,5 @@
+node_modules/*
+**/.git/**
+gulpfile.js
+nbproject/*
+bin/*

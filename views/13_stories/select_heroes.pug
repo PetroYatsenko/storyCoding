@@ -1,0 +1,46 @@
+extends ../13_stories/lesson_layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/lesson.css')
+  link(rel='stylesheet', href='/stylesheets/w3css/4/w3.css')
+
+block scripts
+  script(src='/javascripts/select_heroes.js')
+
+block content
+  header
+    h1= title 
+    p.story_text.visible= description
+  div#tables_wrapper  
+    section#content
+      h1= select_hero_1
+      select#first_hero
+        each variable in first_hero
+          option(value=variable.id) #{variable.name}
+
+      h2= select_hero_2
+      select#second_hero
+        each variable in second_hero
+          option(value=variable.id) #{variable.name}
+
+    section#middle
+      h1= monsters_collection
+
+      ul#monsters_zoo.monsters_list
+        each variable in monsters_zoo
+          if (variable.enabled)
+            li(class='pointer' id= variable.id)
+              img(src= '/images/monsters_small/' + variable.img + '_medium.png')  
+
+      div
+        each variable in monsters_zoo
+          div(id= variable.id + '_large').invisible
+            h1= variable.name
+            img(src= '/images/monsters_large/' + variable.img + '_large.png')
+            div.monster_description
+              h2= variable.talent
+
+    aside#sidebar    
+      div.you_can
+        h2= your_talent
+        button(id='go_ahead' class='button go_ahead disabled') #{your_action}

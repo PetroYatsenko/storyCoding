@@ -1,0 +1,40 @@
+extends ../13_stories/lesson_layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/lesson.css')
+
+block content
+  header
+    h1= title 
+    p.story_text.visible= about_this_story
+  div#tables_wrapper  
+    section#content
+      h1= heroes_can
+      dl 
+        dt 
+          h2= boy_talent
+        dd 
+          h3= boy_action
+        dt 
+          h2= mom_talent
+        dd 
+          h3= mom_action      
+        dt 
+          h2= hole_talent
+        dd 
+          h3= hole_action
+        dt 
+          h2= monster_talent
+        dd 
+          h3= monster_action      
+
+    section#middle
+      img.middle_img(src="/images/pompons/cycle_diagram_2.png") 
+      div
+        p.explanation_text= explanation_1
+        p.explanation_text= explanation_2
+        p.explanation_text= explanation_3
+    aside#sidebar
+      section.you_can
+        h2= your_talent
+        a(href= select_heroes_link id='go_ahead' class='button go_ahead enabled') #{your_action}

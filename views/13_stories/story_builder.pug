@@ -1,0 +1,28 @@
+extends ../13_stories/lesson_layout
+
+block styles
+  link(rel='stylesheet', href='/stylesheets/lesson.css')
+  
+block scripts
+  
+
+block content
+  header
+    h1= title
+    div
+      textarea#story_beginning(rows="4" cols="50") #{put_your_text_2}
+  div#tables_wrapper        
+    section#content
+      div
+        h2= first_hero_can
+        input.new_hero_talent(type='text')
+      div
+        h2= second_hero_can
+        input.new_hero_talent(type='text')
+    section#middle
+      div
+        img.middle_img(src='/images/monsters_large/seredynozher_large.png')
+    aside#sidebar
+      div.you_can
+        h2= your_talent
+        button(id='go_ahead' class='button go_ahead disabled') #{your_action}
