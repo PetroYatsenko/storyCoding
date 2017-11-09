@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const monsterController = require('../controllers/monster');
 
 var mZoo = {
   title: 'Починаємо вигадувати',

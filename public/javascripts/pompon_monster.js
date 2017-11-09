@@ -1,10 +1,11 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var current_step = 0;
-  var nextButton = 'go_ahead'; //TODO make a CONST
-  var itemId = 'story_item';//TODO replace as a constant?
-  var nextPath = '/lessons/pompon/how-its-made';
+  const nextButton = 'go_ahead'; //TODO make a CONST
+  const itemId = 'story_item';//TODO replace as a constant?
+  const nextPath = '/lessons/pompon/how-its-made';
+  var steps = [];
   
-  var steps = [
+  steps = [
     {
       state: {
         boy_button: 'enabled',
@@ -40,10 +41,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
             boy_button: {
               class: 'disabled'
             }
-          },
-          toggle: {
-            
-          }          
+          },     
         },       
       }
     },
@@ -315,18 +313,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
         }  
       },
     },
-//    { 
-//      state: {
-//        boy_button: 'disabled',
-//        mom_button: 'disabled',
-//        monster_button: 'disabled',
-//        monster_danger: 'disabled',
-//        go_ahead: 'enabled',
-//      },    
-//    },
   ];  
-
- 
+   
   var getStep = function() {
     return current_step;    
   };

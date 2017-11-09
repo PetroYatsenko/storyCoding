@@ -31,3 +31,6 @@ bower_components
 .DS_Store
 Thumbs.db
 /nbproject/private/
+
+# DB folder
+data/db/
