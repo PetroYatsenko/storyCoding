@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", function(event) {
+$(document).ready(function() {
   var storyBuilderPath = '/practice/story_builder'; //TODO: grab from the database
   
   var showCurMonster = function() {
@@ -17,12 +17,11 @@ window.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById('go_ahead').classList.replace('disabled', 'enabled');   
   }
   
-  var saveHeroes = function(fh, sh, mr, callback) {
-    
+  var saveHeroes = function(fh, sh, mr, callback) {    
     if (typeof(Storage) !== "undefined") {
-      sessionStorage.firstHero = fh;
-      sessionStorage.secondHero = sh;
-      sessionStorage.monster = m;
+      sessionStorage.fh = fh;
+      sessionStorage.sh = sh;
+      sessionStorage.mr = mr;
       callback();
     } else {
        alert('Sorry. Your browser has no web-session support. Please, use a newest browser version.')
@@ -30,14 +29,27 @@ window.addEventListener("DOMContentLoaded", function(event) {
   }
   
   var sendHeroes = function(fh, sh, mr) {
-    var xhttp = new XMLHttpRequest();
+    $.post('/practice/story_builder',
+      {
+        fh: fh,
+        sh: sh,
+        mr: mr,
+        _csrf: $('meta[name=csrf-token]').attr("content")
+      },
+      function(data) {
+         if (data.status === 'OK') {
+           window.location.href = storyBuilderPath;
+         }
+      }            
+    );
+//    var xhttp = new XMLHttpRequest();
 //    xhttp.onreadystatechange = function() {
 //      if (this.readyState == 4 && this.status == 200) {
 //        document.getElementById("demo").innerHTML = this.responseText;
 //      }
 //    };
-    xhttp.open("GET", '/practice/story_builder?fh=' + fh + '&sh=' + sh + '&mr=' + mr, true);
-    xhttp.send();
+//    xhttp.open("GET", '/practice/story_builder?fh=' + fh + '&sh=' + sh + '&mr=' + mr, true);
+//    xhttp.send();
   }
   
   document.getElementById("go_ahead").onclick = function() {
@@ -49,10 +61,10 @@ window.addEventListener("DOMContentLoaded", function(event) {
     sh = sh.options[sh.selectedIndex].value;
     mr = mr.id;
     
-    sendHeroes(fh, sh, mr);
-//    saveHeroes(fh, sh, mr, function() {
-//      window.location.href = storyBuilderPath;
-//    });
+//    sendHeroes(fh, sh, mr);
+    saveHeroes(fh, sh, mr, function() {      
+      window.location.href = storyBuilderPath;
+    });
   }    
     
   var addZooEvents = function() {
@@ -65,5 +77,5 @@ window.addEventListener("DOMContentLoaded", function(event) {
     }
   }();  
   
-}, false);
+});
 
