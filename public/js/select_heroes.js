@@ -55,7 +55,7 @@ $(document).ready(function() {
   document.getElementById("go_ahead").onclick = function() {
     var fh = document.getElementById("first_hero");
     var sh = document.getElementById("second_hero");
-    var mr = document.getElementsByClassName("selected_monster")[0];
+    var mr = document.getElementsByClassName("w3-opacity-off")[0];
 
     fh = fh.options[fh.selectedIndex].value;
     sh = sh.options[sh.selectedIndex].value;
@@ -63,7 +63,7 @@ $(document).ready(function() {
     
 //    sendHeroes(fh, sh, mr);
     saveHeroes(fh, sh, mr, function() {      
-      window.location.href = storyBuilderPath;
+      window.location.href = storyBuilderPath + '?fh=' + fh + '&sh=' + sh + '&mr=' + mr;
     });
   }    
     

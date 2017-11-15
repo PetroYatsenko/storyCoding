@@ -1,16 +1,17 @@
 extends ../13_stories/lesson_layout
 
 block styles
+  link(rel='stylesheet', href='/stylesheets/w3css/4/w3.css')
   link(rel='stylesheet', href='/stylesheets/lesson.css')
   
 block scripts
+  script(src='/js/get_story_initials.js')
   
-
 block content
   header
     h1= title
     div
-      textarea#story_beginning(rows="4" cols="50") #{put_your_text_2}
+      textarea#story_beginning(rows="4" cols="50") #{put_your_text}
   div#tables_wrapper        
     section#content
       div
@@ -21,7 +22,7 @@ block content
         input.new_hero_talent(type='text')
     section#middle
       div
-        img.middle_img(src='/images/monsters_large/seredynozher_large.png')
+        img.middle_img(src='/images/monsters_large/' + monster_img + '.png')
     aside#sidebar
       div.you_can
         h2= your_talent

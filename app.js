@@ -22,7 +22,7 @@ const sass = require('node-sass-middleware');
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' });
+dotenv.load({ path: '.env' });
 
 /**
  * API keys and Passport configuration.
@@ -37,7 +37,7 @@ const app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.Promise = global.Promise;
+mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI, {
   useMongoClient: true,
   /* other options */
@@ -47,6 +47,7 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
+console.log(process.env.MONGODB_URI);
 
 /**
  * Express configuration.
