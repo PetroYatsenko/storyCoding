@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var current_step = 0;
   const nextButton = 'go_ahead'; //TODO make a CONST
-  const itemId = 'story_item';//TODO replace as a constant?
+  const itemId = 'story_item';
   const nextPath = '/lessons/pompon/how-its-made';
   var steps = [];
   
@@ -320,7 +320,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
   };
   
   // TODO: get a step from the browser`s session
-  // to avoid a step loss by the page reboot  
+  // to avoid a step loss by the page reboot 
+  // Add trecking uid to verify one lesson's session
   var getStepData = function() {
     return steps[getStep()];
   };

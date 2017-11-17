@@ -1,11 +1,13 @@
 extends ../13_stories/lesson_layout
 
 block styles
-  link(rel='stylesheet', href='/stylesheets/w3css/4/w3.css')
-  link(rel='stylesheet', href='/stylesheets/lesson.css')
+  link(rel='stylesheet', href='/css/w3css/4/w3.css')
+  link(rel='stylesheet', href='/css/lesson.css')
   
 block scripts
-  script(src='/js/get_story_initials.js')
+  script.
+    var steps = !{steps}
+  script(src='/js/narrator.js')    
   
 block content
   header
@@ -14,16 +16,22 @@ block content
       textarea#story_beginning(rows="4" cols="50") #{put_your_text}
   div#tables_wrapper        
     section#content
-      div
-        h2= first_hero_can
-        input.new_hero_talent(type='text')
-      div
-        h2= second_hero_can
-        input.new_hero_talent(type='text')
-    section#middle
-      div
+      h2= you_can
+      div.button
+        button(type='button' id='start' class='go_ahead') #{start}
+      div.button
+        button(type='button' id='look' class='go_ahead') #{look_around}
+      div.button
+        button(type='button' id='help' class='go_ahead') #{help}
+    section#middle       
+      div.button
         img.middle_img(src='/images/monsters_large/' + monster_img + '.png')
     aside#sidebar
-      div.you_can
+      h2= smb_can
+      div.button         
+        button(type='button' id='stop' class='go_ahead') #{stop}
+      div.button
+        img.middle_img#aside_loop_img(src='/images/loops/' + step_loop + '.png')
+      div.button
         h2= your_talent
-        button(id='go_ahead' class='button go_ahead disabled') #{your_action}
+        button(id='go_ahead' class='button go_ahead') #{go_ahead}

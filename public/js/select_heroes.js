@@ -17,10 +17,8 @@ $(document).ready(function() {
     document.getElementById('go_ahead').classList.replace('disabled', 'enabled');   
   }
   
-  var saveHeroes = function(fh, sh, mr, callback) {    
-    if (typeof(Storage) !== "undefined") {
-      sessionStorage.fh = fh;
-      sessionStorage.sh = sh;
+  var saveHeroes = function(mr, callback) {    
+    if (typeof(Storage) !== "undefined") {      
       sessionStorage.mr = mr;
       callback();
     } else {
@@ -28,11 +26,9 @@ $(document).ready(function() {
     }    
   }
   
-  var sendHeroes = function(fh, sh, mr) {
+  var sendHeroes = function(mr) {
     $.post('/practice/story_builder',
       {
-        fh: fh,
-        sh: sh,
         mr: mr,
         _csrf: $('meta[name=csrf-token]').attr("content")
       },
@@ -52,18 +48,13 @@ $(document).ready(function() {
 //    xhttp.send();
   }
   
-  document.getElementById("go_ahead").onclick = function() {
-    var fh = document.getElementById("first_hero");
-    var sh = document.getElementById("second_hero");
+  document.getElementById("go_ahead").onclick = function() {    
     var mr = document.getElementsByClassName("w3-opacity-off")[0];
-
-    fh = fh.options[fh.selectedIndex].value;
-    sh = sh.options[sh.selectedIndex].value;
     mr = mr.id;
     
-//    sendHeroes(fh, sh, mr);
-    saveHeroes(fh, sh, mr, function() {      
-      window.location.href = storyBuilderPath + '?fh=' + fh + '&sh=' + sh + '&mr=' + mr;
+//    sendHeroes(mr);
+    saveHeroes(mr, function() {      
+      window.location.href = storyBuilderPath + '?mr=' + mr;
     });
   }    
     

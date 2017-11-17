@@ -1,7 +1,8 @@
 extends ../13_stories/lesson_layout
 
 block styles
-  link(rel='stylesheet', href='/stylesheets/lesson.css') 
+  link(rel='stylesheet', href='/css/w3css/4/w3.css')
+  link(rel='stylesheet', href='/css/lesson.css') 
 
 block scripts
   script(src='/js/pompon_monster.js')
@@ -13,13 +14,13 @@ block content
       p.story_text(id='story_item_' + index)= val
   div#tables_wrapper    
     section#content
-      div.boy_talent
+      div.button
         h2= boy_talent
         button(type='button' id='boy_button' class='go_ahead') #{boy_action}
-      div.parents_talent
+      div.button
         h2= mom_talent
         button(type='button' id='mom_button' class='go_ahead') #{mom_action}
-      div.pompon_hat
+      div.button
         h2= pompon_color
         img#pompon_color.pompon_color(src="/images/pompons/hat/pompon_darkblue.png")
     section#middle  
@@ -28,13 +29,13 @@ block content
       div#hole.black_back
         img#pompon_img(src="/images/pompons/monster/monster_cover.png")      
     aside#sidebar
-      section.monster_talent
+      div.button
         h2= monster_talent
         button(type='button' id='monster_button' class='go_ahead') #{monster_action}
-      section.loop_ring
+      div.button
         h2= monster_danger
         button(type='button' id='monster_danger' class='go_ahead')
-      section.you_can
+      div.button
         h2= your_talent
         button(type='button' id='go_ahead' class='go_ahead') #{your_action}  
       

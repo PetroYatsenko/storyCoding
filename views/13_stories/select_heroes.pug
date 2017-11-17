@@ -1,8 +1,8 @@
 extends ../13_stories/lesson_layout
 
 block styles
-  link(rel='stylesheet', href='/stylesheets/w3css/4/w3.css')
-  link(rel='stylesheet', href='/stylesheets/lesson.css')  
+  link(rel='stylesheet', href='/css/w3css/4/w3.css')
+  link(rel='stylesheet', href='/css/lesson.css')  
 
 block scripts
   script(src='/js/lib/jquery-3.1.1.min.js')
@@ -14,17 +14,12 @@ block content
     p.story_text.visible= description
   div#tables_wrapper  
     section#content
-      h1= select_hero_1
-      select#first_hero
-        each variable in heroes
-          if (variable.role === 'first')         
-            option(value=variable.name_uk) #{variable.name_uk}
-      h2= select_hero_2
-      select#second_hero
-        each variable in heroes
-          if (variable.role === 'second')              
-            option(value=variable.name_uk) #{variable.name_uk}
-
+      div
+        each variable in monsters_zoo
+          div(id= variable.monster + '_large').invisible
+            h1= variable.name_uk
+            div.monster_description
+              h2= variable.talent_uk
     section#middle
       h1= monsters_collection
 
@@ -32,16 +27,7 @@ block content
         each variable in monsters_zoo
           if (variable.enabled)
             li(class='pointer' id= variable.monster)
-              img(src= '/images/monsters_small/' + variable.monster + '_medium.png')  
-
-      div
-        each variable in monsters_zoo
-          div(id= variable.monster + '_large').invisible
-            h1= variable.name_uk
-            img(src= '/images/monsters_large/' + variable.monster + '_large.png')
-            div.monster_description
-              h2= variable.talent_uk
-
+              img(src= '/images/monsters_small/' + variable.monster + '_medium.png')
     aside#sidebar    
       div.you_can
         h2= your_talent

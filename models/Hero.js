@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const heroSchema = new mongoose.Schema({
   hero: { type: String, match: /[a-z,A-Z]/, unique: true },
   name_uk: { type: String, default: "Noname", match: /[a-z,A-Z]/ },

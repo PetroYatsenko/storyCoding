@@ -11,9 +11,11 @@ body {
 	margin: 20px auto;
 }
 
+
 #tables_wrapper {
   display: table;
   width: 100%;
+  background: #f0efef;
 }
 
 header, footer {
@@ -51,12 +53,13 @@ header {
 }
 
 #sidebar {
-	width: 270px;
+	width: 290px;
 	padding: 5px 15px;
 }
 
 #pompon_img,
-.middle_img {
+.middle_img,
+.pompon_color {
   display:block;
   margin:auto;
 }
@@ -69,7 +72,7 @@ header {
   width: 200px;
   height: 200px;
   text-align: center;
-  display: flex;
+  display: block;
   align-items: center;
   margin: auto;
   font-size: 150%;
@@ -129,11 +132,6 @@ ul.monsters_list {
   display: block !important;
 }
 
-.pompon_color {
-  margin: auto;
-  display: block;
-}
-
 footer {
 	clear: both;
 	padding: 0 15px;
@@ -162,6 +160,15 @@ ul.monsters_list li {
   font-size: 150%;
 }
 
+#content, #sidebar {
+	/*background: #f0efef;*/
+}
+
+#content, #middle, #sidebar {
+	display: table-cell;
+  vertical-align: top;
+  text-align: center;
+}
 
 /************************************************************************************
 MEDIA QUERIES
@@ -188,6 +195,10 @@ MEDIA QUERIES
 		width: 100%;		
 	}
   
+  #tables_wrapper {
+    display: block;
+  }
+  
   #content, #middle, #sidebar {    
     display: block;
     float: left;
@@ -197,14 +208,10 @@ MEDIA QUERIES
 		padding: 1% 4%;
 	}
   
-  .loop_ring,
-  .you_can,
-  .monster_talent,
-  .boy_talent,
-  .parents_talent,
-  .pompon_hat {
+  .button {
     display: inline-block;
     vertical-align: top;
+    padding-right: 4%;
   }
   
   header {
@@ -215,6 +222,7 @@ MEDIA QUERIES
   #sidebar {
     text-align: center;
   }
+  
 }
 
 /* for 700px or less */
@@ -235,7 +243,7 @@ MEDIA QUERIES
 		width: auto;
 		float: none;
 	}
-
+  
 }
 
 /* for 480px or less */
@@ -244,19 +252,9 @@ MEDIA QUERIES
 	header {
 		height: auto;
 	}
-	h1 {
+	
+  h1 {
 		font-size: 2em;
 	}
-	#sidebar {
-		display: none;
-	}
-
-}
-
-#content, #sidebar {
-	background: #f0efef;
-}
-#content, #middle, #sidebar {
-	display: table-cell;
-  vertical-align: top;
+	
 }
