@@ -35,6 +35,7 @@ header, footer {
 .explanation_text {
   font-weight: bold;
   font-size: 180%;
+  text-align: left;
 } 
 
 header {
@@ -78,6 +79,7 @@ header {
   font-size: 150%;
   margin-bottom: 20px;
   text-decoration: none;
+  padding: 20px;
 }
 
 .selected_monster,

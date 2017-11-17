@@ -1,57 +1,35 @@
-//const Monster = require('../models/Monster');
-//const Step = require('../models/Step');
-//const Promise = require('bluebird');
+const Monster = require('../models/Monster');
+const Story = require('../models/Story');
+const Promise = require('bluebird');
 
-exports.pomponMonster = (req, res, next) => {  
-  res.render('13_stories/pompon_monster', 
-    { 
-      title: 'Балабоновий монстр', 
-      story_name: 'Історія балабонового монстра  \ (вивчаємо цикли)',
-      boy_talent: 'Хлопчик може:',
-      boy_action: 'Відгризти балабон',
-      mom_talent: 'Мама може:',
-      mom_action: 'Пришити балабон',
-      your_talent: 'Ти можеш:',
-      your_action: 'Читати цю історію далі!',
-      pompon_color: 'Шапка Левка:',
-      greetings: 'Яма з балабонами',
-      story_items: [
-        'Якось одному хлопчикові на ім’я Левко Тигренко мама \
-        сплела синю вовняну шапку з балабоном. \
-        Левку не подобався балабон, але мама не погоджувалася \
-        відрізати його від шапки. \
-        Тому хлопчик пішов до школи у новій шапці, але дорогою \
-        ВІДГРИЗ балабон і викинув у яму. \
-        А мамі вдома сказав, що балабон загубився.',
+var lang = 'uk';//TODO lang support
 
-        'Але мама ПРИШИЛА до шапки новий балабон, червоний!',
-
-        'Наступного ранку Левко знову пішов до школи, \
-        дорогою знову ВІДГРИЗ балабон і знову кинув у яму при дорозі.\
-        А мамі сказав, буцім балабон загубився.',
-
-        'Однак мама ПРИШИЛА до шапки новий балабон, зелений!',
-
-        'Наступного ранку Левко знову пішов до школи,\
-        дорогою знову ВІДГРИЗ балабон і знову викинув у яму при дорозі. \
-        А мамі знову сказав, ніби балабон загубився!',
-
-        'Та  мама ПРИШИЛА до шапки новий балабон, жовтий!',
-
-        'Наступного ранку Левко знову пішов до школи,\
-        дорогою знову ВІДГРИЗ балабон і знову викинув у яму при дорозі.',
-
-        'Раптом чотири балабони об’єдналися у ямі, \
-        і з них постав величезний БАЛАБОНОВИЙ МОНСТР! \
-        Він швидко виріс і ПОГЛИНУВ хлопчика у синій шапці, \
-        і школу, і дорогу, і все місто, і всю нашу планету заразом.'
-      ],
-      monster_talent: 'Монстр може:',
-      monster_action: 'Поглинути весь світ',
-      monster_danger: 'Рівень небезпеки:',
-    }
-  );
-}
+exports.pomponMonster = (req, res, next) => {
+  var query = {story: 'pompon_monster', type: 'lesson'}; //TODO  
+  var state = 'state_' + lang; 
+  var items = 'items_' + lang;
+  
+  Story.findOne(query).then(function(story) {
+    
+    res.render('13_stories/pompon_monster', { 
+      title: story[state].title, 
+      story_name: story[state].name,
+      subject: story[state].subject, // What do we studying? (loops)
+      boy_talent: story[state].boy_talent,
+      boy_action: story[state].boy_action,
+      mom_talent: story[state].mom_talent,
+      mom_action: story[state].mom_action,
+      your_talent: story[state].your_talent,
+      your_action: story[state].your_action,
+      boy_hat: story[state].boy_hat,
+      greetings: story[state].greetings,
+      story_items: story[items],
+      monster_talent: story[state].monster_talent,
+      monster_action: story[state].monster_action,
+      monster_danger: story[state].monster_danger,
+    });
+  });
+};
 
 exports.howPomponMade = (req, res, next) => {
   res.render('13_stories/pompon_how_its_made', 

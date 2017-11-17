@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 
 const storySchema = new mongoose.Schema({
   story: { type: String, match: /[a-z,A-Z]/ },
+  type: {type: String, match: /[a-z,A-Z]/},
   items_uk: { type: Array, match: /[a-z,A-Z]/ },
-  build_uk: { type: Array, match: /[a-z,A-Z]/ },
-  enabled: { type: Boolean },
+  state_uk: {type: Object},
 });
 
-module.exports = mongoose.model('Story', storySchema);
+const Story = mongoose.model('Story', storySchema);
 
+module.exports = Story;

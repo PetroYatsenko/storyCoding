@@ -7,7 +7,8 @@ const Promise = require('bluebird');
 exports.getHeroes = (req, res, next) => {
   var query = {};
   var lesson = 'з циклом'; //TODO
-     
+  
+  //TODO add query or remove Promise.all 
   Promise.all([
     Monster.find(query)
   ]).spread(function(zoo) {      
@@ -36,26 +37,29 @@ exports.replacePlaceholders = function(val, str) {
 exports.getLoopBuilder = (req, res, next) => {
   req.sanitize('mr'); //TODO figure out sanitization  
   var mr = req.query.mr;
+  var query = {story: mr, type: 'practice'};
+  var lang = 'uk'; //TODO language support
   
+  var state = 'state_' + lang; 
+  var items = 'items_' + lang;
+    
   Promise.all([
-    Step.findOne({story: mr}),
+    Step.findOne(query),
+    Story.findOne(query),
     Monster.findOne({monster: mr})
-  ]).spread(function(steps, mr) {
-    console.log('---------');
-    console.log(steps);
-    console.log('---------');
+  ]).spread(function(steps, story, monster) {
     res.render('13_stories/story_builder', {
-      title: 'Ти і ' + mr.name_uk,
-      you_can: 'Ти можеш:', //TODO take from db + lang support
-      monster_img: mr.monster + '_large',
-      put_your_text: exports.replacePlaceholders({trials: '4 спроби'}, mr.build_uk),      
-      go_ahead: 'Пишемо далі!',
-      start: 'Рушити!', 
-      stop: 'Зупинити!',
-      help: 'Кликати на допомогу',
-      look_around: 'Дивитися навкруги',
-      step_loop: 'zero',
-      smb_can: 'Хтось може:',
+      title: story[state].title + monster.name_uk,
+      you_can: story[state].you_can, //TODO take from db + lang support
+      monster_img: monster.monster + '_large',
+      put_your_text: exports.replacePlaceholders({trials: '4 спроби'}, story[items][0]),      
+      go_ahead: story[state].go_ahead,
+      start: story[state].start, 
+      stop: story[state].stop,
+      help: story[state].help,
+      look_around: story[state].look,
+      step_loop: story[state].loop,
+      smb_can: story[state].smb_can,
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/")
     });
   });

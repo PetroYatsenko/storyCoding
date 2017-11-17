@@ -10,6 +10,7 @@ block scripts
 block content
   header
     h1= story_name
+    h2= subject
     each val, index in story_items
       p.story_text(id='story_item_' + index)= val
   div#tables_wrapper    
@@ -21,7 +22,7 @@ block content
         h2= mom_talent
         button(type='button' id='mom_button' class='go_ahead') #{mom_action}
       div.button
-        h2= pompon_color
+        h2= boy_hat
         img#pompon_color.pompon_color(src="/images/pompons/hat/pompon_darkblue.png")
     section#middle  
       div.hero_greeting
