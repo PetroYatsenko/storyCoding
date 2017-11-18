@@ -5,6 +5,8 @@ block styles
   link(rel='stylesheet', href='/css/lesson.css') 
 
 block scripts
+  script.
+    var steps = !{steps}
   script(src='/js/pompon_monster.js')
   
 block content
@@ -18,7 +20,7 @@ block content
       div.button
         h2= boy_talent
         button(type='button' id='boy_button' class='go_ahead') #{boy_action}
-      div.button
+      div.button_center
         h2= mom_talent
         button(type='button' id='mom_button' class='go_ahead') #{mom_action}
       div.button
@@ -33,7 +35,7 @@ block content
       div.button
         h2= monster_talent
         button(type='button' id='monster_button' class='go_ahead') #{monster_action}
-      div.button
+      div.button_center
         h2= monster_danger
         button(type='button' id='monster_danger' class='go_ahead')
       div.button

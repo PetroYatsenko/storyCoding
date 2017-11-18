@@ -1,6 +1,7 @@
 body { 
   font-family: 'Open Sans', sans-serif;
   color: #666;
+  background: black;
 }
 
 /* STRUCTURE */
@@ -11,11 +12,9 @@ body {
 	margin: 20px auto;
 }
 
-
 #tables_wrapper {
   display: table;
-  width: 100%;
-  background: #f0efef;
+  width: 100%; 
 }
 
 header, footer {
@@ -30,6 +29,7 @@ header, footer {
   font-weight: bold;
   font-size: 180%;
   display: none;
+  margin: 0;
 }
 
 .explanation_text {
@@ -162,14 +162,50 @@ ul.monsters_list li {
   font-size: 150%;
 }
 
-#content, #sidebar {
-	/*background: #f0efef;*/
-}
-
 #content, #middle, #sidebar {
 	display: table-cell;
   vertical-align: top;
   text-align: center;
+}
+
+.img_container {
+  position: relative;
+  animation: monster_show 0.5s;
+}
+
+.your_text {
+  position: absolute;
+  top: 3%;
+  width: 100%;
+}
+
+.your_story {
+  resize: vertical;
+  font-size: 1.5em;
+  color: white;
+  background: transparent;
+}
+
+.footer_title {
+  padding: 1%;
+  margin: 0;
+}
+
+#aside_loop_img {
+  padding-bottom: 20px;
+}
+
+@keyframes monster_show {
+  0% { 
+    -webkit-transform: rotateY(90deg) rotateX(90deg);
+    transform: rotateY(90deg) rotateX(90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateY(0deg) rotateX(0deg);
+    transform: rotateY(0deg) rotateX(0deg);
+    opacity: 1;
+  }
 }
 
 /************************************************************************************
@@ -210,10 +246,13 @@ MEDIA QUERIES
 		padding: 1% 4%;
 	}
   
-  .button {
+  .button, .button_center {
     display: inline-block;
     vertical-align: top;
-    padding-right: 4%;
+  }
+  
+  .button_center {
+     padding: 0 4% 0 4%;
   }
   
   header {
@@ -223,6 +262,10 @@ MEDIA QUERIES
   
   #sidebar {
     text-align: center;
+  }
+  
+  footer {
+    display: none;
   }
   
 }

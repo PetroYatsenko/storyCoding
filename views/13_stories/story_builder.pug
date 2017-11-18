@@ -13,25 +13,27 @@ block content
   header
     h1= title
     div
-      textarea#story_beginning(rows="4" cols="50") #{put_your_text}
-  div#tables_wrapper        
+      each val, index in story_items
+        p.story_text(id='story_item_' + index)= val
+  div#tables_wrapper.very_black_back        
     section#content
       h2= you_can
       div.button
-        button(type='button' id='start' class='go_ahead') #{start}
-      div.button
+        button(type='button' id='go' class='go_ahead') #{go_ahead}
+      div.button_center
         button(type='button' id='look' class='go_ahead') #{look_around}
       div.button
         button(type='button' id='help' class='go_ahead') #{help}
     section#middle       
-      div.button
+      div.img_container
         img.middle_img(src='/images/monsters_large/' + monster_img + '.png')
-    aside#sidebar
-      h2= smb_can
-      div.button         
+        div.your_text
+          textarea#your_story.your_story.invisible(rows="4" cols="45") #{put_your_text}
+    aside#sidebar      
+      div.button
+        h2= smb_can      
         button(type='button' id='stop' class='go_ahead') #{stop}
-      div.button
+      div.button_center
+        h2= loop_txt
         img.middle_img#aside_loop_img(src='/images/loops/' + step_loop + '.png')
-      div.button
-        h2= your_talent
-        button(id='go_ahead' class='button go_ahead') #{go_ahead}
+      

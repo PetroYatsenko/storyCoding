@@ -39,7 +39,7 @@ exports.getLoopBuilder = (req, res, next) => {
   var mr = req.query.mr;
   var query = {story: mr, type: 'practice'};
   var lang = 'uk'; //TODO language support
-  
+  var trials = 'чотирьох кроків'; //TODO  
   var state = 'state_' + lang; 
   var items = 'items_' + lang;
     
@@ -48,19 +48,25 @@ exports.getLoopBuilder = (req, res, next) => {
     Story.findOne(query),
     Monster.findOne({monster: mr})
   ]).spread(function(steps, story, monster) {
+
+    for (let i = 0; i < story[items].length; i++) {
+      story[items][i] = exports.replacePlaceholders({trials: trials}, story[items][i]);
+    } 
+    
     res.render('13_stories/story_builder', {
       title: story[state].title + monster.name_uk,
       you_can: story[state].you_can, //TODO take from db + lang support
       monster_img: monster.monster + '_large',
-      put_your_text: exports.replacePlaceholders({trials: '4 спроби'}, story[items][0]),      
+      story_items: story[items],      
       go_ahead: story[state].go_ahead,
-      start: story[state].start, 
       stop: story[state].stop,
       help: story[state].help,
       look_around: story[state].look,
       step_loop: story[state].loop,
       smb_can: story[state].smb_can,
-      steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/")
+      steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
+      put_your_text: 'Пиши тут...',
+      loop_txt: 'Лічильник'
     });
   });
 };

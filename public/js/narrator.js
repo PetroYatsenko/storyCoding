@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var current_step = 0;
-  const nextButton = 'go_ahead';
+  const nextButton = 'go';
   const itemId = 'story_item';
   const nextPath = '/lessons/pompon/how-its-made';
   
@@ -34,7 +34,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
 
   var arrangeNewStep = function() {         
     document.getElementById(itemId + '_' + getStep()).classList.add('visible');
-    document.getElementById(nextButton).classList.remove('enabled');    
+//    document.getElementById(nextButton).classList.remove('enabled');    
     
     var next = document.getElementById(nextButton);
     
