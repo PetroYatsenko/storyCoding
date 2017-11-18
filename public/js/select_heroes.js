@@ -1,6 +1,7 @@
 $(document).ready(function() {
   var storyBuilderPath = '/practice/story_builder'; //TODO: grab from the database
-  
+  var nextButton = 'go';
+          
   var showCurMonster = function() {
     var selected = document.getElementsByClassName('selected_monster');
     var opacity = document.getElementsByClassName('w3-opacity-off');
@@ -14,7 +15,7 @@ $(document).ready(function() {
     
     document.getElementById(this.id + '_large').classList.replace('invisible', 'selected_monster');
     document.getElementById(this.id).classList.replace("w3-opacity", "w3-opacity-off");
-    document.getElementById('go_ahead').classList.replace('disabled', 'enabled');   
+    document.getElementById(nextButton).classList.replace('disabled', 'enabled');   
   }
   
   var saveHeroes = function(mr, callback) {    
@@ -46,9 +47,9 @@ $(document).ready(function() {
 //    };
 //    xhttp.open("GET", '/practice/story_builder?fh=' + fh + '&sh=' + sh + '&mr=' + mr, true);
 //    xhttp.send();
-  }
+  };
   
-  document.getElementById("go_ahead").onclick = function() {    
+  document.getElementById(nextButton).onclick = function() {    
     var mr = document.getElementsByClassName("w3-opacity-off")[0];
     mr = mr.id;
     

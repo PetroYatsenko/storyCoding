@@ -2,7 +2,7 @@ const Monster = require('../models/Monster');
 const Step = require('../models/Step');
 const Story = require('../models/Story');
 const Promise = require('bluebird');
-
+var lang = 'uk'; //TODO language support
 
 exports.getHeroes = (req, res, next) => {
   var query = {};
@@ -37,8 +37,7 @@ exports.replacePlaceholders = function(val, str) {
 exports.getLoopBuilder = (req, res, next) => {
   req.sanitize('mr'); //TODO figure out sanitization  
   var mr = req.query.mr;
-  var query = {story: mr, type: 'practice'};
-  var lang = 'uk'; //TODO language support
+  var query = {story: mr, type: 'practice'};  
   var trials = 'чотирьох кроків'; //TODO  
   var state = 'state_' + lang; 
   var items = 'items_' + lang;
@@ -65,8 +64,9 @@ exports.getLoopBuilder = (req, res, next) => {
       step_loop: story[state].loop,
       smb_can: story[state].smb_can,
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      put_your_text: 'Пиши тут...',
-      loop_txt: 'Лічильник'
+      write_here: story[state].write, //'Пиши тут...',
+      counter: story[state].counter, //'Лічильник',
+      full_story_path: JSON.stringify(steps.next_path),
     });
   });
 };

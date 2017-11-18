@@ -25,11 +25,11 @@ header, footer {
 }
 
 .story_text {
-  width: 60%;
   font-weight: bold;
   font-size: 180%;
   display: none;
   margin: 0;
+  text-align: left;
 }
 
 .explanation_text {
@@ -96,8 +96,8 @@ ul.monsters_list {
   display: none;
 } 
 
-.black_back {
-  background-color: #01292b; 
+.white_back {
+  background-color: #fff; 
 }
 
 .black {
@@ -175,15 +175,24 @@ ul.monsters_list li {
 
 .your_text {
   position: absolute;
-  top: 3%;
+  top: 70%;
   width: 100%;
 }
 
 .your_story {
   resize: vertical;
-  font-size: 1.5em;
+  font-size: 2.0em;
   color: white;
   background: transparent;
+  margin: auto;
+}
+
+.story {
+  background: transparent;
+  position: absolute;
+  top: 3%;
+  left: 3%;
+  text-align: left;
 }
 
 .footer_title {
@@ -193,6 +202,10 @@ ul.monsters_list li {
 
 #aside_loop_img {
   padding-bottom: 20px;
+}
+
+dl {
+  text-align: left;
 }
 
 @keyframes monster_show {
@@ -268,6 +281,9 @@ MEDIA QUERIES
     display: none;
   }
   
+  .story_text {
+    font-size: 2em;
+  }  
 }
 
 /* for 700px or less */

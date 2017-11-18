@@ -7,14 +7,13 @@ block styles
 block scripts
   script.
     var steps = !{steps}
-  script(src='/js/pompon_monster.js')
+    var nextPath = !{know_how}
+  script(src='/js/narrator.js')
   
 block content
   header
     h1= story_name
-    h2= subject
-    each val, index in story_items
-      p.story_text(id='story_item_' + index)= val
+    h2= subject   
   div#tables_wrapper    
     section#content
       div.button
@@ -29,7 +28,10 @@ block content
     section#middle  
       div.hero_greeting
         h2= greetings
-      div#hole.black_back
+      div#hole.img_container
+        div.story
+          each val, index in story_items
+            p.story_text(id='story_item_' + index)= val
         img#pompon_img(src="/images/pompons/monster/monster_cover.png")      
     aside#sidebar
       div.button
@@ -40,5 +42,5 @@ block content
         button(type='button' id='monster_danger' class='go_ahead')
       div.button
         h2= your_talent
-        button(type='button' id='go_ahead' class='go_ahead') #{your_action}  
+        button(type='button' id='go' class='go_ahead') #{your_action}  
       

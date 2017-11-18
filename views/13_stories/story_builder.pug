@@ -7,6 +7,7 @@ block styles
 block scripts
   script.
     var steps = !{steps}
+    var nextPath = !{full_story_path}  
   script(src='/js/narrator.js')    
   
 block content
@@ -28,12 +29,12 @@ block content
       div.img_container
         img.middle_img(src='/images/monsters_large/' + monster_img + '.png')
         div.your_text
-          textarea#your_story.your_story.invisible(rows="4" cols="45") #{put_your_text}
+          textarea#your_story.your_story.invisible(rows="4" cols="35") #{write_here}
     aside#sidebar      
       div.button
         h2= smb_can      
         button(type='button' id='stop' class='go_ahead') #{stop}
       div.button_center
-        h2= loop_txt
+        h2= counter
         img.middle_img#aside_loop_img(src='/images/loops/' + step_loop + '.png')
       
