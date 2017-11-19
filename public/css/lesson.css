@@ -1,7 +1,11 @@
 body { 
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'Open Sans', 'sans-serif';
   color: #666;
-  background: black;
+}
+
+/* Fix to override the w3c css. */
+h1, h2, h3, h4 {
+  margin: 0px;
 }
 
 /* STRUCTURE */
@@ -9,12 +13,13 @@ body {
 #pagewrap {
 	padding: 5px;
 	width: 1455px;
-	margin: 20px auto;
+	margin: 0px auto;
 }
 
 #tables_wrapper {
   display: table;
-  width: 100%; 
+  width: 100%;
+  background: black;
 }
 
 header, footer {
@@ -24,7 +29,9 @@ header, footer {
   background-size: 100%;
 }
 
-.story_text {
+.instr,
+.story_text, 
+.expl_text {
   font-weight: bold;
   font-size: 180%;
   display: none;
@@ -32,10 +39,13 @@ header, footer {
   text-align: left;
 }
 
-.explanation_text {
-  font-weight: bold;
-  font-size: 180%;
-  text-align: left;
+.instr {
+  display: block;
+  margin-right: 33%;
+}
+
+.expl_text {
+  display: block;
 } 
 
 header {
@@ -191,7 +201,9 @@ ul.monsters_list li {
   background: transparent;
   position: absolute;
   top: 3%;
-  left: 3%;
+  left: 12%;
+  width: 75%;
+  color: white;
   text-align: left;
 }
 
@@ -228,30 +240,24 @@ MEDIA QUERIES
 @media screen and (max-width: 980px) {
 	
 	#pagewrap {
-		width: 100%;
+    width: 100%;
+    margin: 0px;
 	}
 	#content {
-		width: 100%;
 		padding: 1% 4%;    
 	}
 	#middle {
-		width: 100%;
 		padding: 1% 4%;
 		margin: 0px 0px 5px 5px;		
 	}
 	
 	#sidebar {
 		clear: both;
-		padding: 1% 4%;
-		width: 100%;		
+		padding: 1% 4%;	
 	}
-  
-  #tables_wrapper {
-    display: block;
-  }
-  
-  #content, #middle, #sidebar {    
-    display: block;
+ 
+  #content, #middle, #sidebar {
+    width: 100%;
     float: left;
   }
 
@@ -270,7 +276,7 @@ MEDIA QUERIES
   
   header {
     background-repeat: repeat-y;
-    background-position-y: bottom;
+    background-position-y: center;
   }
   
   #sidebar {
@@ -281,9 +287,14 @@ MEDIA QUERIES
     display: none;
   }
   
+  .instr,
   .story_text {
     font-size: 2em;
-  }  
+  }
+  
+  .instr {
+    margin: 0;
+  }
 }
 
 /* for 700px or less */

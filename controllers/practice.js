@@ -64,9 +64,10 @@ exports.getLoopBuilder = (req, res, next) => {
       step_loop: story[state].loop,
       smb_can: story[state].smb_can,
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      write_here: story[state].write, //'Пиши тут...',
-      counter: story[state].counter, //'Лічильник',
+      write_here: story[state].write,
+      counter: story[state].counter,
       full_story_path: JSON.stringify(steps.next_path),
+      instruction: story[state].about
     });
   });
 };

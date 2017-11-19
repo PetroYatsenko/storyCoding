@@ -14,9 +14,8 @@ block content
   header
     h1= title
     div
-      each val, index in story_items
-        p.story_text(id='story_item_' + index)= val
-  div#tables_wrapper.very_black_back        
+      p.instr= instruction
+  div#tables_wrapper        
     section#content
       h2= you_can
       div.button
@@ -27,6 +26,9 @@ block content
         button(type='button' id='help' class='go_ahead') #{help}
     section#middle       
       div.img_container
+        div.story
+          each val, index in story_items
+            p.story_text(id='story_item_' + index)= val
         img.middle_img(src='/images/monsters_large/' + monster_img + '.png')
         div.your_text
           textarea#your_story.your_story.invisible(rows="4" cols="35") #{write_here}

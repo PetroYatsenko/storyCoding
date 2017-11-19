@@ -6,7 +6,10 @@ const Promise = require('bluebird');
 var lang = 'uk';//TODO lang support
 
 exports.pomponMonster = (req, res, next) => {
-  var query = { story: 'pompon_monster', type: 'lesson'}; //TODO replace monster with param
+  var query = { //TODO replace monster with param
+    story: 'pompon_monster', 
+    type: 'lesson'
+  }; 
   var state = 'state_' + lang; 
   var items = 'items_' + lang;
     
@@ -31,37 +34,32 @@ exports.pomponMonster = (req, res, next) => {
       monster_action: story[state].monster_action,
       monster_danger: story[state].monster_danger,
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      know_how: JSON.stringify(steps.next_path),
+      explanation: JSON.stringify(steps.next_path),
     });
   });
 };
 
 exports.howPomponMade = (req, res, next) => {
-  res.render('13_stories/pompon_how_its_made', 
-    {
-      title: 'Як зроблена історія про балабонового монстра?',
-      heroes_can: 'Пригадаємо, що вміють персонажі:',
-      monster_talent: 'Балабоновий Монстр',
-      monster_action: 'утворюється з чотирьох балабонів і поглинає весь світ',
-      boy_talent: 'Левко',
-      boy_action: 'уміє відгризти балабон',
-      mom_talent: 'Мама',
-      mom_action: 'уміє пришити балабон',
-      your_talent: 'Ти можеш',
-      your_action: 'Написати історію з циклом',
-      about_this_story: 'Аби написати історію про монстра, Галина Ткачук\
-        скористалася циклом -- повторенням подібних подій із несподіваним завершенням.',
-      explanation_1: 
-        'Мама та син пришивають та відривають балабони кілька разів.\
-        Такі послідовності називають "циклами".',
-      explanation_2:
-        'Балабоновий монстр з\'являється, коли разом збираються чотири балабони. \
-        Цикл завершується, коли Балабоновий монстр пожирає весь світ. \.',
-      explanation_3:
-        'Кожен цикл повинен мати умову його завершення. Інакше цикл триватиме нескінченно довго!',
-      select_heroes_link: '/practice/heroes'
-    }
-  );
+  var query = { //TODO replace monster with param
+    story: 'pompon_monster', 
+    type: 'explanation'
+  }; 
+  var state = 'state_' + lang; 
+  var items = 'items_' + lang;
+  
+  Steps.findOne(query).then(function(story) {  
+    res.render('13_stories/explanation', {
+        title: story[state].title,
+        talents: story[state].talents,
+        heroes: story[state].heroes,
+        about: story[state].about,
+        expl_items: story[items],
+        goto: JSON.stringify(story.goto),
+        img: JSON.stringify(story.img),
+        you_can: story[state].you_can
+      }
+    );  
+  });
 }
 
 

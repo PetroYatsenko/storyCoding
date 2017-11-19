@@ -1,0 +1,33 @@
+extends ../13_stories/lesson_layout
+
+block styles
+  link(rel='stylesheet', href='/css/w3css/4/w3.css')
+  link(rel='stylesheet', href='/css/lesson.css')
+
+block scripts
+  script.
+    var nextPath = !{goto}  
+  script(src='/js/explanation.js')   
+
+block content
+  header
+    h1= title 
+    p.instr= about
+  div#tables_wrapper  
+    section#content
+      h1= talents
+      dl
+        each val in heroes
+          dt 
+            h2= val.name
+          dd 
+            h3= val.talent
+    section#middle
+      img.middle_img(src= expl_img) 
+      div
+        each val, index in expl_items
+          p.expl_text(id='expl_item_' + index)= val
+    aside#sidebar
+      div.button
+        h2= you_can
+        button(type='button' id='go' class='go_ahead enabled') #{talent}
