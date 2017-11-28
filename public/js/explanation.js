@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var go = document.getElementById(nextButton);
   
   go.onclick = function() {
-    window.location.href(nextPath);
+    window.location.href = nextPath;
   } 
 }, false);
 

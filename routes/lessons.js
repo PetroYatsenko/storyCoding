@@ -6,6 +6,6 @@ const lessonController = require('../controllers/lesson');
 /* Get user`s lesson */
 router.get('/pompon', lessonController.pomponMonster);
 
-router.get('/pompon/explanation', lessonController.howPomponMade);
+router.get('/pompon/explanation', lessonController.explanation);
 
 module.exports = router;

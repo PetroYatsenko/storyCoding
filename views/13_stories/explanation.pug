@@ -15,19 +15,12 @@ block content
     p.instr= about
   div#tables_wrapper  
     section#content
-      h1= talents
-      dl
-        each val in heroes
-          dt 
-            h2= val.name
-          dd 
-            h3= val.talent
-    section#middle
-      img.middle_img(src= expl_img) 
       div
         each val, index in expl_items
           p.expl_text(id='expl_item_' + index)= val
+    section#middle
+      img.middle_img(src= '/images/' + img + '.png')      
     aside#sidebar
       div.button
         h2= you_can
-        button(type='button' id='go' class='go_ahead enabled') #{talent}
+        button(type='button' id='go' class='go_ahead enabled') #{your_talent}

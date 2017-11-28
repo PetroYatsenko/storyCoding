@@ -39,7 +39,7 @@ exports.pomponMonster = (req, res, next) => {
   });
 };
 
-exports.howPomponMade = (req, res, next) => {
+exports.explanation = (req, res, next) => {
   var query = { //TODO replace monster with param
     story: 'pompon_monster', 
     type: 'explanation'
@@ -47,16 +47,17 @@ exports.howPomponMade = (req, res, next) => {
   var state = 'state_' + lang; 
   var items = 'items_' + lang;
   
-  Steps.findOne(query).then(function(story) {  
-    res.render('13_stories/explanation', {
-        title: story[state].title,
-        talents: story[state].talents,
-        heroes: story[state].heroes,
-        about: story[state].about,
-        expl_items: story[items],
-        goto: JSON.stringify(story.goto),
-        img: JSON.stringify(story.img),
-        you_can: story[state].you_can
+  Story.findOne(query).then(function(d) {
+    res.render('13_stories/explanation', {        
+        goto: JSON.stringify(d.next_path),
+        img: d.img,
+        title: d[state].title,
+        heroes_talents: d[state].talents,
+        heroes: d[state].heroes,
+        about: d[state].about,
+        expl_items: d[items],
+        you_can: d[state].you_can,
+        your_talent: d[state].your_talent
       }
     );  
   });
