@@ -25,35 +25,12 @@ $(document).ready(function() {
     } else {
        alert('Sorry. Your browser has no web-session support. Please, use a newest browser version.')
     }    
-  }
-  
-  var sendHeroes = function(mr) {
-    $.post('/practice/story_builder',
-      {
-        mr: mr,
-        _csrf: $('meta[name=csrf-token]').attr("content")
-      },
-      function(data) {
-         if (data.status === 'OK') {
-           window.location.href = storyBuilderPath;
-         }
-      }            
-    );
-//    var xhttp = new XMLHttpRequest();
-//    xhttp.onreadystatechange = function() {
-//      if (this.readyState == 4 && this.status == 200) {
-//        document.getElementById("demo").innerHTML = this.responseText;
-//      }
-//    };
-//    xhttp.open("GET", '/practice/story_builder?fh=' + fh + '&sh=' + sh + '&mr=' + mr, true);
-//    xhttp.send();
-  };
-  
+  }  
+ 
   document.getElementById(nextButton).onclick = function() {    
     var mr = document.getElementsByClassName("w3-opacity-off")[0];
     mr = mr.id;
     
-//    sendHeroes(mr);
     saveHeroes(mr, function() {      
       window.location.href = storyBuilderPath + '?mr=' + mr;
     });

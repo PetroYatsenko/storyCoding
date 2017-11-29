@@ -7,14 +7,18 @@ block styles
 block scripts
   script.
     var steps = !{steps}
-    var nextPath = !{full_story_path}  
-  script(src='/js/narrator.js')    
+    var nextPath = !{full_story_path}
+    var practice = true
+  script(src='/js/lib/jquery-3.1.1.min.js')  
+  script(src='/js/narrator.js')
+  script(src='/js/builder.js')
   
 block content
   header
     h1= title
-    div
-      p.instr= instruction
+    div.task
+      each val, index in story_items
+        p.story_text(id='story_item_' + index)= val
   div#tables_wrapper        
     section#content
       h2= you_can
@@ -27,16 +31,16 @@ block content
     section#middle       
       div.img_container
         div.story
-          each val, index in story_items
-            p.story_text(id='story_item_' + index)= val
+          each val, index in task
+            p.story_text(id='task_' + index)= val
         img.middle_img(src='/images/monsters_large/' + monster_img + '.png')
         div.your_text
-          textarea#your_story.your_story.invisible(rows="4" cols="35") #{write_here}
+          textarea#your_story.your_story.invisible(rows="4" cols="34" placeholder= write_here)
     aside#sidebar      
       div.button
         h2= smb_can      
         button(type='button' id='stop' class='go_ahead') #{stop}
       div.button_center
         h2= counter
-        img.middle_img#aside_loop_img(src='/images/loops/' + step_loop + '.png')
+        img.middle_img#loop_img(src='/images/loops/' + step_loop + '.png')
       

@@ -41,16 +41,30 @@ exports.getLoopBuilder = (req, res, next) => {
   var trials = 'чотирьох кроків'; //TODO  
   var state = 'state_' + lang; 
   var items = 'items_' + lang;
+  var replace = { //TODO get from a query from the separate db document
+    trials: trials,
+    user_type_1: 'один хлопчик', 
+    user_type_2: 'він',
+    user_name: 'Данило',
+    end_1: 'oв',
+    end_2: 'в',
+    end_3: 'вся',
+  };
     
   Promise.all([
     Step.findOne(query),
     Story.findOne(query),
     Monster.findOne({monster: mr})
-  ]).spread(function(steps, story, monster) {
+  ]).spread(function(steps, story, monster) {   
+    
 
     for (let i = 0; i < story[items].length; i++) {
-      story[items][i] = exports.replacePlaceholders({trials: trials}, story[items][i]);
+      story[items][i] = exports.replacePlaceholders(replace, story[items][i]);
     } 
+    
+    for (let i = 0; i < story[state].task.length; i++) {
+      story[state].task[i] = exports.replacePlaceholders(replace, story[state].task[i]);
+    }
     
     res.render('13_stories/story_builder', {
       title: story[state].title + monster.name_uk,
@@ -67,7 +81,7 @@ exports.getLoopBuilder = (req, res, next) => {
       write_here: story[state].write,
       counter: story[state].counter,
       full_story_path: JSON.stringify(steps.next_path),
-      instruction: story[state].about
+      task: story[state].task
     });
   });
 };

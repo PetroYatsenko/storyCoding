@@ -1,7 +1,12 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var current_step = 0;
   const nextButton = 'go';
-  const itemId = 'story_item';
+  const itemId = 'story_item_';
+  const taskId = 'task_';
+  const textarea = 'your_story';
+  const usItem = 'us_item_';
+  // TODO:
+  const browserAlert = 'Sorry. Your browser has no web-session support. Please, use a newest browser version.';
   
   var getStep = function() {
     return current_step;    
@@ -30,9 +35,37 @@ window.addEventListener("DOMContentLoaded", function(event) {
       };
     }
   };
+  
+  var recordUserText = function() {
+    // TODO step minus one
+    if (typeof(Storage) !== "undefined") {
+      console.log('item:', usItem + getStep(), 'value:', document.getElementById(textarea).value);
+      sessionStorage[usItem + getStep()] = document.getElementById(textarea).value;
+      
+      console.log('current_item:', sessionStorage[usItem + getStep()]);
+    } else {
+       alert(browserAlert);
+    }    
+  }
+  
+  var saveUserStory = function() {
+    var us_items = 'test_data';
+    
+    $.post('/practice/story_builder',
+      {
+        items: us_items,
+        _csrf: $('meta[name=csrf-token]').attr("content")
+      },
+      function(data) {
+         if (data.status === 'OK') {
+           window.location.href = storyBuilderPath;
+         }
+      }            
+    );
+  }
 
   var arrangeNewStep = function() {         
-    document.getElementById(itemId + '_' + getStep()).classList.add('visible');
+    document.getElementById(itemId + getStep()).classList.add('visible');
     document.getElementById(nextButton).classList.remove('enabled');    
     
     var next = document.getElementById(nextButton);
@@ -41,19 +74,30 @@ window.addEventListener("DOMContentLoaded", function(event) {
       increaseStep();
       // Detect the last step
       if (getStep() < steps.length) {        
-        rmPrevTxtItem(itemId);
+        if (practice) recordUserText();
+        rmPrevTxtItem();        
         setStepData();    
         addActions();        
         window.scrollTo(0, 0);
       } else {
-        window.location.replace(nextPath);
+        if (practice) { 
+          saveUserStory();
+        } else {
+          window.location.replace(nextPath);
+        }
       }      
     }
-  };
+  };  
 
-  var rmPrevTxtItem = function(itemId) {
+  var rmPrevTxtItem = function() {
     var prevStep = getStep() - 1;
-    document.getElementById(itemId + '_' + prevStep).classList.remove('visible');
+    document.getElementById(itemId + prevStep).classList.remove('visible');
+    // For story builder need to remove previous task & user`s text too
+    if (practice) {
+      document.getElementById(textarea).classList.add('invisible');
+      document.getElementById(textarea).value = '';
+      document.getElementById(taskId + prevStep).classList.remove('visible');      
+    }
   };
   
   /**
