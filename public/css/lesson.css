@@ -195,6 +195,7 @@ ul.monsters_list li {
   color: white;
   background: transparent;
   margin: auto;
+  display: none;
 }
 
 .story {

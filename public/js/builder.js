@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var typingTimer; 
   var $input = $('#your_story');
-  var message = 'Мало написано, подумай і додай іще.'; //TODO
+  var message = 'Малувато, подумай і додай іще.'; //TODO
   var min_length = 25;
   var doneTypeInterval = 1000;
   var go = document.getElementById('go');

@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   const taskId = 'task_';
   const textarea = 'your_story';
   const usItem = 'us_item_';
-  // TODO:
+  // TODO: translation
   const browserAlert = 'Sorry. Your browser has no web-session support. Please, use a newest browser version.';
   
   var getStep = function() {
@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     current_step++;
   };  
 
-  var onClickProcessing = function(todo, key) {    
+  var onClickProcessing = function(todo, key) {
     if (todo.length !== 0) {
       var active = document.getElementById(key);
       var f = new Function('arrangeByClick', todo);
@@ -39,10 +39,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var recordUserText = function() {
     // TODO step minus one
     if (typeof(Storage) !== "undefined") {
-      console.log('item:', usItem + getStep(), 'value:', document.getElementById(textarea).value);
       sessionStorage[usItem + getStep()] = document.getElementById(textarea).value;
-      
-      console.log('current_item:', sessionStorage[usItem + getStep()]);
     } else {
        alert(browserAlert);
     }    
@@ -94,7 +91,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById(itemId + prevStep).classList.remove('visible');
     // For story builder need to remove previous task & user`s text too
     if (practice) {
-      document.getElementById(textarea).classList.add('invisible');
+      document.getElementById(textarea).classList.remove('visible');
       document.getElementById(textarea).value = '';
       document.getElementById(taskId + prevStep).classList.remove('visible');      
     }
@@ -166,5 +163,3 @@ window.addEventListener("DOMContentLoaded", function(event) {
   addActions();
 
 }, false);
-
-
