@@ -80,9 +80,29 @@ exports.getLoopBuilder = (req, res, next) => {
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       write_here: story[state].write,
       counter: story[state].counter,
-      full_story_path: JSON.stringify(steps.next_path),
+      next_path: JSON.stringify(steps.next_path),
       task: story[state].task
     });
   });
 };
 
+exports.arrangeStory = (req, res, next) => {
+//  req.sanitize('story');  
+//  var story = JSON.parse(req.body.story);
+  var state = 'state_' + lang; 
+  var items = 'items_' + lang;
+  
+  res.render('13_stories/arrange_story', {
+    title: 'Майже готово',
+    expl_items: [
+      'Ліфт-монстр підіймається і робить це нескінченно.',
+      'Ця історія -- приклад циклу без умови завершення. Вийти з нього самотужки неможливо.',
+      'Зупинити такий цикл можна тільки зовні.'
+    ],
+    edit: 'Редагувати',
+    pdf: 'Друкувати',
+    complete: 'Зберегти',
+    you_can: 'Ти можеш',
+    next_path: JSON.stringify('test'),
+  }); 
+};

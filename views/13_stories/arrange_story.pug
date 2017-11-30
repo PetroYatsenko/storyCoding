@@ -1,0 +1,31 @@
+extends ../13_stories/lesson_layout
+
+block styles
+  link(rel='stylesheet', href='/css/w3css/4/w3.css')
+  link(rel='stylesheet', href='/css/lesson.css')
+  
+block scripts
+  script.    
+    var nextPath = !{next_path}
+  script(src='/js/lib/jquery-3.1.1.min.js')
+  script(src='/js/arrange.js')
+  
+block content
+  header
+    h1= title
+    div.theory
+      each val, index in expl_items
+        p.theory_item(id='expl_item_' + index)= val
+  div#tables_wrapper        
+    section#content     
+    section#middle
+      div#story.theory
+    aside#sidebar
+      h2= you_can
+      div.button         
+        button.enabled(type='button' id='edit' class='go_ahead') #{edit}
+      div.button_center
+        button.enabled(type='button' id='pdf' class='go_ahead') #{pdf}
+      div.button
+        button.enabled(type='button' id='record' class='go_ahead') #{complete}
+      

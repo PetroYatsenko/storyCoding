@@ -37,26 +37,31 @@ window.addEventListener("DOMContentLoaded", function(event) {
   };
   
   var recordUserText = function() {
-    // TODO step minus one
+    var prevStep = getStep() - 1;
+    
     if (typeof(Storage) !== "undefined") {
-      sessionStorage[usItem + getStep()] = document.getElementById(textarea).value;
+      sessionStorage[usItem + prevStep] = document.getElementById(textarea).value;
     } else {
        alert(browserAlert);
     }    
   }
   
   var saveUserStory = function() {
-    var us_items = 'test_data';
+    var items = [];
     
-    $.post('/practice/story_builder',
+    for (let i = 0; i < getStep(); i++) {
+      items.push(sessionStorage[usItem + i]);
+    }
+        
+    $.post('/practice/story_builder/arrange',
       {
-        items: us_items,
+        story: JSON.stringify(items),
         _csrf: $('meta[name=csrf-token]').attr("content")
       },
       function(data) {
-         if (data.status === 'OK') {
-           window.location.href = storyBuilderPath;
-         }
+        if (data.status === 'OK') {
+           window.location.href = nextPath;
+        }
       }            
     );
   }
@@ -77,11 +82,11 @@ window.addEventListener("DOMContentLoaded", function(event) {
         addActions();        
         window.scrollTo(0, 0);
       } else {
-        if (typeof practice !== 'undefined' && practice) { 
-          saveUserStory();
-        } else {
+//        if (typeof practice !== 'undefined' && practice) { 
+//          saveUserStory();
+//        } else {
           window.location.replace(nextPath);
-        }
+//        }
       }      
     }
   };  
