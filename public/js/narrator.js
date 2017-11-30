@@ -71,13 +71,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
       increaseStep();
       // Detect the last step
       if (getStep() < steps.length) {        
-        if (practice) recordUserText();
+        if (typeof practice !== 'undefined' && practice) recordUserText();
         rmPrevTxtItem();        
         setStepData();    
         addActions();        
         window.scrollTo(0, 0);
       } else {
-        if (practice) { 
+        if (typeof practice !== 'undefined' && practice) { 
           saveUserStory();
         } else {
           window.location.replace(nextPath);
@@ -90,7 +90,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     var prevStep = getStep() - 1;
     document.getElementById(itemId + prevStep).classList.remove('visible');
     // For story builder need to remove previous task & user`s text too
-    if (practice) {
+    if (typeof practice !== 'undefined' && practice) {
       document.getElementById(textarea).classList.remove('visible');
       document.getElementById(textarea).value = '';
       document.getElementById(taskId + prevStep).classList.remove('visible');      

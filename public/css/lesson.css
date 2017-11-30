@@ -29,9 +29,10 @@ header, footer {
   background-size: 100%;
 }
 
-.task,
-.story_text, 
-.expl_text {
+.task, 
+.theory,
+.expl_text,
+.story_text {
   font-weight: bold;
   font-size: 1.5em;
   display: none;
@@ -39,14 +40,23 @@ header, footer {
   text-align: left;
 }
 
-.task {
+.theory {
+  display: block;
+}
+
+.task,
+.expl_text {
   display: block;
   margin-right: 33%;
 }
 
-.expl_text {
-  display: block;
-} 
+.theory_item {
+  font-size: 1.3em;
+}
+
+.expl_item {
+  font-size: 1.5em;
+}
 
 header {
   min-height: 300px;
@@ -270,10 +280,7 @@ MEDIA QUERIES
   .button, .button_center {
     display: inline-block;
     vertical-align: top;
-  }
-  
-  .button_center {
-     padding: 0 4% 0 4%;
+    padding-right: 20px;
   }
   
   header {
@@ -288,19 +295,18 @@ MEDIA QUERIES
   footer {
     display: none;
   }
-  
-  .task,
-  .story,
-  .story_text {
-    font-size: 1.5em;
-  }
-  
+
+  .expl_text,
   .task {
     margin: 0;
   }
   
   .story {
     left: 15%;
+  }
+  
+  .theory_item {
+    font-size: 1.5em;
   }
 }
 

@@ -11,13 +11,14 @@ block scripts
 
 block content
   header
-    h1= title 
-    p.instr= about
+    h1= title
+    div.expl_text
+      p.expl_item= about
   div#tables_wrapper  
     section#content
-      div
+      div.theory
         each val, index in expl_items
-          p.expl_text(id='expl_item_' + index)= val
+          p.theory_item(id='expl_item_' + index)= val
     section#middle
       img.middle_img(src= '/images/' + img + '.png')      
     aside#sidebar
