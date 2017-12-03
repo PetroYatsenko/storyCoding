@@ -29,8 +29,15 @@ header, footer {
   background-size: 100%;
 }
 
+.notebook {
+  height: 700px;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
 .task, 
 .theory,
+.notebook,
 .expl_text,
 .story_text {
   font-weight: bold;
@@ -40,6 +47,7 @@ header, footer {
   text-align: left;
 }
 
+.notebook,
 .theory {
   display: block;
 }
@@ -56,6 +64,7 @@ header, footer {
 
 .expl_item {
   font-size: 1.5em;
+  margin: 0;
 }
 
 header {

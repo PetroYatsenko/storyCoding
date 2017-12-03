@@ -13,13 +13,13 @@ block scripts
 block content
   header
     h1= title
-    div.theory
+    div.expl_text
       each val, index in expl_items
-        p.theory_item(id='expl_item_' + index)= val
+        p.expl_item(id='expl_item_' + index)= val
   div#tables_wrapper        
     section#content     
     section#middle
-      div#story.theory
+      div#story.notebook
     aside#sidebar
       h2= you_can
       div.button         
