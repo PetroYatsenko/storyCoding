@@ -43,12 +43,16 @@ window.addEventListener("DOMContentLoaded", function(event) {
   
   var recordStory = function() {
     var storyItem = storyId + getStep();
-    story.push(document.getElementById(storyItem).innerHTML);
+    var taskItem = taskId + getStep();
+    
+    story.push(document.getElementById(storyItem).innerHTML);    
+    story.push(document.getElementById(taskItem).innerHTML);
     story.push(document.getElementById(textarea).value);
   }
   
   var saveStory = function() {
     sessionStorage.setItem('story', JSON.stringify(story));
+    sessionStorage.setItem('title', storyTitle);
   }
   
   var arrangeNewStep = function() {         
