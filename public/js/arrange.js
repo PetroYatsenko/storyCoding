@@ -1,9 +1,11 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var myStory = [];
   var notebook = document.getElementById('story');
+  var $pdf = $('#pdf');
+  var $edit = $('#edit');
+  var $rec = $('#record');  
   const className = 'theory_item';
   const savePath = '/practice/story_builder/arrange';
-  var $pdf = $('#pdf');
   
   var arrangeStory = function() {    
     myStory = JSON.parse(sessionStorage.story);
@@ -51,7 +53,6 @@ window.addEventListener("DOMContentLoaded", function(event) {
     var dataURL;
     var img = new Image();    
     img.src = '/images/monsters_small/' + sessionStorage.mr + '_medium.png';
-//    img.src = '/images/monster_king.png';
     myStory = JSON.parse(sessionStorage.story);
     
     doc = {
@@ -64,11 +65,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
       styles: {
         title: {
           fontSize: 22,
-          bold: true
+          bold: true,
+          margin: [0, 0, 0, 20]
         },
         para: {
           fontSize: 15,
-          alignment: 'left'
+          alignment: 'justify',
+          margin: [0, 0, 0, 20],
         },
         back: {
           fontSize: 12,
@@ -77,22 +80,27 @@ window.addEventListener("DOMContentLoaded", function(event) {
           color: '#0074c1'
         },
         image: {
-          alignment: 'left'
+          alignment: 'left',
+          margin: [0, 0, 0, 20]
+        },
+        loop: {
+          fontSize: 16,
+          color: '#0074c1',
+          alignment: 'left',
+          margin: [0, 0, 0, 20]
         }
       },
-      content: [{
-        text: sessionStorage.title + '\n\n', 
-        style: 'title'
-      }]
+      content: [
+        {text: sessionStorage.title, style: 'title'}
+      ]
     };
     
     img.onload = function() {
       dataURL = getBase64Image(img);        
       doc.content.push({image: dataURL, style: 'image'});
-      doc.content.push('\n\n');
-
+      // TODO add explanation chapters
       for (let i = 0; i < myStory.length; i++) {
-        doc.content.push({text: myStory[i] + '\n\n', style: 'para'});
+        doc.content.push({text: myStory[i], style: 'para'});
       };
 
 //      pdfMake.createPdf(doc).download(sessionStorage.mr + '.pdf');
@@ -100,7 +108,27 @@ window.addEventListener("DOMContentLoaded", function(event) {
     };
   };
   
-   $pdf.on('click', makePdf);
+  var editStory = function() {
+    $('#story').attr('contenteditable', true).focus();
+    $edit.removeClass('enabled').addClass('disabled');
+    $pdf.removeClass('enabled').addClass('disabled');
+    // Текст зі "Зберегти" на "Готово!"
+  }
+  
+  var saveStory = function() {
+    if ($edit.is('.disabled')) {
+      // collect to arr from theory_item class
+      // remove contenteditable & enable print/editing
+      
+    } else {
+      //post from sessionStorage.story
+      // redirect to the my account page with message and passed level (monster marked) + new lessons list
+    }
+  }
+  
+  $pdf.on('click', makePdf);
+  $edit.on('click', editStory);
+  $rec.on('click', saveStory);
   
 }, false);
 
