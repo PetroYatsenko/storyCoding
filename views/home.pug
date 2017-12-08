@@ -1,46 +1,231 @@
 extends layout
 
 block content
-  div.jumbotron.text-center
+  .jumbotron.text-center
     h1 Кодити з історіями
     p.lead Основи програмування легко, весело й вичерпно.
+    p.lead 20 занять, які дитина може проходити самостійно, за ціною книжки!
   
-  div.container-fluid
-    div.row
-      div.col-sm-8
+  .container-fluid
+    .row
+      .col-sm-8
         h2 Ти навчишся програмувати... звичайною мовою, якою ми спілкуємося!
-        h4 Зазвичай для навчання використовують спрощену "псевдо-мову", якої треба навчитися, але потім ніколи не використовувати. 
-        p "Кодити з історіями" -- це знаходити закономірності в історіях. Адже все на світі пов'язане.
+        h4 Зазвичай для навчання використовують спрощену "псевдо-мову", якої треба навчитися. Але чому б не використати для початку мову, яку ти вже знаєш? 
+        p "Кодити з історіями" -- це знаходити закономірності в побудові справді цікавих історій. Адже все на світі пов'язане.
         button.btn.btn-default.btn-lg Дізнатися більше...
-      div.col-sm-4
+      .col-sm-4
         span.glyphicon.glyphicon-education.logo
-  hr  
-  div.container-fluid.bg-grey
-    div.row
-      div.col-sm-4
+  .container-fluid.bg-grey
+    .row
+      .col-sm-4
         span.glyphicon.glyphicon-globe.logo
-      div.col-sm-8
-        h2 Our Values
-        h4 MISSION: Our mission lorem ipsum.. 
-        p VISION: Our vision Lorem ipsum..
-  .row
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+      .col-sm-8
+        h2 Про нас
+        h4 ЧОМУ САМЕ МИ ПРО ЦЕ ЗДОГАДАЛИСЯ? 
+        p Тому, що я, ПЕТРО ЯЦЕНКО, працював провідним програмістом у міжнародних стартапах і придумав, як навчити дітей та дорослих мислити логічно.
+        p Тому. що я, ГАЛИНА ТКАЧУК, написала книгу "13 історій у темряві", яка виграла дитячу Книгу Року Бі-бі-сі. 
+  .container-fluid.text-center  
+    h2 З НАМИ
+    p
+    .row
+      .col-sm-4
+        span.glyphicon.glyphicon-off.logo-small 
+        h4 ТИ ВИВЧИШ
+        ul
+          li Змінні
+          li Функції
+          li Умови
+          li Цикли
+      .col-sm-4
+        span.glyphicon.glyphicon-heart.logo-small
+        h4 ЦЕ ДУЖЕ ПРОСТО
+        p Ми розробили завдання з увагою та любов'ю
+      .col-sm-4
+        span.glyphicon.glyphicon-lock.logo-small
+        h4 ДИТИНА МОЖЕ ЗАЙМАТИСЯ САМОСТІЙНО
+        p До 20 занять по 15-45 хвилин кожне.
       p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
+    .row
+      .col-sm-4
+        span.glyphicon.glyphicon-leaf.logo-small
+        h4 НЕ ОБОВ'ЯЗКОВО МАТИ КОМП'ЮТЕР
+        p Можна займатися: 
+        ul
+          li на планшеті 
+          li телефоні з екраном від 5 дюймів 
+          li і, звичайно, на комп'ютері теж!
+      .col-sm-4
+        span.glyphicon.glyphicon-certificate.logo-small
+        h4 НЕМАЄ ВІКОВИХ ОБМЕЖЕНЬ
+        p Ми не визначаємо потрібний вік, а лише необхідні навички:
+        ul
+          li умієш читати
+          li розумієш поняття "більше" та "менше"
+          li любиш вигадувати
+          li не боїшся монстрів
+      .col-sm-4
+        span.glyphicon.glyphicon-wrench.logo-small
+        h4 ТИ ЗМОЖЕШ РОЗПОРЯДЖАТИСЯ СВОЄЮ ІСТОРІЄЮ
+        p Її можна: 
+        ul
+          li зберегти в pdf 
+          li переслати на e-mail 
+          li поширити в Facebook чи Instagram
+          li негайно роздрукувати!
+  .container-fluid.text-center.bg-grey
+    h2 ЗНАЙОМСЯ З НАШИМИ МОНСТРАМИ
+    h4 що вони вміють?
+    .row.text-center
+      each variable in monsters
+        if (variable.enabled)
+          .col-sm-4
+            .thumbnail
+              img(src= '/images/monsters_small/' + variable.monster + '_medium.png' alt= variable.monster)
+              p 
+                strong= variable.name_uk
+              p= variable.talent_uk 
+  h2.text-center Що про нас говорять діти:
+  div#myCarousel.carousel.slide.text-center(data-ride="carousel")
+    <!-- Indicators -->
+    ol.carousel-indicators
+      li.active(data-target="#myCarousel" data-slide-to="0")
+      li(data-target="#myCarousel" data-slide-to="1")
+      li(data-target="#myCarousel" data-slide-to="2")
+
+    <!-- Wrapper for slides -->
+    div.carousel-inner(role="listbox")
+      .item.active
+        h4 "This company is the best. I am so happy with the result!"
+          br
+          span(style="font-style: normal;") Michael Roe, Vice President, Comment Box
+      .item
+        h4 "One word... WOW!!"
+          br
+          span(style="font-style: normal;") John Doe, Salesman, Rep Inc
+      .item
+        h4 "Could I... BE any more happy with this company?"
+          br
+          span(style="font-style:normal;") Chandler Bing, Actor, FriendsAlot
+    <!-- Left and right controls -->
+    a.left.carousel-control(href="#myCarousel" role="button" data-slide="prev")
+      span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+      span.sr-only Previous
+    a.right.carousel-control(href="#myCarousel" role="button" data-slide="next")
+      span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+      span.sr-only Next
+  .container-fluid
+    .text-center
+      h2 Ціни
+      h4 Вибери, що тобі більше пасує
+    .row
+      .col-sm-4
+        .panel.panel-default.text-center
+          .panel-heading
+            h1 Базовий
+          .panel-body
+            p
+              strong 20 Lorem
+            p
+              strong 15 Ipsum
+            p 
+              strong 5 Dolor
+            p 
+              strong 2 Sit
+            p 
+              strong 
+                Endless 
+              Amet
+          .panel-footer
+            h3 $19
+            h4 per month
+            button.btn.btn-lg Sign Up
+      .col-sm-4
+        .panel.panel-default.text-center
+          .panel-heading
+            h1 Просунутий
+          .panel-body
+            p
+              strong 20 Lorem
+            p
+              strong 15 Ipsum
+            p 
+              strong 5 Dolor
+            p 
+              strong 2 Sit
+            p 
+              strong 
+                Endless 
+              Amet
+          .panel-footer
+            h3 $29
+            h4 per month
+            button.btn.btn-lg Sign Up
+      .col-sm-4
+        .panel.panel-default.text-center
+          .panel-heading
+            h1 Преміум
+          .panel-body
+            p
+              strong 20 Lorem
+            p
+              strong 15 Ipsum
+            p 
+              strong 5 Dolor
+            p 
+              strong 2 Sit
+            p 
+              strong 
+                Endless 
+              Amet
+          .panel-footer
+            h3 $39
+            h4 per month
+            button.btn.btn-lg Sign Up
+  .container-fluid          
+    h2 Поширені запитання:          
+    .row
+      .col-sm-6
+        h3 Так ви навчаєте писати код чи історії?
+        p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+      .col-sm-6
+        h3 Як моя дитина зможе застосувати свої знання?
+        p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+      .col-sm-6
+        h3 Як я зможу перевірити знання дитини?
+        p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+      .col-sm-6
+        h3 Раптом дитині не сподобається?
+        p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+  .container-fluid.bg-grey
+    h2.text-center КОНТАКТИ
+    .row
+      .col-sm-5
+        p Напишіть, і ми відповімо впродовж 24 годин
+        p 
+          span.glyphicon.glyphicon-map-marker 
+          |&nbsp; Київ, Україна
+        p
+          span.glyphicon.glyphicon-phone 
+          |&nbsp; +38 097 000 00 00
+        p 
+          span.glyphicon.glyphicon-envelope 
+          |&nbsp; storycoding@gmail.com
+      .col-sm-7
+        .row
+          .col-sm-6.form-group
+            input.form-control#name(name="name" placeholder="Name" type="text" required)
+          .col-sm-6.form-group
+            input.form-control#email(name="email" placeholder="Email" type="email" required)
+        textarea.form-control#comments(name="comments" placeholder="Comment" rows="5")
+        p
+        .row
+          .col-sm-12.form-group
+            button.btn.btn-default.pull-right(ype="submit") Send

@@ -15,7 +15,7 @@ exports.getHeroes = (req, res, next) => {
       res.render('13_stories/select_heroes', {
         title: 'Починаємо вигадувати історію ' + lesson, 
         description: 'Спочатку вибери монстра своєї історії',
-        monsters_zoo : zoo,
+        monsters_zoo: zoo,
         monsters_collection: 'Колекція монстрів',
         your_talent: 'Ти можеш',      
         your_action: 'Почати свою історію!'
