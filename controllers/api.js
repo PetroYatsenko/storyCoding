@@ -5,17 +5,6 @@ const Twit = require('twit');
 const ig = bluebird.promisifyAll(require('instagram-node').instagram());
 
 /**
- * GET /api
- * List of API examples.
- */
-exports.getApi = (req, res) => {
-  res.render('api/index', {
-    title: 'API Examples'
-  });
-};
-
-
-/**
  * GET /api/facebook
  * Facebook API example.
  */

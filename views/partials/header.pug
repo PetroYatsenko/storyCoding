@@ -13,14 +13,14 @@
       ul.nav.navbar-nav
         li(class=(title === 'Home') ? 'active' : undefined)
           a(href='/') Home
+        li(class=(title === 'Про нас') ? 'active' : undefined)
+          a(href='#about') Про нас  
         li(class=(title === 'Монстри') ? 'active' : undefined)
-          a(href='/lessons/pompon' target='_blank') Монстри
+          a(href='#monsters' target='_blank') Монстри
         li(class=(title === 'Практика') ? 'active' : undefined)
-          a(href='/practice/heroes' target='_blank') Практика  
-        li(class=(title === 'API Examples') ? 'active' : undefined)
-          a(href='/api') API Examples
-        li(class=(title === 'Contact') ? 'active' : undefined)
-          a(href='/contact') Contact
+          a(href='/practice/heroes' target='_blank') Практика
+        li(class=(title === 'Контакти') ? 'active' : undefined)
+          a(href='#contact') Контакти
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=(title === 'Login') ? 'active' : undefined)
