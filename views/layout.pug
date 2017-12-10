@@ -8,9 +8,13 @@ html
     meta(name='csrf-token', content=_csrf)
     title #{title} - Кодити з історіями
     link(rel='shortcut icon', href='/images/favicon.png')
-    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/main.css')    
+    link(href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css")
+    link(href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css")
 
-  body
+
+
+  body#myPage(data-spy="scroll" data-target=".navbar" data-offset="20")
     include partials/header
 
     .container

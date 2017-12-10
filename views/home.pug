@@ -4,12 +4,11 @@ block content
   .jumbotron.text-center
     h1 Кодити з історіями
     p.lead Основи програмування легко, весело й вичерпно.
-    p.lead Безліч занять та конструктор для творчості!
-  
-  .container-fluid
+    p.lead Безліч занять та конструктор для творчості!  
+  .container-fluid#about
     .row
       .col-sm-8
-        h2 Ти навчишся програмувати... звичайною мовою, якою ми спілкуємося!
+        h2 Чи можна програмувати... звичайною мовою?
         h4 Зазвичай для навчання використовують спрощену "псевдо-мову", якої треба навчитися. Але чому б не використати для початку мову, яку ти вже знаєш? 
         p "Кодити з історіями" -- це знаходити закономірності в побудові справді цікавих історій. Адже все на світі пов'язане.
         button.btn.btn-default.btn-lg Дізнатися більше...
@@ -18,16 +17,16 @@ block content
   .container-fluid.bg-grey
     .row
       .col-sm-4
-        span.glyphicon.glyphicon-globe.logo
+        span.glyphicon.glyphicon-globe.logo.slideanim
       .col-sm-8
         h2 Про нас
         h4 ЧОМУ САМЕ МИ ПРО ЦЕ ЗДОГАДАЛИСЯ? 
         p Тому, що я, ПЕТРО ЯЦЕНКО, працював провідним програмістом у міжнародних стартапах і придумав, як навчити дітей та дорослих мислити логічно.
         p Тому. що я, ГАЛИНА ТКАЧУК, написала книгу "13 історій у темряві", яка виграла дитячу Книгу Року Бі-бі-сі. 
-  .container-fluid.text-center  
+  .container-fluid.text-center#services 
     h2 З НАМИ
     p
-    .row
+    .row.slideanim
       .col-sm-4
         span.glyphicon.glyphicon-off.logo-small 
         h4 ТИ ВИВЧИШ
@@ -45,7 +44,7 @@ block content
         h4 ДИТИНА МОЖЕ ЗАЙМАТИСЯ САМОСТІЙНО
         p До 20 занять по 15-45 хвилин кожне.
       p
-    .row
+    .row.slideanim
       .col-sm-4
         span.glyphicon.glyphicon-leaf.logo-small
         h4 НЕ ОБОВ'ЯЗКОВО МАТИ КОМП'ЮТЕР
@@ -72,10 +71,10 @@ block content
           li переслати на e-mail 
           li поширити в Facebook чи Instagram
           li негайно роздрукувати!
-  .container-fluid.text-center.bg-grey
+  .container-fluid.text-center.bg-grey#monsters
     h2 ЗНАЙОМСЯ З НАШИМИ МОНСТРАМИ
     h4 що вони вміють?
-    .row.text-center
+    .row.text-center.slideanim
       each variable in monsters
         if (variable.enabled)
           .col-sm-4
@@ -113,11 +112,11 @@ block content
     a.right.carousel-control(href="#myCarousel" role="button" data-slide="next")
       span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
       span.sr-only Next
-  .container-fluid
+  .container-fluid#prices
     .text-center
       h2 Ціни
       h4 Вибери, що тобі більше пасує
-    .row
+    .row.slideanim
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
@@ -181,9 +180,9 @@ block content
             h3 $39
             h4 per month
             button.btn.btn-lg Sign Up
-  .container-fluid          
+  .container-fluid#faq   
     h2 Поширені запитання:          
-    .row
+    .row.slideanim
       .col-sm-6
         h3 Так ви навчаєте писати код чи історії?
         p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
@@ -204,7 +203,7 @@ block content
         p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
         p
           a.btn.btn-default(href='#', role='button') View details »
-  .container-fluid.bg-grey
+  .container-fluid.bg-grey#contact
     h2.text-center КОНТАКТИ
     .row
       .col-sm-5
@@ -218,7 +217,7 @@ block content
         p 
           span.glyphicon.glyphicon-envelope 
           |&nbsp; storycoding@gmail.com
-      .col-sm-7
+      .col-sm-7.slideanim
         .row
           .col-sm-6.form-group
             input.form-control#name(name="name" placeholder="Name" type="text" required)
