@@ -63,4 +63,9 @@ exports.explanation = (req, res, next) => {
   });
 }
 
+exports.dashboard = (req, res, next) => {
+  res.render('dashboard', {
+    title: 'Твій прогрес'
+  });
+}
 

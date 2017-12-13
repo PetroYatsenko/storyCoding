@@ -1,0 +1,102 @@
+extends layout
+
+block content
+  h1= title
+  br
+  div.progress
+    div.progress-bar.progress-bar-success.progress-bar-striped.active(role="progressbar" 
+    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%")
+      span 0 історій розказано
+  .container
+    h2 ІСТОРІЇ З МОНСТРАМИ...
+    p 
+    .panel-group
+      .panel.panel-default
+        .panel-heading 
+          h4.panel-title
+            a(data-toggle="collapse" href="#collapse1") ПРО ЗМІННІ
+            span.badge спроби
+        div#collapse1.panel-collapse.collapse
+          .list-group
+            a.list-group-item(href="#") Прозорий дядько &nbsp;
+              span.label.label-primary змінна
+              span.badge 0
+            a.list-group-item(href="#") Чорна історія &nbsp;
+              span.label.label-success масив
+              span.badge 0
+            a.list-group-item(href="#") Серединожер &nbsp; 
+              span.label.label-info стираємо змінну
+              span.badge 0
+            a.list-group-item(href="#") Брехло Нещасне &nbsp; 
+              span.label.label-warning правда/брехня
+              span.badge 0
+            a.list-group-item(href='#') Колекція монстрів &nbsp; 
+              span.label.label-default об'єкт
+              span.badge 0
+      .panel.panel-default
+        .panel-heading 
+          h4.panel-title
+            a(data-toggle="collapse" href="#collapse2") ПРО УМОВИ
+            span.badge спроби
+        div#collapse2.panel-collapse.collapse
+          .list-group
+            a.list-group-item(href='#') Історія темряви &nbsp;
+              span.label.label-primary умова/приклад 1
+              span.badge 0
+            a.list-group-item(href='#') Брехло Нещасне &nbsp; 
+              span.label.label-info умова/приклад 2
+              span.badge 0  
+            a.list-group-item(href='#') Манмурт &nbsp;
+              span.label.label-success еквівалентність
+              span.badge ?          
+      .panel.panel-default
+        .panel-heading 
+          h4.panel-title
+            a(data-toggle="collapse" href="#collapse3") ПРО ФУНКЦІЇ
+            span.badge спроби
+        div#collapse3.panel-collapse.collapse
+          .list-group             
+            a.list-group-item(href="#") Розбездзявка &nbsp; 
+              span.label.label-info функція/приклад 1
+              span.badge 0
+            a.list-group-item(href="#") Розбездзявка &nbsp; 
+              span.label.label-info функція/приклад 2
+              span.badge 0  
+            a.list-group-item(href="#") Брехло Нещасне &nbsp; 
+              span.label.label-warning функція без виклику
+              span.badge 0
+            a.list-group-item(href="#") Вовкулаки &nbsp;
+              span.label.label-success кордони функції
+              span.badge 0
+            a.list-group-item(href="#") Акордеон &nbsp;
+              span.label.label-primary змінна може містити функцію
+              span.badge 0        
+      .panel.panel-default
+        .panel-heading 
+          h4.panel-title
+            a(data-toggle="collapse" href="#collapse4") ПРО ЦИКЛИ
+            span.badge спроби
+        div#collapse4.panel-collapse.collapse
+          .list-group
+            a.list-group-item(href="#") Балабоновий монстр &nbsp;
+              span.label.label-primary цикл/перевірка в кінці
+              span.badge 0
+            a.list-group-item(href="#") Лото-кола &nbsp;
+              span.label.label-success цикл/перевірка спочатку
+              span.badge 0
+            a.list-group-item(href="#") Ліфт-монстр &nbsp; 
+              span.label.label-info цикл без умови
+              span.badge 0
+      .panel.panel-default
+        .panel-heading 
+          h4.panel-title
+            a(data-toggle="collapse" href="#collapse5") ТЕСТИ
+        div#collapse5.panel-collapse.collapse
+          .list-group
+            p.list-group-item Доступні після проходження рівнів у 
+              a(href='/#prices') 
+                strong Просунутому та Преміум 
+              | акаунтах.
+          
+              
+        

@@ -10,19 +10,22 @@
         i.fa.fa-file-code-o
         | Кодити з історіями
     .collapse.navbar-collapse
-      ul.nav.navbar-nav
-        li
-          a(href='#about') Про нас
-        li
-          a(href='#services') Знання   
-        li
-          a(href='#monsters') Монстри
-        li
-          a(href='#prices') Ціни
-        li
-          a(href='#faq') FAQ  
-        li
-          a(href='#contact') Контакти          
+      if (title === 'Home')
+        ul.nav.navbar-nav
+          li
+            a(href='/') Home
+          li
+            a(href='#about') Про нас
+          li
+            a(href='#services') Знання   
+          li
+            a(href='#monsters') Монстри
+          li
+            a(href='#prices') Ціни
+          li
+            a(href='#faq') FAQ  
+          li
+            a(href='#contact') Контакти          
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=(title === 'Login') ? 'active' : undefined)
@@ -38,7 +41,10 @@
                 img(src=user.gravatar(60))
               span= user.profile.name || user.email || user.id
               i.caret
-            ul.dropdown-menu
+            ul.dropdown-menu              
+              li
+                a(href='/lessons/dashboard') Dashboard
+              li.divider  
               li
                 a(href='/account') My Account
               li.divider

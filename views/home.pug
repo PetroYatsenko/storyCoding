@@ -4,7 +4,10 @@ block content
   .jumbotron.text-center
     h1 Кодити з історіями
     p.lead Основи програмування легко, весело й вичерпно.
-    p.lead Безліч занять та конструктор для творчості!  
+    form(method='get' action='/lessons/dashboard')
+      button.btn.btn-success.btn-lg
+        | Розпочати! Це безкоштовно!&nbsp;
+        span.glyphicon.glyphicon-play
   .container-fluid#about
     .row
       .col-sm-8

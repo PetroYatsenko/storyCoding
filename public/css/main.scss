@@ -263,3 +263,17 @@ body {
       -webkit-transform: translateY(0%);
   }
 }
+
+.progress {
+  height: 20px;
+}
+
+.progress span {
+  font-size: 16px;
+  vertical-align: middle;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.panel-default > .panel-heading .badge {
+  float: right;
+}
