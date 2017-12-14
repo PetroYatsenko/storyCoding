@@ -58,7 +58,6 @@ textarea {
 
 .thumbnail {
   padding: 0;
-  border-radius: 0;
   box-shadow: 0 0 5px #ccc, inset 0 0 0 #000;
 }
 
@@ -105,12 +104,6 @@ textarea {
 
 .col-sm-4 ul li {
   text-align: left;
-}
-
-.thumbnail {
-  padding: 0 0 15px 0;
-  border: none;
-  border-radius: 0;
 }
 
 .thumbnail img {
@@ -276,4 +269,14 @@ body {
 
 .panel-default > .panel-heading .badge {
   float: right;
+}
+
+/* w3css selection*/
+
+.w3-opacity {
+  opacity: 0.60
+}
+
+.w3-hover-opacity-off:hover{
+  opacity: 1.0
 }

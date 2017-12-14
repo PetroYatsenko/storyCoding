@@ -1,34 +1,17 @@
-extends ../13_stories/lesson_layout
-
-block styles
-  link(rel='stylesheet', href='/css/w3css/4/w3.css')
-  link(rel='stylesheet', href='/css/lesson.css')  
+extends ../layout
 
 block scripts
-  script(src='/js/lib/jquery-3.1.1.min.js')
   script(src='/js/select_heroes.js')
 
 block content
-  header
-    h1= title 
-    p.story_text.visible= description
-  div#tables_wrapper  
-    section#content
-      div
-        each variable in monsters_zoo
-          div(id= variable.monster + '_large').invisible
-            h1= variable.name_uk
-            div.monster_description
-              h2= variable.talent_uk
-    section#middle
-      h1= monsters_collection
-
-      ul#monsters_zoo.monsters_list
-        each variable in monsters_zoo
-          if (variable.enabled)
-            li(class='pointer' id= variable.monster)
-              img(src= '/images/monsters_small/' + variable.monster + '_medium.png')
-    aside#sidebar    
-      div.button
-        h2= your_talent
-        button(id='go' class='button go_ahead disabled') #{your_action}
+  h1= description
+  div.text-center#zoo
+    each variable in monsters_zoo
+      if (variable.enabled)
+        .col-sm-4
+          .thumbnail
+            img.pointer.w3-opacity.w3-hover-opacity-off(src= '/images/monsters_small/' + variable.monster 
+            +'_medium.png' id= variable.monster alt= variable.monster)
+            p 
+              strong= variable.name_uk
+            p= variable.talent_uk

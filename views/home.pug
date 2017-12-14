@@ -6,8 +6,11 @@ block content
     p.lead Основи програмування легко, весело й вичерпно.
     form(method='get' action='/lessons/dashboard')
       button.btn.btn-success.btn-lg
-        | Розпочати! Це безкоштовно!&nbsp;
-        span.glyphicon.glyphicon-play
+        p
+          | Розпочати.
+          br
+          | Це безкоштовно!&nbsp;
+          span.glyphicon.glyphicon-play
   .container-fluid#about
     .row
       .col-sm-8
@@ -16,7 +19,7 @@ block content
         p "Кодити з історіями" -- це знаходити закономірності в побудові справді цікавих історій. Адже все на світі пов'язане.
         button.btn.btn-default.btn-lg Дізнатися більше...
       .col-sm-4
-        span.glyphicon.glyphicon-education.logo
+        span.glyphicon.glyphicon-education.logo.slideanim
   .container-fluid.bg-grey
     .row
       .col-sm-4
