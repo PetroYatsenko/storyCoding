@@ -7,36 +7,32 @@ block scripts
   script(src='/js/narrator.js')
   
 block content
-  header
-    h1= story_name
-    h2= subject   
-  div#tables_wrapper    
-    section#content
-      div.button
-        h2= boy_talent
-        button(type='button' id='boy_button' class='go_ahead') #{boy_action}
-      div.button_center
-        h2= mom_talent
-        button(type='button' id='mom_button' class='go_ahead') #{mom_action}
-      div.button
-        h2= boy_hat
-        img#pompon_color.pompon_color(src="/images/pompons/hat/pompon_darkblue.png")
-    section#middle  
-      div.hero_greeting
-        h2= greetings
-      div#hole.img_container
-        div.story
+  h2= title 
+    | &nbsp;
+    span.label.label-info= subject
+  .container-fluid
+    .col-sm-4.text-center
+      h3= boy_hat
+      img#pompon_color(src="/images/pompons/hat/pompon_darkblue.png")
+      h3= greetings
+      img#monster_img(src="/images/pompons/monster/monster_cover.png")
+    .col-sm-8
+      .raw.text-center
+        .col-sm-3
+          h3= boy_talent
+          button.btn.btn-success.btn-lg(type='button' id='boy_button') #{boy_action}
+        .col-sm-3
+          h3= mom_talent
+          button.btn.btn-success.btn-lg(type='button' id='mom_button') #{mom_action}
+        .col-sm-3
+          h3= monster_talent
+          button.btn.btn-success.btn-lg(type='button' id='monster_button') #{monster_action}
+        .col-sm-3  
+          h3= your_talent
+          button.btn.btn-info.btn-lg(type='button' id='go') #{your_action}
+      .raw
+        .col-sm-12
+          hr
           each val, index in story_items
-            p.story_text(id='story_item_' + index)= val
-        img#pompon_img(src="/images/pompons/monster/monster_cover.png")      
-    aside#sidebar
-      div.button
-        h2= monster_talent
-        button(type='button' id='monster_button' class='go_ahead') #{monster_action}
-      div.button_center
-        h2= monster_danger
-        button(type='button' id='monster_danger' class='go_ahead')
-      div.button
-        h2= your_talent
-        button(type='button' id='go' class='go_ahead') #{your_action}  
-      
+            p.story-text(id='story_item_' + index) !{val}
+          hr      

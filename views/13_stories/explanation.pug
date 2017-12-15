@@ -6,18 +6,17 @@ block scripts
   script(src='/js/explanation.js')   
 
 block content
-  header
-    h1= title
-    div.expl_text
-      p.expl_item= about
-  div#tables_wrapper  
-    section#content
-      div.theory
+  h2= title
+    | &nbsp;
+    span.label.label-info= subject
+  .container-fluid
+    .raw
+      .col-sm-6
+        img#monster_img(src= '/images/' + img + '.png')
+      .col-sm-6        
+        hr
         each val, index in expl_items
-          p.theory_item(id='expl_item_' + index)= val
-    section#middle
-      img.middle_img(src= '/images/' + img + '.png')      
-    aside#sidebar
-      div.button
-        h2= you_can
-        button(type='button' id='go' class='go_ahead enabled') #{your_talent}
+          p.story-text.visible !{val}
+        hr
+        h3= you_can
+        button.btn.btn-info.btn-lg(type='button' id='go') !{your_talent}

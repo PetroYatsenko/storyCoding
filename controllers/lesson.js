@@ -54,10 +54,10 @@ exports.explanation = (req, res, next) => {
         title: d[state].title,
         heroes_talents: d[state].talents,
         heroes: d[state].heroes,
-        about: d[state].about,
         expl_items: d[items],
         you_can: d[state].you_can,
-        your_talent: d[state].your_talent
+        your_talent: d[state].your_talent,
+        subject: d[state].subject
       }
     );  
   });
