@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     }    
   };
   
-  $input.on('mouseout', function() {   
+  $input.on('change', function() {   
     doneTyping();
   });
   

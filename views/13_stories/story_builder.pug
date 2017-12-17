@@ -11,33 +11,33 @@ block scripts
   script(src='/js/builder.js')
   
 block content
-  header
-    h1= title
-    div.task
-      each val, index in story_items
-        p.story_text(id='story_item_' + index)= val
-  div#tables_wrapper        
-    section#content
-      h2= you_can
-      div.button
-        button(type='button' id='go' class='go_ahead') #{go_ahead}
-      div.button_center
-        button(type='button' id='look' class='go_ahead') #{look_around}
-      div.button
-        button(type='button' id='help' class='go_ahead') #{help}
-    section#middle       
-      div.img_container
-        div.story
+  h2= title
+    | &nbsp;
+    span.label.label-info= subject
+  .container
+    .col-sm-4.text-center
+      img#monster_img(src='/images/monsters_large/' + monster_img + '.png')
+      h3= counter
+      img#loop_img(src='/images/loops/' + step_loop + '.png')
+    .col-sm-8
+      .raw.text-center
+        .col-sm-3
+          h3= smb_can
+          button.btn.btn-danger.btn-lg(type='button' id='stop') #{stop}
+        .col-sm-9
+          h3= you_can
+          .btn-group
+            button.btn.btn-success.btn-lg(type='button' id='look') #{look_around}          
+            button.btn.btn-success.btn-lg(type='button' id='help') #{help}
+            button.btn.btn-info.btn-lg(type='button' id='go') #{go_ahead}
+      .raw
+        .col-sm-12
+          hr
+          each val, index in story_items
+            p.story_text(id='story_item_' + index) !{val}
           each val, index in task
-            p.story_text(id='task_' + index)= val
-        img.middle_img(src='/images/monsters_large/' + monster_img + '.png')
-        div.your_text
-          textarea#your_story.your_story(rows="4" cols="34" placeholder= write_here)
-    aside#sidebar      
-      div.button
-        h2= smb_can      
-        button(type='button' id='stop' class='go_ahead') #{stop}
-      div.button_center
-        h2= counter
-        img.middle_img#loop_img(src='/images/loops/' + step_loop + '.png')
-      
+            p.story_text(id='task_' + index) !{val}
+          hr  
+      .raw
+        .col-sm-12
+          textarea#your_story.story_text(rows="4" placeholder= write_here)
