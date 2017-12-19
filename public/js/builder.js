@@ -6,10 +6,12 @@ window.addEventListener("DOMContentLoaded", function(event) {
   
   function doneTyping() {    
     if ($input.val().length < min_length ) {
-      go.classList.replace('enabled', 'disabled');
+      go.disabled = true;
+      go.classList.remove('active');
       alert(message);
     } else {
-      go.classList.replace('disabled', 'enabled');
+      go.disabled = false;
+      go.classList.add('active');
     }    
   };
   

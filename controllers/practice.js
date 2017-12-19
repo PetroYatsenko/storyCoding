@@ -81,7 +81,8 @@ exports.getLoopBuilder = (req, res, next) => {
       write_here: story[state].write,
       counter: story[state].counter,
       next_path: JSON.stringify(steps.next_path),
-      task: story[state].task
+      task: story[state].task,
+      subject: story[state].subject
     });
   });
 };

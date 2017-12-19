@@ -57,7 +57,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   
   var arrangeNewStep = function() {         
     document.getElementById(storyId + getStep()).classList.add('visible');
-    document.getElementById(nextButton).classList.remove('enabled');    
+    document.getElementById(nextButton).classList.remove('active');    
     
     var next = document.getElementById(nextButton);
     
@@ -80,7 +80,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var rmPrevTxtItem = function() {
     var prevStep = getStep() - 1;
     document.getElementById(storyId + prevStep).classList.remove('visible');
-    // For story builder need to remove previous task & user`s text too
+    // For story builder remove previous task & user`s text too
     if (typeof practice !== 'undefined' && practice) {
       document.getElementById(textarea).classList.remove('visible');
       document.getElementById(textarea).value = '';
@@ -109,6 +109,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
             todo += 'document.getElementById("' + key + '").classList.' + prop + '("' + actionsObj[key][i] + '");';
             break;
           case 'toggle':
+            todo += 'document.getElementById("' + key + '").classList.remove("active");';
+            todo += 'document.getElementById("' + key + '").disabled = true;';
             break;
         }       
       }
@@ -127,7 +129,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
     
     for (var key in stepInitials) {
       if (stepInitials.hasOwnProperty(key)) {
-        document.getElementById(key).classList.add(stepInitials[key]); 
+        var btn = document.getElementById(key);
+        if (stepInitials[key] === 'disabled') {
+          btn.disabled = true;
+        } else { // presume 'active'
+          btn.disabled = false;
+          btn.classList.add(stepInitials[key]);
+        }
       }
     }    
   };
