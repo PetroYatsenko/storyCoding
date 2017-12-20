@@ -3,31 +3,25 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var notebook = document.getElementById('story');
   var $pdf = $('#pdf');
   var $edit = $('#edit');
-  var $rec = $('#record');  
-  const className = 'theory_item';
-  const savePath = '/practice/story_builder/arrange';
+  var $rec = $('#record');
+  var $print = $('#print');
+  var $dload = $('#dload');
+  var $story = $('#story');
   
   var arrangeStory = function() {    
     myStory = JSON.parse(sessionStorage.story);
     
     for (let i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
-      p.className = className;    
       p.appendChild(document.createTextNode(myStory[i]));
       notebook.appendChild(p);
     }
   }();
   
-  var saveUserStory = function() {
-    var items = [];
-    
-    for (let i = 0; i < getStep(); i++) {
-      items.push(sessionStorage[storyId + i]);
-    }
-        
+  var save = function() {       
     $.post(savePath,
       {
-        story: JSON.stringify(items),
+        story: sessionStorage.story,
         _csrf: $('meta[name=csrf-token]').attr("content")
       },
       function(data) {
@@ -48,7 +42,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     return canvas.toDataURL("image/png");
   }
   
-  var makePdf = function() {
+  var processStory = function(action) {
     var doc = {};    
     var dataURL;
     var img = new Image();    
@@ -102,32 +96,62 @@ window.addEventListener("DOMContentLoaded", function(event) {
       for (let i = 0; i < myStory.length; i++) {
         doc.content.push({text: myStory[i], style: 'para'});
       };
-
-//      pdfMake.createPdf(doc).download(sessionStorage.mr + '.pdf');
-      pdfMake.createPdf(doc).open();
+      
+      switch(action) {
+        case 'pdf':
+          pdfMake.createPdf(doc).open();
+          break;  
+        case 'dload':
+          pdfMake.createPdf(doc).download(sessionStorage.mr + '.pdf');
+          break;
+        case 'print':
+          pdfMake.createPdf(doc).print();
+          break;
+      }
     };
   };
   
-  var editStory = function() {
-    $('#story').attr('contenteditable', true).focus();
-    $edit.removeClass('enabled').addClass('disabled');
-    $pdf.removeClass('enabled').addClass('disabled');
-    // Текст зі "Зберегти" на "Готово!"
+  var startStoryEdit = function() {
+    $story.attr('contenteditable', true).focus();
+    $edit.attr('disabled', true);
+    $pdf.attr('disabled', true);
+    $dload.attr('disabled', true);
+    $print.attr('disabled', true);
+  }
+  
+  var endStoryEdit = function() {
+    $story.attr('contenteditable', false);
+    $edit.attr('disabled', false);
+    $pdf.attr('disabled', false);
+    $dload.attr('disabled', false);
+    $print.attr('disabled', false);
+  }
+  
+  var recEditedStory = function() {
+    var newStory = [];
+    
+    $('#story p').each(function() {
+      newStory.push($(this).text());
+    });
+    
+    sessionStorage.story = JSON.stringify(newStory);
   }
   
   var saveStory = function() {
-    if ($edit.is('.disabled')) {
-      // collect to arr from theory_item class
-      // remove contenteditable & enable print/editing
-      
+    if ($edit.attr('disabled')) {
+      // Save to the sessionStorage
+      endStoryEdit();
+      recEditedStory();
     } else {
-      //post from sessionStorage.story
-      // redirect to the my account page with message and passed level (monster marked) + new lessons list
+      save();
+      // redirect to the dashboard page with message
     }
   }
   
-  $pdf.on('click', makePdf);
-  $edit.on('click', editStory);
+  $pdf.on('click', 'pdf', processStory);
+  $print.on('click', 'print', processStory);
+  $dload.on('click', 'dload', processStory);
+  $edit.on('click', startStoryEdit);
   $rec.on('click', saveStory);
   
 }, false);

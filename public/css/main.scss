@@ -284,8 +284,15 @@ body {
 /* Story layout */
 .story_text {
   display: none;
-  font-size: 1.5em;
-  line-height: 1.5;
+  font-size: 1.3em;
+  line-height: 1.4;
+}
+
+/* Important! Do not remove! 
+Prevents <SPAN> adding in contenteditable div for Opera&Chrome */
+.story_text p, span {
+  font-size: 1.3em; 
+  line-height: 1.4; 
 }
 
 .visible {

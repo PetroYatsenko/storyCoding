@@ -95,15 +95,27 @@ exports.arrangeStory = (req, res, next) => {
   
   res.render('13_stories/arrange_story', {
     title: 'Майже готово',
+    story_title: 'Ти і ліфт-монстр',
     expl_items: [
       'Ліфт-монстр підіймається і робить це нескінченно.',
       'Ця історія -- приклад циклу без умови завершення. Вийти з нього самотужки неможливо.',
       'Зупинити такий цикл можна тільки зовні.'
     ],
+    subject: 'Вивчаємо цикли',
     edit: 'Редагувати',
-    pdf: 'Друкувати',
+    print: 'Друкувати',
+    pdf: 'Згенерувати .pdf файл',
+    dload: 'Завантажити',
     complete: 'Зберегти',
     you_can: 'Ти можеш',
-    next_path: JSON.stringify('test'),
-  }); 
+    monster_img: 'elevator_large',
+    next_path: JSON.stringify('/lessons/dashboard'),
+    save_path: JSON.stringify('/practice/story_builder/save'),
+  });
+};
+
+exports.saveStory = (req, res, next) => {
+  // Receive post story serialised data, 
+  // JSON parse it and record to the user stories model with unique id
+  // Send JSON OK data to client to redirect customer to the dashboard
 };

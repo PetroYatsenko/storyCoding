@@ -1,29 +1,46 @@
 extends ../layout
   
 block scripts
-  script.    
+  script.
     var nextPath = !{next_path}
-  script(src='/js/lib/jquery-3.1.1.min.js')
+    var savePath = !{save_path}  
   script(src='/js/lib/pdfmake/pdfmake.min.js')  
   script(src='/js/lib/pdfmake/vfs_fonts.js')
   script(src='/js/arrange.js')
   
 block content
-  header
-    h1= title
-    div.expl_text
-      each val, index in expl_items
-        p.expl_item(id='expl_item_' + index)= val
-  div#tables_wrapper        
-    section#content     
-    section#middle
-      div#story.notebook
-    aside#sidebar
-      h2= you_can
-      div.button         
-        button.enabled(type='button' id='edit' class='go_ahead') #{edit}
-      div.button_center
-        button.enabled(type='button' id='pdf' class='go_ahead') #{pdf}
-      div.button
-        button.enabled(type='button' id='record' class='go_ahead') #{complete}
+  h2= title
+    | &nbsp;
+    span.label.label-info= subject
+  .story_text.visible  
+    each val, index in expl_items
+      p(id='expl_item_' + index) !{val}  
+  .container
+    .col-sm-3.text-center
+      .thumbnail
+        img#monster_img(src='/images/monsters_large/' + monster_img + '.png')
+        p 
+          strong= story_title
+    .col-sm-9
+      .raw.text-center
+        .col-sm-12
+          h3= you_can
+          .btn-group
+            button.btn.btn-success.btn-lg(type='button' id='pdf' title= pdf) 
+              i.fa.fa-file-pdf-o
+            button.btn.btn-success.btn-lg(type='button' id='print' title= print) 
+              i.fa.fa-print
+            button.btn.btn-success.btn-lg(type='button' id='dload' title= dload) 
+              i.fa.fa-download
+          | &nbsp;    
+          .btn-group
+            button.btn.btn-info.btn-lg(type='button' id='edit' title= edit)
+              i.fa.fa-pencil-square-o
+            button.btn.btn-primary.btn-lg(type='button' id='record' title= complete)
+              i.fa.fa-floppy-o
+      .raw
+        .col-sm-12
+          hr
+          .story_text.visible#story
+          hr  
       
