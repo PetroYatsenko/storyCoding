@@ -9,6 +9,6 @@ router.get('/story_builder', passportConfig.isAuthenticated, practiceController.
 
 router.get('/story_builder/arrange', passportConfig.isAuthenticated, practiceController.arrangeStory);
 
-router.post('story_builder/save', passportConfig.isAuthenticated, practiceController.saveStory);
+router.post('/story_builder/save', passportConfig.isAuthenticated, practiceController.saveStory);
 
 module.exports = router;

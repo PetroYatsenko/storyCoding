@@ -1,5 +1,6 @@
 const Monster = require('../models/Monster');
 const Story = require('../models/Story');
+const UserStory = require('../models/UserStory');
 const Steps = require('../models/Step');
 const Promise = require('bluebird');
 
@@ -64,6 +65,7 @@ exports.explanation = (req, res, next) => {
 }
 
 exports.dashboard = (req, res, next) => {
+   
   res.render('dashboard', {
     title: 'Твій прогрес'
   });

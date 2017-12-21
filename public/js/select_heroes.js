@@ -1,21 +1,19 @@
 $(document).ready(function() {
-  var storyBuilderPath = '/practice/story_builder'; //TODO: grab from the database
-          
   var getCurMonster = function() {    
     var mr = this.id;
 
-    saveHeroes(mr, function() {      
-      window.location.href = storyBuilderPath + '?mr=' + mr;
+    saveHero(mr, function() {      
+      window.location.href = nextStep + '?mr=' + mr;
     });
   }
   
-  var saveHeroes = function(mr, callback) {    
+  var saveHero = function(mr, callback) {    
     if (typeof(Storage) !== "undefined") {      
       sessionStorage.mr = mr;
       callback();
     } else {
        // TODO: translation
-       alert('Sorry. Your browser has no web-session support. Please, use a newest browser version.')
+       alert(webStorageAlert)
     }    
   }  
     

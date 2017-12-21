@@ -1,11 +1,14 @@
 extends ../layout
 
 block scripts
+  script.
+    var webStorageAlert= !{noStorage}
+    var nextStep = !{nextStep}  
   script(src='/js/select_heroes.js')
 
 block content
   h1= description
-  div.text-center#zoo
+  .text-center#zoo
     each variable in monsters_zoo
       if (variable.enabled)
         .col-sm-4

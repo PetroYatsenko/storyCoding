@@ -8,7 +8,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $dload = $('#dload');
   var $story = $('#story');
   
-  var arrangeStory = function() {    
+  var arrangeStory = function() {
+    $('#monster_img').attr('src', '/images/monsters_large/' + sessionStorage.mr + '_large.png')
     myStory = JSON.parse(sessionStorage.story);
     
     for (let i = 0; i < myStory.length; i++) {
@@ -18,10 +19,11 @@ window.addEventListener("DOMContentLoaded", function(event) {
     }
   }();
   
-  var save = function() {       
+  var saveRedirect = function() {       
     $.post(savePath,
       {
         story: sessionStorage.story,
+        mr: sessionStorage.mr,
         _csrf: $('meta[name=csrf-token]').attr("content")
       },
       function(data) {
@@ -42,7 +44,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     return canvas.toDataURL("image/png");
   }
   
-  var processStory = function(action) {
+  var processStory = function(e) {    
     var doc = {};    
     var dataURL;
     var img = new Image();    
@@ -97,7 +99,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
         doc.content.push({text: myStory[i], style: 'para'});
       };
       
-      switch(action) {
+      switch(e.data.action) {
         case 'pdf':
           pdfMake.createPdf(doc).open();
           break;  
@@ -143,14 +145,14 @@ window.addEventListener("DOMContentLoaded", function(event) {
       endStoryEdit();
       recEditedStory();
     } else {
-      save();
-      // redirect to the dashboard page with message
+      // Redirect to the dashboard page with message
+      saveRedirect();
     }
   }
   
-  $pdf.on('click', 'pdf', processStory);
-  $print.on('click', 'print', processStory);
-  $dload.on('click', 'dload', processStory);
+  $pdf.on('click', {action:'pdf'}, processStory);
+  $print.on('click', {action: 'print'}, processStory);
+  $dload.on('click', {action: 'dload'}, processStory);
   $edit.on('click', startStoryEdit);
   $rec.on('click', saveStory);
   

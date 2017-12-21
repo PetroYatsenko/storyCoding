@@ -1,6 +1,7 @@
 const Monster = require('../models/Monster');
 const Step = require('../models/Step');
 const Story = require('../models/Story');
+const UserStory = require('../models/UserStory');
 const Promise = require('bluebird');
 var lang = 'uk'; //TODO language support
 
@@ -16,9 +17,9 @@ exports.getHeroes = (req, res, next) => {
         title: 'Починаємо вигадувати історію ' + lesson, 
         description: 'Вибери монстра',
         monsters_zoo: zoo,
-        monsters_collection: 'Колекція монстрів',
-        your_talent: 'Ти можеш',      
-        your_action: 'Почати свою історію!'
+        nextStep: JSON.stringify('/practice/story_builder'),        
+        // TODO: messages table + lang support
+        noStorage: JSON.stringify('Sorry. Your browser has no web-session support. Please, install a newest browser version.')
       });
     });
 };
@@ -88,8 +89,6 @@ exports.getLoopBuilder = (req, res, next) => {
 };
 
 exports.arrangeStory = (req, res, next) => {
-//  req.sanitize('story');  
-//  var story = JSON.parse(req.body.story);
   var state = 'state_' + lang; 
   var items = 'items_' + lang;
   
@@ -108,14 +107,32 @@ exports.arrangeStory = (req, res, next) => {
     dload: 'Завантажити',
     complete: 'Зберегти',
     you_can: 'Ти можеш',
-    monster_img: 'elevator_large',
     next_path: JSON.stringify('/lessons/dashboard'),
     save_path: JSON.stringify('/practice/story_builder/save'),
   });
 };
 
 exports.saveStory = (req, res, next) => {
-  // Receive post story serialised data, 
-  // JSON parse it and record to the user stories model with unique id
-  // Send JSON OK data to client to redirect customer to the dashboard
+  req.sanitize('story');
+  //var message = 'msgs_' + lang; // TODO lang support
+  var message = 'Вітаємо! Твоя історія успішно записана!';
+  var query = {
+    hero: req.body.mr,
+    userId: req.user.id
+  };
+  
+  UserStory.findOneAndUpdate(
+    query, 
+    {story: req.body.story, $inc: {trials: +1}}, 
+    {upsert:true}, 
+    function(err, doc) {
+      if (err) return res.send(500, { error: err });
+      req.flash('success', { msg: message });
+      res.format({
+        json: function(){
+          res.send({status: 'OK'});
+        }
+      });
+    }
+  );
 };
