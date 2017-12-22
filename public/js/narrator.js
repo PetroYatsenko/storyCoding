@@ -107,9 +107,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
           case 'add':
             todo += 'document.getElementById("' + key + '").classList.' + prop + '("' + actionsObj[key][i] + '");';
             break;
-          case 'toggle':
-            todo += 'document.getElementById("' + key + '").classList.remove("active");';
-            todo += 'document.getElementById("' + key + '").disabled = true;';
+          case 'toggle':            
+            if (actionsObj[key][i] === 'disabled') { 
+              todo += 'document.getElementById("' + key + '").classList.remove("active");';
+              todo += 'document.getElementById("' + key + '").disabled = true;';
+            } else {
+              todo += 'document.getElementById("' + key + '").disabled = false;';
+            }  
             break;
         }       
       }
