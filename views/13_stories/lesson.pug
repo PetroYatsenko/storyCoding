@@ -3,35 +3,36 @@ extends ../layout
 block scripts
   script.
     var steps = !{steps}
-    var nextPath = !{next}
+    var nextPath = !{next_path}
+    var nextButton = !{next_btn}
   script(src='/js/narrator.js')
   
 block content
   h2= title 
     | &nbsp;
     span.label.label-info= subject
-  .container-fluid
+  .container
     .col-sm-4.text-center
-      h3= img1
-      img#pompon_color(src="/images/pompons/hat/pompon_darkblue.png")
-      h3= img2
-      img#monster_img(src="/images/pompons/monster/monster_cover.png")
+      h3= img1_t
+      img#img1(src= img1)
+      h3= img2_t
+      img#img2(src= img2)
     .col-sm-8
       .raw.text-center
         .col-sm-3
           h3= h1
-          button.btn.btn-success.btn-lg(type='button' id='boy_button') #{h1_act}
+          button.btn.btn-success.btn-lg(type='button' id='h1') #{h1_act}
         .col-sm-3
           h3= h2
-          button.btn.btn-success.btn-lg(type='button' id='mom_button') #{h2_act}
+          button.btn.btn-success.btn-lg(type='button' id='h2') #{h2_act}
         .col-sm-3
           h3= h3
-          button.btn.btn-success.btn-lg(type='button' id='monster_button') #{h3_act}
+          button.btn.btn-success.btn-lg(type='button' id='h3') #{h3_act}
         .col-sm-3  
           h3= h4
-          button.btn.btn-info.btn-lg(type='button' id='go') #{h4_act}
+          button.btn.btn-info.btn-lg(type='button' id='h4') #{h4_act}
       .raw
-        .col-sm-12
+        .col-sm-12#text
           hr
           each val, index in story_items
             p.story_text(id='story_item_' + index) !{val}

@@ -1,6 +1,5 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var current_step = 0;
-  const nextButton = 'go';
   const textarea = 'your_story';
   const taskId = 'task_';
   const storyId = 'story_item_';

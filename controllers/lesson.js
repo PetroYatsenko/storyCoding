@@ -20,7 +20,7 @@ exports.lesson = (req, res, next) => {
   Promise.all([
     Steps.findOne(query),
     Story.findOne(query)
-  ]).spread(function(steps, story) {    
+  ]).spread(function(steps, story) {
     res.render('13_stories/lesson', { 
       title: story[state].title,
       subject: story[state].subject, // What do we studying? (loops)
@@ -32,11 +32,14 @@ exports.lesson = (req, res, next) => {
       h3_act: story[state].h3_act,
       h4: story[state].h4,
       h4_act: story[state].h4_act,
+      img1_t: story[state].img1_t,
+      img2_t: story[state].img2_t,        
       img1: story[state].img1,
       img2: story[state].img2,
       story_items: story[items],     
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      next: JSON.stringify(steps.next_path),
+      next_path: JSON.stringify(steps.next_path),
+      next_btn: JSON.stringify('h4') //TODO
     });
   });
 };

@@ -4,6 +4,7 @@ block scripts
   script.
     var steps = !{steps}
     var nextPath = !{next_path}
+    var nextButton = !{next_btn}
     var storyTitle = !{JSON.stringify(title)}
     var practice = true
   script(src='/js/narrator.js')
@@ -15,9 +16,9 @@ block content
     span.label.label-info= subject
   .container
     .col-sm-4.text-center
-      img#monster_img(src='/images/monsters_large/' + monster_img + '.png')
+      img#img1(src='/images/practice/monsters_large/' + monster_img + '.png')
       h3= counter
-      img#loop_img(src='/images/loops/' + step_loop + '.png')
+      img#loop_img(src='/images/theory/loops/' + step_loop + '.png')
     .col-sm-8
       .raw.text-center
         .col-sm-3

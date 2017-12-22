@@ -70,7 +70,7 @@ exports.getLoopBuilder = (req, res, next) => {
     res.render('13_stories/story_builder', {
       title: story[state].title + monster.name_uk,
       you_can: story[state].you_can, //TODO take from db + lang support
-      monster_img: monster.monster + '_large',
+      monster_img: monster.monster,
       story_items: story[items],      
       go_ahead: story[state].go_ahead,
       stop: story[state].stop,
@@ -82,6 +82,7 @@ exports.getLoopBuilder = (req, res, next) => {
       write_here: story[state].write,
       counter: story[state].counter,
       next_path: JSON.stringify(steps.next_path),
+      next_btn: JSON.stringify('go'), //TODO h4 within lessons. Move to DB(?)
       task: story[state].task,
       subject: story[state].subject
     });
