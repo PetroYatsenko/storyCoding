@@ -3,7 +3,7 @@ extends ../layout
 block scripts
   script.
     var steps = !{steps}
-    var nextPath = !{explanation}
+    var nextPath = !{next}
   script(src='/js/narrator.js')
   
 block content
@@ -12,24 +12,24 @@ block content
     span.label.label-info= subject
   .container-fluid
     .col-sm-4.text-center
-      h3= boy_hat
+      h3= img1
       img#pompon_color(src="/images/pompons/hat/pompon_darkblue.png")
-      h3= greetings
+      h3= img2
       img#monster_img(src="/images/pompons/monster/monster_cover.png")
     .col-sm-8
       .raw.text-center
         .col-sm-3
-          h3= boy_talent
-          button.btn.btn-success.btn-lg(type='button' id='boy_button') #{boy_action}
+          h3= h1
+          button.btn.btn-success.btn-lg(type='button' id='boy_button') #{h1_act}
         .col-sm-3
-          h3= mom_talent
-          button.btn.btn-success.btn-lg(type='button' id='mom_button') #{mom_action}
+          h3= h2
+          button.btn.btn-success.btn-lg(type='button' id='mom_button') #{h2_act}
         .col-sm-3
-          h3= monster_talent
-          button.btn.btn-success.btn-lg(type='button' id='monster_button') #{monster_action}
+          h3= h3
+          button.btn.btn-success.btn-lg(type='button' id='monster_button') #{h3_act}
         .col-sm-3  
-          h3= your_talent
-          button.btn.btn-info.btn-lg(type='button' id='go') #{your_action}
+          h3= h4
+          button.btn.btn-info.btn-lg(type='button' id='go') #{h4_act}
       .raw
         .col-sm-12
           hr
