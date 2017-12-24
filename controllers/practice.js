@@ -2,7 +2,9 @@ const Monster = require('../models/Monster');
 const Step = require('../models/Step');
 const Story = require('../models/Story');
 const UserStory = require('../models/UserStory');
+const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
+
 var lang = 'uk'; //TODO language support
 
 exports.getHeroes = (req, res, next) => {
@@ -22,17 +24,6 @@ exports.getHeroes = (req, res, next) => {
         noStorage: JSON.stringify('Sorry. Your browser has no web-session support. Please, install a newest browser version.')
       });
     });
-};
-
-// TODO move to general functions
-exports.replacePlaceholders = function(val, str) {
-  var replaced = "";
-  var parts = str.split(/(\%\w+?\%)/g).map(function(v) {
-    replaced = v.replace(/\%/g,"");
-    return val[replaced] || replaced; 
-  });
-
-  return parts.join("");
 };
 
 exports.getLoopBuilder = (req, res, next) => {
@@ -60,11 +51,11 @@ exports.getLoopBuilder = (req, res, next) => {
     
 
     for (let i = 0; i < story[items].length; i++) {
-      story[items][i] = exports.replacePlaceholders(replace, story[items][i]);
+      story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
     } 
     
     for (let i = 0; i < story[state].task.length; i++) {
-      story[state].task[i] = exports.replacePlaceholders(replace, story[state].task[i]);
+      story[state].task[i] = genFunc.replacePlaceholders(replace, story[state].task[i]);
     }
     
     res.render('13_stories/story_builder', {
@@ -81,7 +72,7 @@ exports.getLoopBuilder = (req, res, next) => {
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       write_here: story[state].write,
       counter: story[state].counter,
-      next_path: JSON.stringify(steps.next_path),
+      next_path: genFunc.getNextPath(story.type),
       next_btn: JSON.stringify('go'), //TODO h4 within lessons. Move to DB(?)
       task: story[state].task,
       subject: story[state].subject
@@ -108,7 +99,7 @@ exports.arrangeStory = (req, res, next) => {
     dload: 'Завантажити',
     complete: 'Зберегти',
     you_can: 'Ти можеш',
-    next_path: JSON.stringify('/lessons/dashboard'),
+    next_path: exports.getNextPath(), //
     save_path: JSON.stringify('/practice/story_builder/save'),
   });
 };

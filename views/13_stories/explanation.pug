@@ -2,7 +2,7 @@ extends ../layout
 
 block scripts
   script.
-    var nextPath = !{goto}  
+    var nextPath = !{next_path}  
   script(src='/js/explanation.js')   
 
 block content
@@ -11,12 +11,12 @@ block content
     span.label.label-info= subject
   .container-fluid
     .raw
-      .col-sm-6
+      .col-sm-4
         img#img1(src= img)
-      .col-sm-6        
+      .col-sm-8
+        h3= you_can
+        button.btn.btn-info.btn-lg(type='button' id='go') !{your_talent}
         hr
         each val, index in expl_items
           p.story_text.visible !{val}
         hr
-        h3= you_can
-        button.btn.btn-info.btn-lg(type='button' id='go') !{your_talent}

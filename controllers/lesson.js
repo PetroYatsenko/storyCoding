@@ -3,6 +3,7 @@ const Story = require('../models/Story');
 const UserStory = require('../models/UserStory');
 const Steps = require('../models/Step');
 const LessonsList = require('../models/LessonsList');
+const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 
 var lang = 'uk';//TODO lang support
@@ -11,9 +12,11 @@ var items = 'items_' + lang;
 
 exports.lesson = (req, res, next) => {
   req.sanitize('monster');
+  // Important! Use session story name further
+  req.session.story_name = req.params.monster;
   
   var query = {
-    story: req.params.monster, 
+    story: req.session.story_name, 
     type: 'lesson'
   }; 
      
@@ -38,7 +41,7 @@ exports.lesson = (req, res, next) => {
       img2: story[state].img2,
       story_items: story[items],     
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      next_path: JSON.stringify(steps.next_path),
+      next_path: genFunc.getNextPath(story.type),
       next_btn: JSON.stringify('h4') //TODO
     });
   });
@@ -46,13 +49,12 @@ exports.lesson = (req, res, next) => {
 
 exports.explanation = (req, res, next) => {
   var query = { //TODO replace monster with param
-    story: 'pompon_monster', 
+    story: req.session.story_name, 
     type: 'explanation'
   };
   
   Story.findOne(query).then(function(d) {
-    res.render('13_stories/explanation', {        
-      goto: JSON.stringify(d.next_path),
+    res.render('13_stories/explanation', {
       img: d.img,
       title: d[state].title,
       heroes_talents: d[state].talents,
@@ -60,7 +62,8 @@ exports.explanation = (req, res, next) => {
       expl_items: d[items],
       you_can: d[state].you_can,
       your_talent: d[state].your_talent,
-      subject: d[state].subject
+      subject: d[state].subject,
+      next_path: genFunc.getNextPath(d.type),
     });  
   });
 };
