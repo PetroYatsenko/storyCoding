@@ -1,20 +1,26 @@
 // TODO Store paths within the database ?
-exports.getNextPath = function(storyType) {
-  var path = '/lessons/dashboard'; //By default
+exports.getNextPath = function(storyType = undefined) {
+  var nextPath = '/'; // By default
   
   switch(storyType) {
-    case 'practice':
-      path = '/practice/story_builder/arrange';
+    case 'lesson':
+      nextPath = '/lessons/explanation';
       break;
     case 'explanation':
-      path = '/practice/heroes';
+      nextPath = '/practice/heroes';
       break;
-    case 'lesson':
-      path = '/lessons/explanation';
+    case 'heroes':
+      nextPath = '/practice/story_builder';
+      break;
+    case 'practice':
+      nextPath = '/practice/story_builder/arrange';
+      break;
+    case 'arrange': 
+      nextPath = '/practice/dashboard';
       break;
   }
   
-  return JSON.stringify(path);
+  return JSON.stringify(nextPath);
 };
 
 exports.replacePlaceholders = function(val, str) {

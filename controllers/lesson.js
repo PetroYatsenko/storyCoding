@@ -26,7 +26,7 @@ exports.lesson = (req, res, next) => {
   ]).spread(function(steps, story) {
     res.render('13_stories/lesson', { 
       title: story[state].title,
-      subject: story[state].subject, // What do we studying? (loops)
+      subject: story[state].subject,
       h1: story[state].h1,
       h1_act: story[state].h1_act,
       h2: story[state].h2,
@@ -48,7 +48,7 @@ exports.lesson = (req, res, next) => {
 };
 
 exports.explanation = (req, res, next) => {
-  var query = { //TODO replace monster with param
+  var query = {
     story: req.session.story_name, 
     type: 'explanation'
   };
@@ -56,9 +56,8 @@ exports.explanation = (req, res, next) => {
   Story.findOne(query).then(function(d) {
     res.render('13_stories/explanation', {
       img: d.img,
+      img_txt: d[state].img_txt,
       title: d[state].title,
-      heroes_talents: d[state].talents,
-      heroes: d[state].heroes,
       expl_items: d[items],
       you_can: d[state].you_can,
       your_talent: d[state].your_talent,

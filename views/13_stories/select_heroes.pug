@@ -10,7 +10,7 @@ block content
   h1= description
   .text-center#zoo
     each variable in monsters_zoo
-      if (variable.enabled)
+      if (variable.monster !== cur_story)
         .col-sm-4
           .thumbnail
             img.pointer.w3-opacity.w3-hover-opacity-off(

@@ -11,11 +11,16 @@ block content
     span.label.label-info= subject
   .container-fluid
     .raw
-      .col-sm-4
-        img#img1(src= img)
-      .col-sm-8
+      .col-sm-6
+        img#img1(src= img)        
+      .col-sm-6
+        p.story_text.visible 
+          strong= img_txt
+        hr
         h3= you_can
         button.btn.btn-info.btn-lg(type='button' id='go') !{your_talent}
+    .raw    
+      .col-sm-12
         hr
         each val, index in expl_items
           p.story_text.visible !{val}

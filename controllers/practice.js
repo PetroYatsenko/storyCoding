@@ -5,21 +5,23 @@ const UserStory = require('../models/UserStory');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 
-var lang = 'uk'; //TODO language support
+var lang = 'uk';//TODO lang support
+var state = 'state_' + lang; 
+var items = 'items_' + lang;
 
 exports.getHeroes = (req, res, next) => {
   var query = {};
-  var lesson = 'з циклом'; //TODO
-  
-  //TODO add query or remove Promise.all 
+ 
+  //TODO add query or remove Promise.all
+  // Select necessary fields only
   Promise.all([
     Monster.find(query)
-  ]).spread(function(zoo) {      
+  ]).spread(function(zoo) {
       res.render('13_stories/select_heroes', {
-        title: 'Починаємо вигадувати історію ' + lesson, 
-        description: 'Вибери монстра',
+        title: 'Вибери монстра',
         monsters_zoo: zoo,
-        nextStep: JSON.stringify('/practice/story_builder'),        
+        cur_story: req.session.story_name,
+        nextStep: genFunc.getNextPath('heroes'), // TODO - move story.type to DB        
         // TODO: messages table + lang support
         noStorage: JSON.stringify('Sorry. Your browser has no web-session support. Please, install a newest browser version.')
       });
@@ -30,9 +32,7 @@ exports.getLoopBuilder = (req, res, next) => {
   req.sanitize('mr'); //TODO figure out sanitization  
   var mr = req.query.mr;
   var query = {story: mr, type: 'practice'};  
-  var trials = 'чотирьох кроків'; //TODO  
-  var state = 'state_' + lang; 
-  var items = 'items_' + lang;
+  var trials = 'чотирьох кроків'; //TODO 
   var replace = { //TODO get from a query from the separate db document
     trials: trials,
     user_type_1: 'один хлопчик', 
@@ -47,17 +47,14 @@ exports.getLoopBuilder = (req, res, next) => {
     Step.findOne(query),
     Story.findOne(query),
     Monster.findOne({monster: mr})
-  ]).spread(function(steps, story, monster) {   
-    
-
+  ]).spread(function(steps, story, monster) {
+    // Replace placeholders
     for (let i = 0; i < story[items].length; i++) {
       story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
-    } 
-    
+    }
     for (let i = 0; i < story[state].task.length; i++) {
       story[state].task[i] = genFunc.replacePlaceholders(replace, story[state].task[i]);
-    }
-    
+    }    
     res.render('13_stories/story_builder', {
       title: story[state].title + monster.name_uk,
       you_can: story[state].you_can, //TODO take from db + lang support
@@ -80,10 +77,7 @@ exports.getLoopBuilder = (req, res, next) => {
   });
 };
 
-exports.arrangeStory = (req, res, next) => {
-  var state = 'state_' + lang; 
-  var items = 'items_' + lang;
-  
+exports.arrangeStory = (req, res, next) => {  
   res.render('13_stories/arrange_story', {
     title: 'Майже готово',
     story_title: 'Ти і ліфт-монстр',
@@ -99,7 +93,7 @@ exports.arrangeStory = (req, res, next) => {
     dload: 'Завантажити',
     complete: 'Зберегти',
     you_can: 'Ти можеш',
-    next_path: exports.getNextPath(), //
+    next_path: genFunc.getNextPath('arrange'), // TODO get story.type from DB
     save_path: JSON.stringify('/practice/story_builder/save'),
   });
 };
