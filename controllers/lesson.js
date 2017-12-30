@@ -12,8 +12,10 @@ var items = 'items_' + lang;
 
 exports.lesson = (req, res, next) => {
   req.sanitize('monster');
+  req.sanitize('subj');
   // Important! Use session story name further
   req.session.story_name = req.params.monster;
+  req.session.subject = req.params.subj;
   
   var query = {
     story: req.session.story_name, 
@@ -42,7 +44,7 @@ exports.lesson = (req, res, next) => {
       story_items: story[items],     
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       next_path: genFunc.getNextPath(story.type),
-      next_btn: JSON.stringify('h4') //TODO
+      next_btn: JSON.stringify('h4') //TODO move to DB (see practice too)
     });
   });
 };
@@ -60,7 +62,7 @@ exports.explanation = (req, res, next) => {
       title: d[state].title,
       expl_items: d[items],
       you_can: d[state].you_can,
-      your_talent: d[state].your_talent,
+      your_act: d[state].your_act,
       subject: d[state].subject,
       next_path: genFunc.getNextPath(d.type),
     });  

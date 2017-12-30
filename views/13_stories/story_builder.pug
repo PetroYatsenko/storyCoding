@@ -18,18 +18,18 @@ block content
     .col-sm-4.text-center
       img#img1(src='/images/practice/monsters_large/' + monster_img + '.png')
       h3= counter
-      img#loop_img(src='/images/theory/loops/' + step_loop + '.png')
+      img#img2(src='/images/theory/loops/' + img2 + '.png')
     .col-sm-8
       .raw.text-center
         .col-sm-3
           h3= smb_can
-          button.btn.btn-danger.btn-lg(type='button' id='stop') #{stop}
+          button.btn.btn-danger.btn-lg(type='button' id='h1') #{h1_act}
         .col-sm-9
           h3= you_can
           .btn-group
-            button.btn.btn-success.btn-lg(type='button' id='look') #{look_around}          
-            button.btn.btn-success.btn-lg(type='button' id='help') #{help}
-            button.btn.btn-info.btn-lg(type='button' id='go') #{go_ahead}
+            button.btn.btn-success.btn-lg(type='button' id='h2') #{h2_act}          
+            button.btn.btn-success.btn-lg(type='button' id='h3') #{h3_act}
+            button.btn.btn-info.btn-lg(type='button' id='h4') #{h4_act}
       .raw
         .col-sm-12
           hr

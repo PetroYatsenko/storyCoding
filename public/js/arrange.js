@@ -15,6 +15,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     
     for (let i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
+      p.className = 'story_text visible';
       p.appendChild(document.createTextNode(myStory[i]));
       notebook.appendChild(p);
     }

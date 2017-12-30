@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $input = $('#your_story');
   var message = 'Малувато, подумай і додай іще.'; //TODO
   var min_length = 25;
-  var go = document.getElementById('go');
+  var go = document.getElementById(nextButton);
   
   function doneTyping() {    
     if ($input.val().length < min_length ) {

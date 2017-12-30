@@ -8,6 +8,6 @@ router.get('/dashboard', passportConfig.isAuthenticated, lessonController.dashbo
 router.get('/explanation', passportConfig.isAuthenticated, lessonController.explanation);
 
 /* Get user`s lesson */
-router.get('/:monster', passportConfig.isAuthenticated, lessonController.lesson);
+router.get('/:monster/:subj', passportConfig.isAuthenticated, lessonController.lesson);
 
 module.exports = router;

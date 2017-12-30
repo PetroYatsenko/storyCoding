@@ -5,7 +5,7 @@ const passportConfig = require('../config/passport');
 
 router.get('/heroes', passportConfig.isAuthenticated, practiceController.getHeroes);
 
-router.get('/story_builder', passportConfig.isAuthenticated, practiceController.getLoopBuilder);
+router.get('/story_builder', passportConfig.isAuthenticated, practiceController.getStoryBuilder);
 
 router.get('/story_builder/arrange', passportConfig.isAuthenticated, practiceController.arrangeStory);
 

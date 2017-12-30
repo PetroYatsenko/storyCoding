@@ -12,15 +12,15 @@ block content
   h2= title
     | &nbsp;
     span.label.label-info= subject
-  .story_text.visible  
+  div
     each val, index in expl_items
-      p(id='expl_item_' + index) !{val}  
+      p.story_text.visible(id='expl_item_' + index) !{val}  
   .container
     .col-sm-3.text-center
       .thumbnail
         img#img1
         p 
-          strong= story_title
+          h3= story_title
     .col-sm-9
       .raw.text-center
         .col-sm-12
@@ -41,6 +41,6 @@ block content
       .raw
         .col-sm-12
           hr
-          .story_text.visible#story
+          #story
           hr  
       

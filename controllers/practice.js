@@ -28,10 +28,16 @@ exports.getHeroes = (req, res, next) => {
     });
 };
 
-exports.getLoopBuilder = (req, res, next) => {
-  req.sanitize('mr'); //TODO figure out sanitization  
+exports.getStoryBuilder = (req, res, next) => {
+  req.sanitize('mr');
+  //TODO figure out sanitization  
   var mr = req.query.mr;
-  var query = {story: mr, type: 'practice'};  
+  var query = {
+    story: mr, 
+    type: 'practice',
+    subject: req.session.subject
+  };  
+  
   var trials = 'чотирьох кроків'; //TODO 
   var replace = { //TODO get from a query from the separate db document
     trials: trials,
@@ -59,18 +65,18 @@ exports.getLoopBuilder = (req, res, next) => {
       title: story[state].title + monster.name_uk,
       you_can: story[state].you_can, //TODO take from db + lang support
       monster_img: monster.monster,
-      story_items: story[items],      
-      go_ahead: story[state].go_ahead,
-      stop: story[state].stop,
-      help: story[state].help,
-      look_around: story[state].look,
-      step_loop: story[state].loop,
+      story_items: story[items],
+      h1_act: story[state].h1,
+      h2_act: story[state].h2,
+      h3_act: story[state].h3,
+      h4_act: story[state].h4,
+      img2: story[state].img2,
       smb_can: story[state].smb_can,
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       write_here: story[state].write,
       counter: story[state].counter,
       next_path: genFunc.getNextPath(story.type),
-      next_btn: JSON.stringify('go'), //TODO h4 within lessons. Move to DB(?)
+      next_btn: JSON.stringify('h4'), //TODO Move to DB(?)
       task: story[state].task,
       subject: story[state].subject
     });
@@ -82,9 +88,7 @@ exports.arrangeStory = (req, res, next) => {
     title: 'Майже готово',
     story_title: 'Ти і ліфт-монстр',
     expl_items: [
-      'Ліфт-монстр підіймається і робить це нескінченно.',
-      'Ця історія -- приклад циклу без умови завершення. Вийти з нього самотужки неможливо.',
-      'Зупинити такий цикл можна тільки зовні.'
+      'Ліфт-монстр підіймається і робить це нескінченно. Ця історія — приклад циклу без умови завершення. Вийти з нього самотужки неможливо. Зупинити такий цикл можна тільки зовні.'
     ],
     subject: 'Вивчаємо цикли',
     edit: 'Редагувати',
