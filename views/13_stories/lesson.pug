@@ -19,18 +19,29 @@ block content
       img#img2(src= img2)
     .col-sm-8
       .raw.text-center
-        .col-sm-3
-          h3= h1
-          button.btn.btn-success.btn-lg(type='button' id='h1') #{h1_act}
-        .col-sm-3
-          h3= h2
-          button.btn.btn-success.btn-lg(type='button' id='h2') #{h2_act}
-        .col-sm-3
-          h3= h3
-          button.btn.btn-success.btn-lg(type='button' id='h3') #{h3_act}
-        .col-sm-3  
-          h3= h4
-          button.btn.btn-info.btn-lg(type='button' id='h4') #{h4_act}
+        if (h1 && h2 && h3 && h3)
+          .col-sm-3
+            h3= h1
+            button.btn.btn-success.btn-lg(type='button' id='h1') #{h1_act}
+          .col-sm-3
+            h3= h2
+            button.btn.btn-success.btn-lg(type='button' id='h2') #{h2_act}
+          .col-sm-3
+            h3= h3
+            button.btn.btn-success.btn-lg(type='button' id='h3') #{h3_act}
+          .col-sm-3  
+            h3= h4
+            button.btn.btn-info.btn-lg(type='button' id='h4') #{h4_act}
+        else 
+          .col-sm-4
+            h3= h1
+            button.btn.btn-success.btn-lg(type='button' id='h1') #{h1_act}
+          .col-sm-4
+            h3= h2
+            button.btn.btn-success.btn-lg(type='button' id='h2') #{h2_act}
+          .col-sm-4
+            h3= h4
+            button.btn.btn-info.btn-lg(type='button' id='h4') #{h4_act}
       .raw
         .col-sm-12#text
           hr
