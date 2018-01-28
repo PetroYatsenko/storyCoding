@@ -2,13 +2,20 @@ const Monster = require('../models/Monster');
 const Story = require('../models/Story');
 const UserStory = require('../models/UserStory');
 const Steps = require('../models/Step');
-const LessonsList = require('../models/LessonsList');
+const Lesson = require('../models/Lesson');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 
 var lang = 'uk';//TODO lang support
 var state = 'state_' + lang; 
 var items = 'items_' + lang;
+
+exports.tutorial = (req, res, next) => {
+  res.render('13_stories/tutorial', {
+    title: 'Як побудовані наші уроки', //TODO
+    nextPath: JSON.stringify('/lessons/transparent_dude/simple_var') //TODO
+  });  
+}; 
 
 exports.lesson = (req, res, next) => {
   req.sanitize('monster');
@@ -74,7 +81,7 @@ exports.dashboard = (req, res, next) => {
     enabled: true
   };
   
-  LessonsList.find(query).then(function(d) {
+  Lesson.find(query).then(function(d) {
     // console.log(d); TODO adjust
     res.render('dashboard', {
       title: 'Твій прогрес',

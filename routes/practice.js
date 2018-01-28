@@ -3,7 +3,7 @@ var router = express.Router();
 const practiceController = require('../controllers/practice');
 const passportConfig = require('../config/passport');
 
-router.get('/heroes', passportConfig.isAuthenticated, practiceController.getHeroes);
+router.get('/heroes', passportConfig.isAuthenticated, practiceController.getMonstersCollection);
 
 router.get('/story_builder', passportConfig.isAuthenticated, practiceController.getStoryBuilder);
 

@@ -1,4 +1,5 @@
 const Monster = require('../models/Monster');
+const Lesson = require('../models/Lesson');
 const Step = require('../models/Step');
 const Story = require('../models/Story');
 const UserStory = require('../models/UserStory');
@@ -9,23 +10,43 @@ var lang = 'uk';//TODO lang support
 var state = 'state_' + lang; 
 var items = 'items_' + lang;
 
-exports.getHeroes = (req, res, next) => {
-  var query = {};
- 
-  //TODO add query or remove Promise.all
-  // Select necessary fields only
+exports.getMonstersCollection = (req, res, next) => {
+  var qm = {_id: 0};  //TODO select just a nesessary info  
+  var sn = req.session.story_name;
+  //TODO check for account type (basic, advanced, premium)
+  // and grab available monsters only
+  //  switch req.session.acc_type
+  //  case basic
+  //  case advanced
+  //  case premium
+  var available = {practice: 1, _id: 0};
   Promise.all([
-    Monster.find(query)
-  ]).spread(function(zoo) {
-      res.render('13_stories/select_heroes', {
-        title: 'Вибери монстра',
-        monsters_zoo: zoo,
-        cur_story: req.session.story_name,
-        nextStep: genFunc.getNextPath('heroes'), // TODO - move story.type to DB        
-        // TODO: messages table + lang support
-        noStorage: JSON.stringify('Sorry. Your browser has no web-session support. Please, install a newest browser version.')
-      });
+    Lesson.findOne({name: sn}, available),
+    Monster.find({}, qm)
+  ]).spread(function(awake, zoo) {
+    
+    for (var key in zoo) {
+      // Move variables from the actual language pack
+      // Do we have a better solution, m?
+      zoo[key].name = zoo[key][state].name;
+      zoo[key].talent = zoo[key][state].talent;
+      // Mark unavailable monsters
+      for (var i = 0; i < awake.practice.length; i++) {
+        if (awake.practice[i] !== zoo[key].monster) {
+          zoo[key].enabled = false;
+        }
+      }
+    }
+    
+    res.render('13_stories/select_heroes', {
+      title: 'Вибери монстра',
+      zoo: zoo,
+      msg: 'Ще не час. Скоро познайомимося.', //TODO - get from messages table + lang support
+      nextStep: genFunc.getNextPath('heroes'), // TODO - move story.type to DB        
+      // TODO: messages table + lang support
+      noStorage: JSON.stringify('Sorry. Your browser has no web-session support. Please, install a newest browser version.')
     });
+  });
 };
 
 exports.getStoryBuilder = (req, res, next) => {
