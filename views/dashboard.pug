@@ -1,107 +1,40 @@
 extends layout
 
 block content
-  h1= title
+  h1 #{state.title}
   br
   div.progress
-    div.progress-bar.progress-bar-success.progress-bar-striped.active(role="progressbar" 
-    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%")
-      span 5 історій
+    div.progress-bar.progress-bar-success.progress-bar-striped.active(
+      role="progressbar" aria-valuenow= progress aria-valuemin= min_val 
+      aria-valuemax= max_val style="width:" + progress + "%" 
+    )
+      span #{state.stories + passed}
   .container
-    h2 Вивчаємо з монстрами...
-    p 
-    .panel-group
-      .panel.panel-default
-        .panel-heading 
-          h4.panel-title.text-uppercase
-            a(data-toggle="collapse" href="#collapse1") Змінні
-            span.badge спроби        
-        div#collapse1.panel-collapse.collapse.in
-          .list-group
-            a.list-group-item(href="/lessons/tutorial" target='_blank') Як побудовані уроки &nbsp;
-              span.label.label-primary демо              
-            a.list-group-item(href="/lessons/transparent_dude/simple_var" target='_blank') Прозорий Дядько &nbsp;
-              span.label.label-primary проста змінна
-              span.badge 0
-            a.list-group-item(href="/lessons/black_story/array" target='_blank') Чорна історія &nbsp;
-              span.label.label-success масив
-              span.badge 0
-            a.list-group-item(href="/lessons/seredynozher/delete_var") Серединожер &nbsp; 
-              span.label.label-info стираємо змінну
-              span.badge 0
-            a.list-group-item(href="#") Монстр без імені &nbsp; 
-              span.label.label-info константа
-              span.badge 0  
-            a.list-group-item(href="#") Брехло Нещасне &nbsp; 
-              span.label.label-warning правда/брехня
-              span.badge 0
-            a.list-group-item(href='#') Колекція монстрів &nbsp; 
-              span.label.label-default об'єкт
-              span.badge 0
-            a.list-group-item(href="/practice/heroes" target='_blank') Тепер спробуй сам! &nbsp; 
-              span.label.label-danger написатор  
-      .panel.panel-default
-        .panel-heading 
-          h4.panel-title.text-uppercase
-            a(data-toggle="collapse" href="#collapse2") Умови
-            span.badge спроби
-        div#collapse2.panel-collapse.collapse
-          .list-group
-            a.list-group-item(href='#') Історія темряви &nbsp;
-              span.label.label-primary якщо-то/приклад 1
-              span.badge 0
-            a.list-group-item(href='#') Брехло Нещасне &nbsp; 
-              span.label.label-info оп, щасливе!/приклад 2
-              span.badge 0  
-            a.list-group-item(href='#') Манмурт &nbsp;
-              span.label.label-success це таке саме?..
-              span.badge ?
-            a.list-group-item(href="/practice/heroes" target='_blank') Тепер спробуй сам! &nbsp; 
-              span.label.label-danger написатор  
-      .panel.panel-default
-        .panel-heading 
-          h4.panel-title.text-uppercase
-            a(data-toggle="collapse" href="#collapse3") Функції
-            span.badge спроби
-        div#collapse3.panel-collapse.collapse
-          .list-group             
-            a.list-group-item(href="#") Розбездзявка &nbsp; 
-              span.label.label-info що вміє мама?
-              span.badge 0
-            a.list-group-item(href="#") Розбездзявка &nbsp; 
-              span.label.label-info що вміє хлопчик?
-              span.badge 0  
-            a.list-group-item(href="#") Брехло Нещасне &nbsp; 
-              span.label.label-warning функцію забули!
-              span.badge 0
-            a.list-group-item(href="#") Вовкулаки &nbsp;
-              span.label.label-success кордони функції
-              span.badge 0
-            a.list-group-item(href="#") Акордеон &nbsp;
-              span.label.label-primary змінна "з'їла" функцію
-              span.badge 0
-            a.list-group-item(href="/practice/heroes" target='_blank') Тепер спробуй сам! &nbsp; 
-              span.label.label-danger написатор  
-      .panel.panel-default
-        .panel-heading 
-          h4.panel-title.text-uppercase
-            a(data-toggle="collapse" href="#collapse4") Цикли
-            span.badge спроби
-        div#collapse4.panel-collapse.collapse
-          .list-group
-            a.list-group-item(href="/lessons/pompon_monster/end_cond" target='_blank') Балабоновий монстр &nbsp;
-              span.label.label-primary умова в кінці
-              span.badge 0            
-            a.list-group-item(href="#") Лото-кола &nbsp;
-              span.label.label-success умова спочатку
-              span.badge 0
-            a.list-group-item(href="#") Ліфт-монстр &nbsp; 
-              span.label.label-info забули умову
-              span.badge 0
-            a.list-group-item(href="/practice/heroes" target='_blank') Тепер спробуй сам! &nbsp; 
-              span.label.label-danger написатор
-              span.badge 0
-    h2 Тестуємо знання         
+    h2 #{state.dash_title}
+    p
+    each chapter, index in chapters
+      .panel-group
+        .panel.panel-default
+          .panel-heading 
+            h4.panel-title.text-uppercase
+              a(data-toggle="collapse" href="#collapse" + index) #{state[chapter]}
+              span.badge #{state.trials}
+          div.panel-collapse.collapse(id="collapse" + index class= chapter === curr_chapter ? "in" : "")
+            .list-group
+              each val in data
+                if (val.chapter === chapter)
+                  a.list-group-item(href="/lessons/" + val.name + "/" + val.subj target='_blank') #{val[lang].name} &nbsp;
+                    case val.name
+                      when 'tutorial'
+                        span.label.label-info #{val[lang].subname}
+                      when 'knowledge_check'
+                        span.label.label-warning #{val[lang].subname}
+                      default
+                        span.label.label-success #{val[lang].subname}                    
+                    span.badge #{user_trials.story_name}
+                  
+     
+    h2 #{state.diploma}
     .panel-group          
       .panel.panel-default
         .panel-heading 

@@ -81,11 +81,41 @@ exports.dashboard = (req, res, next) => {
     enabled: true
   };
   
-  Lesson.find(query).then(function(d) {
-    // console.log(d); TODO adjust
-    res.render('dashboard', {
+  var strings = {
+    state_uk: {
       title: 'Твій прогрес',
-//      vars: d[state]
+      stories: 'історій: ',
+      dash_title: 'Вивчаємо з монстрами...',
+      test: 'Закріпляємо навички',
+      vars: 'Змінні',
+      cond: 'Умови',
+      loop: 'Цикли',
+      func: 'Функції',
+      trials: 'Спроби',
+      diploma: 'Отримай диплом'
+    }
+  }
+  
+  //TODO get from user`s profile by story name
+  var u_trials = {
+    story_name: 0
+  };
+  
+  var chapters = ['vars', 'cond', 'loop', 'func'];
+  
+  Lesson.find(query).sort({number: 1}).then(function(d) {
+    // console.log(d);
+    res.render('dashboard', {      
+      min_val: 0,
+      max_val: 100,     
+      progress: 40,      
+      passed: 5,
+      curr_chapter: 'vars', //TODO
+      user_trials: u_trials,
+      state: strings[state],
+      lang: state,
+      chapters: chapters,
+      data: d
     });
   });
 };
