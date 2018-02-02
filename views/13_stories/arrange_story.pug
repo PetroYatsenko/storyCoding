@@ -11,10 +11,7 @@ block scripts
 block content
   h2= title
     | &nbsp;
-    span.label.label-info= subject
-  div
-    each val, index in expl_items
-      p.story_text.visible(id='expl_item_' + index) !{val}  
+    span.label.label-info= subject  
   .container
     .col-sm-3.text-center
       .thumbnail

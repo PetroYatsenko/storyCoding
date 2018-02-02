@@ -17,9 +17,17 @@ const userSchema = new mongoose.Schema({
   profile: {
     name: String,
     gender: String,
-    location: String,
-    website: String,
-    picture: String
+    location: String,   
+    birth: Date, // TODO: new field, add recording to the profile form
+    website: String, //TODO: move it out (check for website in other files)
+    picture: String,
+  },
+  
+  classes: {
+    storycoding: {
+      account: {type: String, default: 'basic'},
+      lessons: {type: Object}  
+    },
   }
 }, { timestamps: true });
 

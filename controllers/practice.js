@@ -20,28 +20,25 @@ exports.getMonstersCollection = (req, res, next) => {
   //  case advanced
   //  case premium
   var available = {practice: 1, _id: 0};
+  
   Promise.all([
     Lesson.findOne({name: sn}, available),
     Monster.find({}, qm)
   ]).spread(function(awake, zoo) {
-    
-    for (var key in zoo) {
-      // Move variables from the actual language pack
-      // Do we have a better solution, m?
-      zoo[key].name = zoo[key][state].name;
-      zoo[key].talent = zoo[key][state].talent;
-      // Mark unavailable monsters
-      for (var i = 0; i < awake.practice.length; i++) {
-        if (awake.practice[i] !== zoo[key].monster) {
+    // Mark monsters unavailable for this practice
+    for (let key in zoo) {
+      if (zoo.hasOwnProperty(key) && zoo[key].enabled) {
+        if (awake.practice.indexOf(zoo[key].monster) === -1) {
           zoo[key].enabled = false;
         }
-      }
+      }  
     }
     
     res.render('13_stories/select_heroes', {
       title: 'Вибери монстра',
       zoo: zoo,
-      msg: 'Ще не час. Скоро познайомимося.', //TODO - get from messages table + lang support
+      state: state,
+      msg: 'Доступний у преміум акаунті.', //TODO - get from messages table + lang support + Доступний в наступних історіях.
       nextStep: genFunc.getNextPath('heroes'), // TODO - move story.type to DB        
       // TODO: messages table + lang support
       noStorage: JSON.stringify('Sorry. Your browser has no web-session support. Please, install a newest browser version.')
@@ -104,14 +101,13 @@ exports.getStoryBuilder = (req, res, next) => {
   });
 };
 
-exports.arrangeStory = (req, res, next) => {  
+exports.arrangeStory = (req, res, next) => { 
+  
   res.render('13_stories/arrange_story', {
     title: 'Майже готово',
-    story_title: 'Ти і ліфт-монстр',
-    expl_items: [
-      'Ліфт-монстр підіймається і робить це нескінченно. Ця історія — приклад циклу без умови завершення. Вийти з нього самотужки неможливо. Зупинити такий цикл можна тільки зовні.'
-    ],
-    subject: 'Вивчаємо цикли',
+    story_title: 'Ти і ' + req.session.story_name,
+    subject: req.session.subject,
+    
     edit: 'Редагувати',
     print: 'Друкувати',
     pdf: 'Згенерувати .pdf файл',
@@ -119,7 +115,7 @@ exports.arrangeStory = (req, res, next) => {
     complete: 'Зберегти',
     you_can: 'Ти можеш',
     next_path: genFunc.getNextPath('arrange'), // TODO get story.type from DB
-    save_path: JSON.stringify('/practice/story_builder/save'),
+    save_path: JSON.stringify('/practice/story_builder/save'), //TODO
   });
 };
 
@@ -135,7 +131,7 @@ exports.saveStory = (req, res, next) => {
   UserStory.findOneAndUpdate(
     query, 
     {story: req.body.story, $inc: {trials: +1}}, 
-    {upsert:true}, 
+    {upsert: true}, 
     function(err, doc) {
       if (err) return res.send(500, { error: err });
       req.flash('success', { msg: message });
