@@ -77,10 +77,28 @@ exports.explanation = (req, res, next) => {
 };
 
 exports.dashboard = (req, res, next) => {  
-  var query = {
+  var lesson = {
     enabled: true
   };
+  var l_param = {
+    chapter: 1, 
+    subj: 1, 
+    name: 1, 
+    _id: 0
+  };
+  // Pass language var
+  l_param[state] = 1;
+
+  var passed = {
+    userId: req.user.id,
+  };
+  var p_param = {
+    hero: 1, 
+    trials: 1, 
+    _id: 0
+  };
   
+  // TODO get from state_uk messages table
   var strings = {
     state_uk: {
       title: 'Твій прогрес',
@@ -91,31 +109,32 @@ exports.dashboard = (req, res, next) => {
       cond: 'Умови',
       loop: 'Цикли',
       func: 'Функції',
-      trials: 'Спроби',
+      trials: 'Історії',
       diploma: 'Отримай диплом'
     }
   }
-  
-  //TODO get from user`s profile by story name
-  var u_trials = {
-    story_name: 0
-  };
-  
+  // TODO -- wether move it somewhere?
   var chapters = ['vars', 'cond', 'loop', 'func'];
   
-  Lesson.find(query).sort({number: 1}).then(function(d) {
-    // console.log(d);
+  Promise.all([
+    UserStory.find(passed, p_param),
+    Lesson.find(lesson, l_param).sort({number: 1})
+  ]).spread(function(s, d) {
+    console.log(s);
+    console.log('------');
+    console.log(d);
+    console.log('------');
     res.render('dashboard', {      
       min_val: 0,
       max_val: 100,     
       progress: 40,      
       passed: 5,
-      curr_chapter: 'vars', //TODO
-      user_trials: u_trials,
+      curr_chapter: 'vars', // TODO change according to the last passed story chapter
       state: strings[state],
       lang: state,
       chapters: chapters,
-      data: d
+      lesson_data: d,
+      user_data: s
     });
   });
 };

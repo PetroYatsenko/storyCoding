@@ -25,8 +25,7 @@ const userSchema = new mongoose.Schema({
   
   classes: {
     storycoding: {
-      account: {type: String, default: 'basic'},
-      lessons: {type: Object}  
+      account: {type: String, default: 'basic'}
     },
   }
 }, { timestamps: true });

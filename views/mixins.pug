@@ -1,0 +1,16 @@
+mixin dashb_label(name, subname)
+  case name
+    when 'tutorial'
+      span.label.label-info #{subname}
+    when 'knowledge_check'
+      span.label.label-warning #{subname}
+    default
+      span.label.label-success #{subname}
+
+mixin dashb_badge(name, trials)
+  case name
+    when 'knowledge_check'
+    when 'tutorial'
+      | &nbsp;
+    default
+      span.badge #{trials}

@@ -1,5 +1,7 @@
 extends layout
 
+include mixins
+
 block content
   h1 #{state.title}
   br
@@ -21,19 +23,17 @@ block content
               span.badge #{state.trials}
           div.panel-collapse.collapse(id="collapse" + index class= chapter === curr_chapter ? "in" : "")
             .list-group
-              each val in data
+              each val in lesson_data
                 if (val.chapter === chapter)
-                  a.list-group-item(href="/lessons/" + val.name + "/" + val.subj target='_blank') #{val[lang].name} &nbsp;
-                    case val.name
-                      when 'tutorial'
-                        span.label.label-info #{val[lang].subname}
-                      when 'knowledge_check'
-                        span.label.label-warning #{val[lang].subname}
-                      default
-                        span.label.label-success #{val[lang].subname}                    
-                    span.badge #{user_trials.story_name}
-                  
-     
+                  each story in user_data
+                    if ([story.hero, 'tutorial'].indexOf(val.name) > -1)
+                      a.list-group-item(href="/lessons/" + val.name + "/" + val.subj target='_blank') #{val[lang].name}  &nbsp;
+                        +dashb_label(val.name, val[lang].subname)
+                        +dashb_badge(val.name, story.trials)                      
+                    else
+                      p.list-group-item.bg-secondary #{val[lang].name}  &nbsp;
+                        +dashb_label(val.name, val[lang].subname)
+                        +dashb_badge(val.name, 0)
     h2 #{state.diploma}
     .panel-group          
       .panel.panel-default
