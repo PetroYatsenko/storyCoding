@@ -116,33 +116,24 @@ exports.dashboard = (req, res, next) => {
     // Grab passed and new lessons into one array of objects with PASSED property
     // Understand this piece of code!
     var passed;
-    var lsn_data = {};
-    var more = lessons.map(function(lsn) {
-      userStories.some(function(story) {
-        if (lsn.name === story._id) {
-          passed = story.count;
-          return lsn_data = {
-            state_uk: lsn.state_uk,
-            subj: lsn.subj,
-            name: lsn.name,
-            chapter: lsn.chapter,
-            passed: passed
-          };
-        } else {
-          passed = 0;
-        }
-        
-        lsn_data = {
-          state_uk: lsn.state_uk,
-          subj: lsn.subj,
-          name: lsn.name,
-          chapter: lsn.chapter,
-          passed: passed
-        };
-      });
+    var lsn_data = lessons.map(function(lsn) {
+      for (let i = 0; i < userStories.length; i++) {
+        if (lsn.name === userStories[i]._id) {
+          passed = userStories[i].count;
+          break;
+        } else { passed = 0;}
+      }
       
-      return lsn_data;
+      return {
+        state_uk: lsn.state_uk,
+        subj: lsn.subj,
+        name: lsn.name,
+        chapter: lsn.chapter,
+        passed: passed
+      };
     });
+    
+//    console.log(lsn_data);
     
     res.render('dashboard', {      
       min_val: 0,
@@ -153,7 +144,7 @@ exports.dashboard = (req, res, next) => {
       state: strings[state],
       lang: state,
       chapters: chapters,
-      lesson_data: more
+      lesson_data: lsn_data
     });
   });
 };
