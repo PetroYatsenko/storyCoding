@@ -124,13 +124,14 @@ exports.saveStory = (req, res, next) => {
   //var message = 'msgs_' + lang; // TODO lang support
   var message = 'Вітаємо! Твоя історія успішно записана!';
   var query = {
+    lesson: req.session.story_name,
     hero: req.body.mr,
     userId: req.user.id
   };
   
   UserStory.findOneAndUpdate(
     query, 
-    {story: req.body.story, $inc: {trials: +1}}, 
+    {story_txt: req.body.story}, 
     {upsert: true}, 
     function(err, doc) {
       if (err) return res.send(500, { error: err });

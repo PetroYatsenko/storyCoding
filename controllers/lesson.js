@@ -80,23 +80,14 @@ exports.dashboard = (req, res, next) => {
   var lesson = {
     enabled: true
   };
-  var l_param = {
+  var param = {
     chapter: 1, 
     subj: 1, 
     name: 1, 
     _id: 0
   };
-  // Pass language var
-  l_param[state] = 1;
-
-  var passed = {
-    userId: req.user.id,
-  };
-  var p_param = {
-    hero: 1, 
-    trials: 1, 
-    _id: 0
-  };
+  // Language var
+  param[state] = 1;
   
   // TODO get from state_uk messages table
   var strings = {
@@ -117,13 +108,42 @@ exports.dashboard = (req, res, next) => {
   var chapters = ['vars', 'cond', 'loop', 'func'];
   
   Promise.all([
-    UserStory.find(passed, p_param),
-    Lesson.find(lesson, l_param).sort({number: 1})
-  ]).spread(function(s, d) {
-    console.log(s);
-    console.log('------');
-    console.log(d);
-    console.log('------');
+    UserStory.aggregate([
+      {$match: {userId: req.user.id}}, 
+      {$group: {_id: '$lesson', count: {$sum: 1}}}]),
+    Lesson.find(lesson, param).sort({number: 1})
+  ]).spread(function(userStories, lessons) {
+    // Grab passed and new lessons into one array of objects with PASSED property
+    // Understand this piece of code!
+    var passed;
+    var lsn_data = {};
+    var more = lessons.map(function(lsn) {
+      userStories.some(function(story) {
+        if (lsn.name === story._id) {
+          passed = story.count;
+          return lsn_data = {
+            state_uk: lsn.state_uk,
+            subj: lsn.subj,
+            name: lsn.name,
+            chapter: lsn.chapter,
+            passed: passed
+          };
+        } else {
+          passed = 0;
+        }
+        
+        lsn_data = {
+          state_uk: lsn.state_uk,
+          subj: lsn.subj,
+          name: lsn.name,
+          chapter: lsn.chapter,
+          passed: passed
+        };
+      });
+      
+      return lsn_data;
+    });
+    
     res.render('dashboard', {      
       min_val: 0,
       max_val: 100,     
@@ -133,8 +153,7 @@ exports.dashboard = (req, res, next) => {
       state: strings[state],
       lang: state,
       chapters: chapters,
-      lesson_data: d,
-      user_data: s
+      lesson_data: more
     });
   });
 };

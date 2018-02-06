@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const userStorySchema = new mongoose.Schema({
-  story: {type: String},  
+  lesson: {type: String},    
   hero: {type: String},
-  userId: {type: String},
-  trials: {type: Number, min: 0, max: 10, default: 0}
+  story_txt: {type: String},
+  userId: {type: String}
 },
 {
   timestamps: true

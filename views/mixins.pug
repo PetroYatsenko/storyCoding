@@ -1,6 +1,6 @@
 mixin dashb_label(name, subname)
   case name
-    when 'tutorial'
+    when 'demo'
       span.label.label-info #{subname}
     when 'knowledge_check'
       span.label.label-warning #{subname}
@@ -10,7 +10,7 @@ mixin dashb_label(name, subname)
 mixin dashb_badge(name, trials)
   case name
     when 'knowledge_check'
-    when 'tutorial'
+    when 'demo'
       | &nbsp;
     default
       span.badge #{trials}
