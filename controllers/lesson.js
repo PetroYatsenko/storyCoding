@@ -103,10 +103,10 @@ exports.dashboard = (req, res, next) => {
       func: 'Функції',
       trials: 'Твої історії',
       tooltip: {
-        trials: 'Кількість твоїх історій з монстрами'
+        trials: 'Кількість твоїх історій з монстрами. Чим ближче до кінця курсу, тим більше історій можна написати.'
       },
       diploma: 'Отримай диплом',
-      next: 'На черзі' // or @Наступне@, @на черзі@
+      next: 'Продовжуй >>' // or @Наступне@, @на черзі@
     }
   }
   // TODO -- wether move it somewhere?
@@ -119,14 +119,12 @@ exports.dashboard = (req, res, next) => {
     Lesson.find(lesson, param).sort({number: 1}),
     Lesson.count({enabled: true, chapter: {$ne: 'demo'}})
   ]).spread(function(userStories, lessons, max_steps) {
-    // Grab passed and new lessons into one array of objects with PASSED property
-    // Understand this piece of code!
+    // Grab passed and new lessons into one array of objects
+    // TODO: understand this piece of code :)
     var user_stories;
-    var ind = [];
     var lsn_data = lessons.map(function(lsn, index) {
       for (let i = 0; i < userStories.length; i++) {
         if (lsn.name === userStories[i]._id) {
-          ind.push(index);
           user_stories = userStories[i].count;
           break;
         } else { user_stories = 0;}
@@ -141,18 +139,16 @@ exports.dashboard = (req, res, next) => {
       };
     });
     
-    console.log(max_steps);
-    console.log(userStories);
-    console.log();
-    var passed = userStories.length; 
-    var progress = passed * 100 /  max_steps;
+    // Calculate the passed steps procentage 
+    // (takes into account the knowledge checks too)
+    var passed = userStories.length;
             
     res.render('dashboard', {      
       min_val: 0,
       max_val: max_steps,     
-      progress: progress,      
+      progress: passed * 100 /  max_steps,      
       passed: passed,
-      curr_chapter: 'vars', // TODO change according to the last passed story chapter
+      curr_chapter: lsn_data[passed].chapter,
       state: strings[state],
       lang: state,
       chapters: chapters,
