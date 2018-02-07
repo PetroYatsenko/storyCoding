@@ -100,8 +100,12 @@ exports.dashboard = (req, res, next) => {
       cond: 'Умови',
       loop: 'Цикли',
       func: 'Функції',
-      trials: 'Історії',
-      diploma: 'Отримай диплом'
+      trials: 'Монстри',
+      tooltip: {
+        trials: 'Монстри, задіяні у твоїх історіях'
+      },
+      diploma: 'Отримай диплом',
+      next: 'Зараз'
     }
   }
   // TODO -- wether move it somewhere?
@@ -111,8 +115,9 @@ exports.dashboard = (req, res, next) => {
     UserStory.aggregate([
       {$match: {userId: req.user.id}}, 
       {$group: {_id: '$lesson', count: {$sum: 1}}}]),
-    Lesson.find(lesson, param).sort({number: 1})
-  ]).spread(function(userStories, lessons) {
+    Lesson.find(lesson, param).sort({number: 1}),
+    Lesson.count({enabled: true})
+  ]).spread(function(userStories, lessons, max_steps) {
     // Grab passed and new lessons into one array of objects with PASSED property
     // Understand this piece of code!
     var passed;
@@ -132,7 +137,7 @@ exports.dashboard = (req, res, next) => {
         passed: passed
       };
     });
-    
+      
 //    console.log(lsn_data);
     
     res.render('dashboard', {      
@@ -144,7 +149,8 @@ exports.dashboard = (req, res, next) => {
       state: strings[state],
       lang: state,
       chapters: chapters,
-      lesson_data: lsn_data
+      lesson_data: lsn_data,
+      max_steps: max_steps 
     });
   });
 };

@@ -1,4 +1,4 @@
-mixin dashb_label(name, subname)
+mixin dashb_subj_label(name, subname)
   case name
     when 'demo'
       span.label.label-info #{subname}
@@ -6,8 +6,14 @@ mixin dashb_label(name, subname)
       span.label.label-warning #{subname}
     default
       span.label.label-success #{subname}
+      
+mixin dashb_info_label(info, state)
+  case info
+    when 'next'
+      | &nbsp;
+      span.label.label-info= state.next
 
-mixin dashb_badge(name, trials)
+mixin dashb_count_badge(name, trials)
   case name
     when 'knowledge_check'
     when 'demo'

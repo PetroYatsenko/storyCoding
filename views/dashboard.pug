@@ -2,6 +2,12 @@ extends layout
 
 include mixins
 
+block scripts
+  script.
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip(); 
+    });
+
 block content
   h1 #{state.title}
   br
@@ -14,25 +20,28 @@ block content
   .container
     h2 #{state.dash_title}
     p
+    - var enable_next = false
     each chapter, index in chapters
       .panel-group
         .panel.panel-default
           .panel-heading 
             h4.panel-title.text-uppercase
               a(data-toggle="collapse" href="#collapse" + index) #{state[chapter]}
-              span.badge #{state.trials}
+                span.badge(data-toggle="tooltip" data-placement="top" title= state.tooltip.trials) #{state.trials}
           div.panel-collapse.collapse(id="collapse" + index class= chapter === curr_chapter ? "in" : "")
-            .list-group
+            .list-group          
               each val in lesson_data
                 if val.chapter === chapter
-                  if val.passed !== 0 || val.name === 'demo'
+                  if val.passed !== 0 || val.name === 'demo' || enable_next
                     a.list-group-item(href="/lessons/" + val.name + "/" + val.subj target='_blank') #{val[lang].name}  &nbsp;
-                      +dashb_label(val.name, val[lang].subname)
-                      +dashb_badge(val.name, val.passed)
+                      +dashb_subj_label(val.name, val[lang].subname)
+                      +dashb_info_label(val.info, state)
+                      +dashb_count_badge(val.name, val.passed)
+                      - enable_next = enable_next === false ? true : false;
                   else    
                     p.list-group-item.bg-secondary #{val[lang].name}  &nbsp;
-                      +dashb_label(val.name, val[lang].subname)
-                      +dashb_badge(val.name, val.passed)
+                      +dashb_subj_label(val.name, val[lang].subname)
+                      +dashb_count_badge(val.name, val.passed)
     h2 #{state.diploma}
     .panel-group          
       .panel.panel-default
