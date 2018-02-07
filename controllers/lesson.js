@@ -96,37 +96,40 @@ exports.dashboard = (req, res, next) => {
       stories: 'історій: ',
       dash_title: 'Вивчаємо з монстрами...',
       test: 'Закріпляємо навички',
+      demo: 'Як це працює?',
       vars: 'Змінні',
       cond: 'Умови',
       loop: 'Цикли',
       func: 'Функції',
-      trials: 'Монстри',
+      trials: 'Твої історії',
       tooltip: {
-        trials: 'Монстри, задіяні у твоїх історіях'
+        trials: 'Кількість твоїх історій з монстрами'
       },
       diploma: 'Отримай диплом',
-      next: 'Зараз'
+      next: 'На черзі' // or @Наступне@, @на черзі@
     }
   }
   // TODO -- wether move it somewhere?
-  var chapters = ['vars', 'cond', 'loop', 'func'];
+  var chapters = ['demo', 'vars', 'cond', 'loop', 'func'];
   
   Promise.all([
     UserStory.aggregate([
       {$match: {userId: req.user.id}}, 
       {$group: {_id: '$lesson', count: {$sum: 1}}}]),
     Lesson.find(lesson, param).sort({number: 1}),
-    Lesson.count({enabled: true})
+    Lesson.count({enabled: true, chapter: {$ne: 'demo'}})
   ]).spread(function(userStories, lessons, max_steps) {
     // Grab passed and new lessons into one array of objects with PASSED property
     // Understand this piece of code!
-    var passed;
-    var lsn_data = lessons.map(function(lsn) {
+    var user_stories;
+    var ind = [];
+    var lsn_data = lessons.map(function(lsn, index) {
       for (let i = 0; i < userStories.length; i++) {
         if (lsn.name === userStories[i]._id) {
-          passed = userStories[i].count;
+          ind.push(index);
+          user_stories = userStories[i].count;
           break;
-        } else { passed = 0;}
+        } else { user_stories = 0;}
       }
       
       return {
@@ -134,23 +137,26 @@ exports.dashboard = (req, res, next) => {
         subj: lsn.subj,
         name: lsn.name,
         chapter: lsn.chapter,
-        passed: passed
+        user_stories: user_stories
       };
     });
-      
-//    console.log(lsn_data);
     
+    console.log(max_steps);
+    console.log(userStories);
+    console.log();
+    var passed = userStories.length; 
+    var progress = passed * 100 /  max_steps;
+            
     res.render('dashboard', {      
       min_val: 0,
-      max_val: 100,     
-      progress: 40,      
-      passed: 5,
+      max_val: max_steps,     
+      progress: progress,      
+      passed: passed,
       curr_chapter: 'vars', // TODO change according to the last passed story chapter
       state: strings[state],
       lang: state,
       chapters: chapters,
-      lesson_data: lsn_data,
-      max_steps: max_steps 
+      lesson_data: lsn_data
     });
   });
 };
