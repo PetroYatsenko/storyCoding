@@ -142,13 +142,33 @@ exports.dashboard = (req, res, next) => {
     // Calculate the passed steps procentage 
     // (takes into account the knowledge checks too)
     var passed = userStories.length;
-            
+    
+    // Get current step's chapter
+    // Completely the same I`m using in the dashboard.pug
+    var curr_chapter;
+    var enable_new = false;
+    var counter = 0;
+    
+    chapters.forEach(function(chapter, i) {
+      lsn_data.forEach(function(story, j) {
+        if (chapter === story.chapter) {
+          if (story.user_stories > 0 || story.name === 'demo' || enable_new ) {
+            curr_chapter = chapter;
+            if (story.name !== 'demo') {
+              counter++;
+              enable_new = counter === passed ? true : false;          
+            }
+          }
+        }
+      });
+    });
+    
     res.render('dashboard', {      
       min_val: 0,
       max_val: max_steps,     
       progress: passed * 100 /  max_steps,      
       passed: passed,
-      curr_chapter: lsn_data[passed].chapter,
+      curr_chapter: curr_chapter,
       state: strings[state],
       lang: state,
       chapters: chapters,
