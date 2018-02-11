@@ -46,6 +46,7 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
+//TODO: remove on production
 console.log(process.env.MONGODB_URI);
 
 /**
@@ -55,6 +56,15 @@ app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+// TODO language support
+app.use(function(req, res, next){
+  res.locals = {
+    lang: 'uk',
+    siteTitle: "Чудова проза" //TODO move to the lang table
+  }
+  next();
+});
+
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),

@@ -6,10 +6,6 @@ const Lesson = require('../models/Lesson');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 
-var lang = 'uk';//TODO lang support
-var state = 'state_' + lang; 
-var items = 'items_' + lang;
-
 exports.tutorial = (req, res, next) => {
   res.render('13_stories/tutorial', {
     title: 'Як побудовані наші уроки', //TODO
@@ -24,6 +20,8 @@ exports.lesson = (req, res, next) => {
   req.session.story_name = req.params.monster;
   req.session.subject = req.params.subj;
   
+  var state = 'state_' + res.locals.lang; 
+  var items = 'items_' + res.locals.lang;  
   var query = {
     story: req.session.story_name, 
     type: 'lesson'
@@ -57,6 +55,8 @@ exports.lesson = (req, res, next) => {
 };
 
 exports.explanation = (req, res, next) => {
+  var state = 'state_' + res.locals.lang; 
+  var items = 'items_' + res.locals.lang;
   var query = {
     story: req.session.story_name, 
     type: 'explanation'
@@ -76,7 +76,8 @@ exports.explanation = (req, res, next) => {
   });
 };
 
-exports.dashboard = (req, res, next) => {  
+exports.dashboard = (req, res, next) => {
+  var state = 'state_' + res.locals.lang;
   var lesson = {
     enabled: true
   };

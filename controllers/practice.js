@@ -6,10 +6,6 @@ const UserStory = require('../models/UserStory');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 
-var lang = 'uk';//TODO lang support
-var state = 'state_' + lang; 
-var items = 'items_' + lang;
-
 exports.getMonstersCollection = (req, res, next) => {
   var qm = {_id: 0};  //TODO select just a nesessary info  
   var sn = req.session.story_name;
@@ -37,7 +33,7 @@ exports.getMonstersCollection = (req, res, next) => {
     res.render('13_stories/select_heroes', {
       title: 'Вибери монстра',
       zoo: zoo,
-      state: state,
+      state: 'state_' + res.locals.lang,
       msg: 'Доступний у преміум акаунті.', //TODO - get from messages table + lang support + Доступний в наступних історіях.
       nextStep: genFunc.getNextPath('heroes'), // TODO - move story.type to DB        
       // TODO: messages table + lang support
@@ -50,6 +46,8 @@ exports.getStoryBuilder = (req, res, next) => {
   req.sanitize('mr');
   //TODO figure out sanitization  
   var mr = req.query.mr;
+  var state = 'state_' + res.locals.lang; 
+  var items = 'items_' + res.locals.lang;
   var query = {
     story: mr, 
     type: 'practice',
