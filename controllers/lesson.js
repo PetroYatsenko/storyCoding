@@ -95,19 +95,20 @@ exports.dashboard = (req, res, next) => {
     state_uk: {
       title: 'Твій прогрес',
       stories: 'історій: ',
-      dash_title: 'Вивчаємо з монстрами...',
+      dash_title: 'Пишемо з монстрами',
       test: 'Закріпляємо навички',
       demo: 'Як це працює?',
       vars: 'Змінні',
       cond: 'Умови',
       loop: 'Цикли',
       func: 'Функції',
-      trials: 'Твої історії',
+      trials: 'Історії',
       tooltip: {
         trials: 'Кількість твоїх історій з монстрами. Чим ближче до кінця курсу, тим більше історій можна написати.'
       },
       diploma: 'Отримай диплом',
-      next: 'Продовжуй >>' // or @Наступне@, @на черзі@
+      start: 'Розпочни!',
+      next: '>>'
     }
   }
   // TODO -- wether move it somewhere?
@@ -122,7 +123,7 @@ exports.dashboard = (req, res, next) => {
   ]).spread(function(userStories, lessons, max_steps) {
     // Grab passed and new lessons into one array of objects
     // TODO: understand this piece of code :)
-    var user_stories;
+    var user_stories = 0;
     var lsn_data = lessons.map(function(lsn, index) {
       for (let i = 0; i < userStories.length; i++) {
         if (lsn.name === userStories[i]._id) {
@@ -146,19 +147,20 @@ exports.dashboard = (req, res, next) => {
     
     // Get current step's chapter
     // Completely the same I`m using in the dashboard.pug
+    // TODO: find out the better way to know a current chapter
     var curr_chapter;
     var enable_new = false;
     var counter = 0;
     
-    chapters.forEach(function(chapter, i) {
-      lsn_data.forEach(function(story, j) {
+    chapters.forEach(function(chapter) {
+      lsn_data.forEach(function(story) {
         if (chapter === story.chapter) {
           if (story.user_stories > 0 || story.name === 'demo' || enable_new ) {
             curr_chapter = chapter;
             if (story.name !== 'demo') {
               counter++;
-              enable_new = counter === passed ? true : false;          
             }
+            enable_new = counter === passed ? true : false;
           }
         }
       });

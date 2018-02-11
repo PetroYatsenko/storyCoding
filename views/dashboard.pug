@@ -16,11 +16,11 @@ block content
       role="progressbar" aria-valuenow= progress aria-valuemin= min_val 
       aria-valuemax= max_val style="width:" + progress + "%" 
     )
-      span #{state.stories + passed}
+      span #{progress + '%'}
   .container
     h2 #{state.dash_title}
     p
-    - var enable_new = false;
+    - var next_step = false;
     - var counter = 0;
     each chapter, index in chapters
       .panel-group
@@ -34,14 +34,14 @@ block content
             .list-group          
               each val in lesson_data
                 if val.chapter === chapter
-                  if val.user_stories !== 0 || val.name === 'demo' || enable_new
+                  if val.user_stories > 0 || val.name === 'demo' || next_step
                     a.list-group-item(href="/lessons/" + val.name + "/" + val.subj target='_blank') #{val[lang].name}  &nbsp;
-                      +dashb_subj_label(val.name, val[lang].subname)                      
-                      +dashb_info_label(enable_new, state)
-                      +dashb_count_badge(val.name, val.user_stories)                      
+                      +dashb_subj_label(val.name, val[lang].subname)
                       if val.name !== 'demo'
                         - counter++;
-                      - enable_new = counter === passed ? true : false;  
+                        +dashb_next_label(next_step, state, passed)
+                      +dashb_count_badge(val.name, val.user_stories)
+                      - next_step = counter === passed ? true : false;  
                   else    
                     p.list-group-item.bg-secondary #{val[lang].name}  &nbsp;
                       +dashb_subj_label(val.name, val[lang].subname)

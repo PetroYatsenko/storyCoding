@@ -10,11 +10,13 @@ mixin dashb_subj_label(name, subname)
     default
       span.label.label-success #{subname}
       
-mixin dashb_info_label(next, state)
-  case next
-    when true
-      | &nbsp;
-      span.label.label-info= state.next
+mixin dashb_next_label(next, state, passed)
+  if passed > 0 && next
+    | &nbsp;
+    span.label.label-info= state.next
+  else if next
+    | &nbsp;
+    span.label.label-info= state.start
 
 mixin dashb_count_badge(name, trials)
   case name
