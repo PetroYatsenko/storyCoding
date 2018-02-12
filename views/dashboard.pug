@@ -50,14 +50,16 @@ block content
     .panel-group          
       .panel.panel-default
         .panel-heading 
-          h4.panel-title.text-uppercase
-            a(data-toggle="collapse" href="#collapse5") Пройти
+          h4.panel-title.text-uppercase(data-toggle="tooltip" data-placement="top" title= state.tooltip.diploma_story)
+            a(data-toggle="collapse" href="#collapse5") #{state.diploma_story}
         div#collapse5.panel-collapse.collapse
           .list-group
-            p.list-group-item Тести доступні у 
-              a(href='/#prices' target='_blank') 
-                strong Просунутому та Преміум 
-              | акаунтах.
-          
-              
-        
+            if user_acc === 'basic'
+              p.list-group-item #{state.diploma_story_avail} 
+                a(href='/#prices' target='_blank')  
+                  strong= state.accounts
+                span= state.acc
+            else if passed !== max_val
+              p.list-group-item.bg-secondary #{state.diploma_story_disabled}
+            else if passed === max_val 
+              a.list-group-item(href="/lessons/diploma/story" target='_blank') #{state.get_diploma}

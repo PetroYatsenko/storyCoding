@@ -60,7 +60,8 @@ app.set('view engine', 'pug');
 app.use(function(req, res, next){
   res.locals = {
     lang: 'uk',
-    siteTitle: "Чудова проза" //TODO move to the lang table
+    siteTitle: "Чудова проза", //TODO move to the lang table
+    course_id: 'storycoding'
   }
   next();
 });

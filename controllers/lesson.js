@@ -104,11 +104,18 @@ exports.dashboard = (req, res, next) => {
       func: 'Функції',
       trials: 'Історії',
       tooltip: {
-        trials: 'Кількість твоїх історій з монстрами. Чим ближче до кінця курсу, тим більше історій можна написати.'
+        trials: 'Кількість твоїх історій з монстрами. Чим ближче до кінця курсу, тим більше історій можна написати.',
+        diploma_story: 'Дипломна історія містить змінні, функції, цикл та умову.',
       },
       diploma: 'Отримай диплом',
       start: 'Розпочни!',
-      next: '>>'
+      next: '>>',
+      diploma_story: 'Дипломна історія',
+      diploma_story_avail: 'Доступна у',
+      accounts: 'Просунутому та преміум ',
+      acc: 'акаунтах',
+      diploma_story_disabled: 'Спочатку пройди всі страшні історії!',
+      get_diploma: 'Напиши фінальну історію та отримай диплом!'
     }
   }
   // TODO -- wether move it somewhere?
@@ -175,7 +182,8 @@ exports.dashboard = (req, res, next) => {
       state: strings[state],
       lang: state,
       chapters: chapters,
-      lesson_data: lsn_data
+      lesson_data: lsn_data,
+      user_acc: req.user.classes[res.locals.course_id].account
     });
   });
 };
