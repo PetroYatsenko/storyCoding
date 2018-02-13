@@ -11,7 +11,7 @@ block scripts
   script(src='/js/arrange.js')
   
 block content
-  h2= title
+  h2= strings.title
     | &nbsp;
     span.label.label-info= subject  
   .container
@@ -23,19 +23,19 @@ block content
     .col-sm-9
       .raw.text-center
         .col-sm-12
-          h3= you_can
+          h3= strings.you_can
           .btn-group
-            button.btn.btn-success.btn-lg(type='button' id='pdf' title= pdf) 
+            button.btn.btn-success.btn-lg(type='button' id='pdf' title= strings.pdf) 
               i.fa.fa-file-pdf-o
-            button.btn.btn-success.btn-lg(type='button' id='print' title= print) 
+            button.btn.btn-success.btn-lg(type='button' id='print' title= strings.print) 
               i.fa.fa-print
-            button.btn.btn-success.btn-lg(type='button' id='dload' title= dload) 
+            button.btn.btn-success.btn-lg(type='button' id='dload' title= strings.dload) 
               i.fa.fa-download
           | &nbsp;    
           .btn-group
-            button.btn.btn-info.btn-lg(type='button' id='edit' title= edit)
+            button.btn.btn-info.btn-lg(type='button' id='edit' title= strings.edit)
               i.fa.fa-pencil-square-o
-            button.btn.btn-primary.btn-lg(type='button' id='record' title= complete)
+            button.btn.btn-primary.btn-lg(type='button' id='record' title= strings.complete)
               i.fa.fa-floppy-o
       .raw
         .col-sm-12

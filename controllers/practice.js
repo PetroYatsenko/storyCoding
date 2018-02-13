@@ -98,30 +98,37 @@ exports.getStoryBuilder = (req, res, next) => {
   });
 };
 
-exports.arrangeStory = (req, res, next) => {
-  // TODO lang support
+exports.arrangeStory = (req, res, next) => {  
   var state = 'state_' + res.locals.lang;
   var query = {name: req.session.story_name, enabled: true};  
   var param = {_id: 0};
   param[state] = 1;
+  // TODO -- to the lang table
+  var strings = {};
+  strings[state] = {
+    title: 'Майже готово',
+    story_title: 'Ти і ',
+    edit: 'Редагувати',
+    print: 'Друкувати',
+    pdf: 'Згенерувати .pdf файл',
+    dload: 'Завантажити',
+    complete: 'Зберегти',
+    you_can: 'Ти можеш',
+    author: 'Автор історії '
+  };
           
   Lesson.findOne(query, param).then(function(lesson) {
     res.render('13_stories/arrange_story', {
-      title: 'Майже готово',
-      story_title: 'Ти і ' + lesson[state].name,
+      story_title: strings[state].story_title + lesson[state].name,
+      subject: lesson[state].subname,
       watermark: JSON.stringify(res.locals.course_name + '\n' + lesson[state].subname),
-      edit: 'Редагувати',
-      print: 'Друкувати',
-      pdf: 'Згенерувати .pdf файл',
-      dload: 'Завантажити',
-      complete: 'Зберегти',
-      you_can: 'Ти можеш',
       next_path: genFunc.getNextPath('arrange'), // TODO get story.type from DB
       save_path: JSON.stringify('/practice/story_builder/save'), //TODO
       credentials: JSON.stringify(
-        'Автор історії ' + req.user.profile.name.toUpperCase() + '\n' + 
+        strings[state].author + req.user.profile.name.toUpperCase() + '\n' + 
         res.locals.siteTitle + ':' + res.locals.url
-      )
+      ),
+      strings: strings[state]
     });
   });
 };
