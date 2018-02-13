@@ -15,10 +15,9 @@ exports.getMonstersCollection = (req, res, next) => {
   //  case basic
   //  case advanced
   //  case premium
-  var available = {practice: 1, _id: 0};
   
   Promise.all([
-    Lesson.findOne({name: sn}, available),
+    Lesson.findOne({name: sn, enabled: true}, {practice: 1, _id: 0}),
     Monster.find({}, qm)
   ]).spread(function(awake, zoo) {
     // Mark monsters unavailable for this practice
@@ -78,19 +77,19 @@ exports.getStoryBuilder = (req, res, next) => {
       story[state].task[i] = genFunc.replacePlaceholders(replace, story[state].task[i]);
     }    
     res.render('13_stories/story_builder', {
-      title: story[state].title + monster.name_uk,
-      you_can: story[state].you_can, //TODO take from db + lang support
-      monster_img: monster.monster,
+      title: story[state].title + monster[state].name,
+      you_can: story[state].you_can,
+      img1: story[state].img1,
       story_items: story[items],
       h1_act: story[state].h1,
       h2_act: story[state].h2,
       h3_act: story[state].h3,
       h4_act: story[state].h4,
-      img2: story[state].img2,
+      img2: story[state].img2,      
+      img2_t: story[state].img2_t,
       smb_can: story[state].smb_can,
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       write_here: story[state].write,
-      counter: story[state].counter,
       next_path: genFunc.getNextPath(story.type),
       next_btn: JSON.stringify('h4'), //TODO Move to DB(?)
       task: story[state].task,
@@ -99,27 +98,37 @@ exports.getStoryBuilder = (req, res, next) => {
   });
 };
 
-exports.arrangeStory = (req, res, next) => { 
-  
-  res.render('13_stories/arrange_story', {
-    title: 'Майже готово',
-    story_title: 'Ти і ' + req.session.story_name,
-    subject: req.session.subject,
-    
-    edit: 'Редагувати',
-    print: 'Друкувати',
-    pdf: 'Згенерувати .pdf файл',
-    dload: 'Завантажити',
-    complete: 'Зберегти',
-    you_can: 'Ти можеш',
-    next_path: genFunc.getNextPath('arrange'), // TODO get story.type from DB
-    save_path: JSON.stringify('/practice/story_builder/save'), //TODO
+exports.arrangeStory = (req, res, next) => {
+  // TODO lang support
+  var state = 'state_' + res.locals.lang;
+  var query = {name: req.session.story_name, enabled: true};  
+  var param = {_id: 0};
+  param[state] = 1;
+          
+  Lesson.findOne(query, param).then(function(lesson) {
+    res.render('13_stories/arrange_story', {
+      title: 'Майже готово',
+      story_title: 'Ти і ' + lesson[state].name,
+      watermark: JSON.stringify(res.locals.course_name + '\n' + lesson[state].subname),
+      edit: 'Редагувати',
+      print: 'Друкувати',
+      pdf: 'Згенерувати .pdf файл',
+      dload: 'Завантажити',
+      complete: 'Зберегти',
+      you_can: 'Ти можеш',
+      next_path: genFunc.getNextPath('arrange'), // TODO get story.type from DB
+      save_path: JSON.stringify('/practice/story_builder/save'), //TODO
+      credentials: JSON.stringify(
+        'Автор історії ' + req.user.profile.name.toUpperCase() + '\n' + 
+        res.locals.siteTitle + ':' + res.locals.url
+      )
+    });
   });
 };
 
 exports.saveStory = (req, res, next) => {
   req.sanitize('story');
-  //var message = 'msgs_' + lang; // TODO lang support
+  // TODO lang support
   var message = 'Вітаємо! Твоя історія успішно записана!';
   var query = {
     lesson: req.session.story_name,

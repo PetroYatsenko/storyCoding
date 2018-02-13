@@ -61,7 +61,9 @@ app.use(function(req, res, next){
   res.locals = {
     lang: 'uk',
     siteTitle: "Чудова проза", //TODO move to the lang table
-    course_id: 'storycoding'
+    course_id: 'storycoding',
+    course_name: 'Програмуємо... страшні історії!', //TODO pass to the home page too
+    url: 'www.greatprose.com'
   }
   next();
 });

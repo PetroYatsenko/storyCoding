@@ -50,14 +50,14 @@ window.addEventListener("DOMContentLoaded", function(event) {
     var doc = {};    
     var dataURL;
     var img = new Image();    
-    img.src = '/images/practice/monsters_small/' + sessionStorage.mr + '.png';
+    img.src = '/images/practice/monsters_small/' + sessionStorage.mr + '.png'; //TODO
     myStory = JSON.parse(sessionStorage.story);
     
     doc = {
       pageSize: 'A4',
       pageMargins: [ 40, 60, 40, 60 ], // left, top, right, bottom
       background: {
-        text: 'Кодити з історіями.\n Вивчаємо цикли.', //TODO
+        text: watermark,
         style: 'back'
       },
       styles: {
@@ -81,11 +81,10 @@ window.addEventListener("DOMContentLoaded", function(event) {
           alignment: 'left',
           margin: [0, 0, 0, 20]
         },
-        loop: {
+        sign: {
           fontSize: 16,
           color: '#0074c1',
-          alignment: 'left',
-          margin: [0, 0, 0, 20]
+          alignment: 'right'
         }
       },
       content: [
@@ -100,6 +99,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
       for (let i = 0; i < myStory.length; i++) {
         doc.content.push({text: myStory[i], style: 'para'});
       };
+      doc.content.push({text: credentials, style: 'sign'});
       
       switch(e.data.action) {
         case 'pdf':

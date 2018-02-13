@@ -13,12 +13,13 @@ block scripts
 block content
   h2= title
     | &nbsp;
-    span.label.label-info= subject
+    span.label.label-info.text-lowercase= subject
   .container
     .col-sm-4.text-center
-      img#img1(src='/images/practice/monsters_large/' + monster_img + '.png')
-      h3= counter
-      img#img2(src='/images/theory/loops/' + img2 + '.png')
+      h3= img1_t
+      img#img1(src= img1)
+      h3= img2_t
+      img#img2(src= img2)
     .col-sm-8
       .raw.text-center
         .col-sm-3
