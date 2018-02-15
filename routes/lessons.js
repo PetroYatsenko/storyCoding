@@ -11,6 +11,6 @@ router.get('/demo/story', passportConfig.isAuthenticated, lessonController.tutor
 router.get('/demo/practice', passportConfig.isAuthenticated, lessonController.tutorial);
 
 /* Get user`s lesson */
-router.get('/:monster/:subj', passportConfig.isAuthenticated, lessonController.lesson);
+router.get('/:story/:subj', passportConfig.isAuthenticated, lessonController.lesson);
 
 module.exports = router;

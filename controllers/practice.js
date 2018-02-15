@@ -47,11 +47,17 @@ exports.getStoryBuilder = (req, res, next) => {
   var mr = req.query.mr;
   var state = 'state_' + res.locals.lang; 
   var items = 'items_' + res.locals.lang;
-  var query = {
-    story: mr, 
+  var queryStory = {
+    story: req.session.story_name,
+    hero: mr, 
     type: 'practice',
-    subject: req.session.subject
-  };  
+  };
+  // For now queryStep is equal to queryStory
+  var queryStep = {
+    story: req.session.story_name,
+    hero: mr, 
+    type: 'practice', 
+  };
   
   var trials = 'чотирьох кроків'; //TODO 
   var replace = { //TODO get from a query from the separate db document
@@ -65,8 +71,8 @@ exports.getStoryBuilder = (req, res, next) => {
   };
     
   Promise.all([
-    Step.findOne(query),
-    Story.findOne(query),
+    Step.findOne(queryStep),
+    Story.findOne(queryStory),
     Monster.findOne({monster: mr})
   ]).spread(function(steps, story, monster) {
     // Replace placeholders
@@ -122,7 +128,7 @@ exports.arrangeStory = (req, res, next) => {
       story_title: strings[state].story_title + lesson[state].name,
       subject: lesson[state].subname,
       watermark: JSON.stringify(res.locals.course_name + '\n' + lesson[state].subname),
-      next_path: genFunc.getNextPath('arrange'), // TODO get story.type from DB
+      next_path: genFunc.getNextPath('dashboard'), // TODO get story.type from DB
       save_path: JSON.stringify('/practice/story_builder/save'), //TODO
       credentials: JSON.stringify(
         strings[state].author + req.user.profile.name.toUpperCase() + '\n' + 
