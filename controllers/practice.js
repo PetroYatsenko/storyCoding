@@ -7,36 +7,75 @@ const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 
 exports.getMonstersCollection = (req, res, next) => {
-  var qm = {_id: 0};  //TODO select just a nesessary info  
   var sn = req.session.story_name;
-  //TODO check for account type (basic, advanced, premium)
-  // and grab available monsters only
-  //  switch req.session.acc_type
-  //  case basic
-  //  case advanced
-  //  case premium
+  const user_account = req.user.classes[res.locals.course_id].account;
   
   Promise.all([
-    Lesson.findOne({name: sn, enabled: true}, {practice: 1, _id: 0}),
-    Monster.find({}, qm)
-  ]).spread(function(awake, zoo) {
-    // Mark monsters unavailable for this practice
-    for (let key in zoo) {
-      if (zoo.hasOwnProperty(key) && zoo[key].enabled) {
-        if (awake.practice.indexOf(zoo[key].monster) === -1) {
-          zoo[key].enabled = false;
+    Lesson.findOne({name: sn, enabled: true}, {monsters: 1, _id: 0}),
+    Monster.find({}, {_id: 0})
+  ]).spread(function(avail, zoo) {    
+    var state = 'state_' + res.locals.lang;
+    var strings = {};
+    // TODO: messages table + lang support 
+    strings[state] = {
+      title: 'Вибери монстра',
+      msg_prem: 'Доступний у преміум акаунті.',
+      msg_adv_prem: 'Доступний у просунутому та преміум акаунтах.',
+      msg_next: 'Доступний в наступних історіях',
+      msg_storage: 'Здається, ваш браузер не підтримує веб-сесії. Будь ласка, встановіть найновішу версію',
+    };
+    
+    var status = 'next';
+    var actor = {};
+    var chosen = avail.monsters[user_account];
+    
+    var podium = zoo.map(function(mr) {
+      if (chosen.indexOf(mr.monster) === -1) {
+        switch(user_account) {
+          case 'premium':
+            status = 'next';
+            break;
+          case 'advanced':
+            if (avail.monsters.premium.indexOf(mr.monster) > 0) {
+              status = 'prem';
+              break;
+            } else { 
+              status = 'next'; 
+              break;
+            }
+          case 'basic':
+            if (avail.monsters.advanced.indexOf(mr.monster) > 0) {
+              status = 'adv_prem';
+              break;
+            } else if (avail.monsters.premium.indexOf(mr.monster) > 0) {
+              status = 'prem';
+              break;
+            } else {
+              status = 'next';
+              break;
+            }
+          default:
+            status = 'next';
         }
-      }  
-    }
+      } else {
+        status = 'enabled';
+      }
+      
+      actor = {
+        monster: mr.monster,
+        status: status,
+        name: mr[state].name,
+        talent: mr[state].talent
+      };
+            
+      return actor;
+    });
     
     res.render('13_stories/select_heroes', {
-      title: 'Вибери монстра',
-      zoo: zoo,
-      state: 'state_' + res.locals.lang,
-      msg: 'Доступний у преміум акаунті.', //TODO - get from messages table + lang support + Доступний в наступних історіях.
-      nextStep: genFunc.getNextPath('heroes'), // TODO - move story.type to DB        
-      // TODO: messages table + lang support
-      noStorage: JSON.stringify('Sorry. Your browser has no web-session support. Please, install a newest browser version.')
+      strings: strings[state],
+      podium: podium,
+      next_step: genFunc.getNextPath('heroes'),
+      no_storage: JSON.stringify(strings[state].msg_storage)
     });
   });
 };
