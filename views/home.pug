@@ -91,14 +91,13 @@ block content
     h2 ЗНАЙОМСЯ З НАШИМИ МОНСТРАМИ
     h4 що вони вміють?
     .row.text-center.slideanim
-      each variable in monsters
-        if (variable.enabled)
-          .col-sm-4
-            .thumbnail
-              img(src= '/images/practice/monsters_small/' + variable.monster + '.png' alt= variable.monster)
-              p 
-                strong= variable.name_uk
-              p= variable.talent_uk 
+      each val in monsters
+        .col-sm-4
+          .thumbnail
+            img(src= '/images/practice/monsters_small/' + val.monster + '.png' alt= val.monster)
+            p 
+              strong= val[state].name
+            p= val[state].talent
   h2.text-center Що про нас говорять діти:
   div#myCarousel.carousel.slide.text-center(data-ride="carousel")
     <!-- Indicators -->
@@ -145,11 +144,7 @@ block content
             p 
               strong 3 тести
             p 
-              strong 1 монстр
-            p 
-              strong 
-                Endless 
-              Amet
+              strong 1 монстр       
           .panel-footer
             h3 UAH 0.00
             h4 за місяць
@@ -166,11 +161,7 @@ block content
             p 
               strong 30 тестів
             p 
-              strong 3 монстри
-            p 
-              strong 
-                Endless 
-              Amet
+              strong 3 монстри           
           .panel-footer
             h3 UAH ХХХ
             h4 за півроку
@@ -187,11 +178,7 @@ block content
             p 
               strong 60 тестів
             p 
-              strong 6 монстрів
-            p 
-              strong 
-                Endless 
-              Amet
+              strong 6 монстрів          
           .panel-footer
             h3 UAH YYY
             h4 за рік

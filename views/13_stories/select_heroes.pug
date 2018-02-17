@@ -25,6 +25,12 @@ block content
               +'.png' alt= val.name)
             p 
               strong= val.name
-            p              
-              a(href='/#prices') 
-                strong= strings['msg_' + val.status]
+            case val.status
+              when 'prem'
+              when 'adv_prem'
+                p              
+                  a(href='/#prices') 
+                    strong= strings['msg_' + val.status]
+              when 'next'
+                p 
+                  strong= strings['msg_' + val.status]
