@@ -1,11 +1,13 @@
 const Monster = require('../models/Monster');
 
 exports.index = (req, res) => {
+  var query = {enabled: true};
+  var q_param = {enabled: 0, _id: 0};
   var state = 'state_' + res.locals.lang; 
   
-  Monster.find({enabled: true}, {enabled: 0, _id: 0}).then(function(monsters) {
+  Monster.find(query, q_param).then(function(monsters) {
     res.render('home', {
-      title: 'Home',
+      title: 'Home', // TODO
       state: state,
       monsters: monsters
     });
