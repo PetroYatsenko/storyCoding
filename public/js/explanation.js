@@ -1,8 +1,7 @@
 window.addEventListener("DOMContentLoaded", function(event) {
-  var nextButton = 'go';
-  var go = document.getElementById(nextButton);
+  var next = document.getElementById(nextBtn);
   
-  go.onclick = function() {
+  next.onclick = function() {
     window.location.href = nextPath;
   } 
 }, false);

@@ -25,31 +25,29 @@ exports.lesson = (req, res, next) => {
   var query = {
     story: req.session.story_name, 
     type: 'lesson'
-  }; 
+  };
+  var replace = {
+    bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
+    bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
+    bt3: '<button type="button" class="btn btn-success btn-sm" id="h3">',
+    bt4: '<button type="button" class="btn btn-success btn-sm" id="h4">',
+    bte: '</button>'    
+  };
      
   Promise.all([
     Steps.findOne(query),
     Story.findOne(query)
-  ]).spread(function(steps, story) {
+  ]).spread(function(steps, story) {    
+    for (let i = 0; i < story[items].length; i++) {
+      story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
+    }
+    
     res.render('13_stories/lesson', { 
-      title: story[state].title,
-      subject: story[state].subject,
-      h1: story[state].h1,
-      h1_act: story[state].h1_act,
-      h2: story[state].h2,
-      h2_act: story[state].h2_act,
-      h3: story[state].h3,
-      h3_act: story[state].h3_act,
-      h4: story[state].h4,
-      h4_act: story[state].h4_act,
-      img1_t: story[state].img1_t,
-      img2_t: story[state].img2_t,        
-      img1: story[state].img1,
-      img2: story[state].img2,
+      strings: story[state],
       story_items: story[items],     
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       next_path: genFunc.getNextPath(story.type),
-      next_btn: JSON.stringify('h4') //TODO move to DB (see practice too)
+      next_btn: 'next' //TODO genFunc.getNextPath(story.type)
     });
   });
 };
@@ -65,13 +63,10 @@ exports.explanation = (req, res, next) => {
   Story.findOne(query).then(function(d) {
     res.render('13_stories/explanation', {
       img: d.img,
-      img_txt: d[state].img_txt,
-      title: d[state].title,
+      strings: d[state],
       expl_items: d[items],
-      you_can: d[state].you_can,
-      your_act: d[state].your_act,
-      subject: d[state].subject,
       next_path: genFunc.getNextPath(d.type),
+      next_btn: 'next' //TODO genFunc.getNextPath(story.type)
     });  
   });
 };

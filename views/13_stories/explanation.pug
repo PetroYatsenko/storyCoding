@@ -2,26 +2,22 @@ extends ../layout
 
 block scripts
   script.
-    var nextPath = !{next_path}  
+    var nextPath = !{next_path}
+    var nextBtn = !{JSON.stringify(next_btn)}
   script(src='/js/explanation.js')   
 
 block content
-  h2= title
-    | &nbsp;
-    span.label.label-info= subject
+  h2= strings.title
+  h2.span.label.label-info= strings.subject
   .container-fluid
     .raw
-      .col-sm-6
-        img#img1(src= img)        
-      .col-sm-6
-        p.story_text.visible 
-          strong= img_txt
-        hr
-        h3= you_can
-        button.btn.btn-info.btn-lg(type='button' id='go') !{your_act}
-    .raw    
-      .col-sm-12
+      .col-sm-4
+        img#img1(src= img)
+      .col-sm-8
         hr
         each val, index in expl_items
           p.story_text.visible !{val}
+        div.text-right  
+          button.btn.btn-info.btn-sm(type='button' id= next_btn)
+            |>>>  
         hr
