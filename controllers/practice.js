@@ -19,9 +19,9 @@ exports.getMonstersCollection = (req, res, next) => {
     // TODO: messages table + lang support 
     strings[state] = {
       title: 'Вибери монстра',
-      msg_prem: 'Доступний у преміум акаунті.',
-      msg_adv_prem: 'Доступний у просунутому та преміум акаунтах.',
-      msg_next: 'Доступний в наступних історіях',
+      msg_prem: 'Живе у преміум акаунті.',
+      msg_adv_prem: 'Живе у просунутому та преміум акаунтах.',
+      msg_next: 'Живе в наступних історіях',
       msg_storage: 'Здається, ваш браузер не підтримує веб-сесії. Будь ласка, встановіть найновішу версію',
     };
     
@@ -81,8 +81,8 @@ exports.getMonstersCollection = (req, res, next) => {
 };
 
 exports.getStoryBuilder = (req, res, next) => {
-  req.sanitize('mr');
   //TODO figure out sanitization  
+  req.sanitize('mr');
   var mr = req.query.mr;
   var state = 'state_' + res.locals.lang; 
   var items = 'items_' + res.locals.lang;
@@ -98,15 +98,12 @@ exports.getStoryBuilder = (req, res, next) => {
     type: 'practice', 
   };
   
-  var trials = 'чотирьох кроків'; //TODO 
   var replace = { //TODO get from a query from the separate db document
-    trials: trials,
-    user_type_1: 'один хлопчик', 
-    user_type_2: 'він',
-    user_name: 'Данило',
-    end_1: 'oв',
-    end_2: 'в',
-    end_3: 'вся',
+    bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
+    bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
+    bt3: '<button type="button" class="btn btn-success btn-sm" id="h3">',
+    bt4: '<button type="button" class="btn btn-success btn-sm" id="h4">',
+    bte: '</button>'  
   };
     
   Promise.all([
@@ -117,28 +114,14 @@ exports.getStoryBuilder = (req, res, next) => {
     // Replace placeholders
     for (let i = 0; i < story[items].length; i++) {
       story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
-    }
-    for (let i = 0; i < story[state].task.length; i++) {
-      story[state].task[i] = genFunc.replacePlaceholders(replace, story[state].task[i]);
     }    
     res.render('13_stories/story_builder', {
+      str: story[state],
       title: story[state].title + monster[state].name,
-      you_can: story[state].you_can,
-      img1: story[state].img1,
       story_items: story[items],
-      h1_act: story[state].h1,
-      h2_act: story[state].h2,
-      h3_act: story[state].h3,
-      h4_act: story[state].h4,
-      img2: story[state].img2,      
-      img2_t: story[state].img2_t,
-      smb_can: story[state].smb_can,
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      write_here: story[state].write,
       next_path: genFunc.getNextPath(story.type),
-      next_btn: JSON.stringify('h4'), //TODO Move to DB(?)
-      task: story[state].task,
-      subject: story[state].subject
+      next_btn: 'next',
     });
   });
 };
