@@ -98,7 +98,7 @@ exports.getStoryBuilder = (req, res, next) => {
     type: 'practice', 
   };
   
-  var replace = { //TODO get from a query from the separate db document
+  var replace = { //TODO same values -- move to general functions
     bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
     bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
     bt3: '<button type="button" class="btn btn-success btn-sm" id="h3">',
@@ -135,19 +135,20 @@ exports.arrangeStory = (req, res, next) => {
   var strings = {};
   strings[state] = {
     title: 'Майже готово',
-    story_title: 'Ти і ',
     edit: 'Редагувати',
     print: 'Друкувати',
     pdf: 'Згенерувати .pdf файл',
     dload: 'Завантажити',
     complete: 'Зберегти',
-    you_can: 'Ти можеш',
-    author: 'Автор історії '
+    author: 'Автор історії ',
+    message: 'Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати'
   };
-          
+  // Add info message
+  req.flash('info', { msg: strings[state].message });
+  
   Lesson.findOne(query, param).then(function(lesson) {
     res.render('13_stories/arrange_story', {
-      story_title: strings[state].story_title + lesson[state].name,
+      story_title: lesson[state].name,
       subject: lesson[state].subname,
       watermark: JSON.stringify(res.locals.course_name + '\n' + lesson[state].subname),
       next_path: genFunc.getNextPath('dashboard'), // TODO get story.type from DB
@@ -156,7 +157,7 @@ exports.arrangeStory = (req, res, next) => {
         strings[state].author + req.user.profile.name.toUpperCase() + '\n' + 
         res.locals.siteTitle + ':' + res.locals.url
       ),
-      strings: strings[state]
+      str: strings[state]
     });
   });
 };

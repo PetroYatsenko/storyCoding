@@ -172,7 +172,7 @@ exports.dashboard = (req, res, next) => {
     res.render('dashboard', {      
       min_val: 0,
       max_val: max_steps,     
-      progress: passed * 100 /  max_steps,      
+      progress: Math.round(passed * 100 /  max_steps),      
       passed: passed,
       curr_chapter: curr_chapter,
       state: strings[state],

@@ -11,9 +11,8 @@ block scripts
   script(src='/js/arrange.js')
   
 block content
-  h2= strings.title
-    | &nbsp;
-    span.label.label-info= subject  
+  span.label.label-info.text-lowercase= subject
+  h2= str.title
   .container
     .col-sm-3.text-center
       .thumbnail
@@ -23,19 +22,18 @@ block content
     .col-sm-9
       .raw.text-center
         .col-sm-12
-          h3= strings.you_can
           .btn-group
-            button.btn.btn-success.btn-lg(type='button' id='pdf' title= strings.pdf) 
+            button.btn.btn-success.btn-sm(type='button' id='pdf' title= str.pdf) 
               i.fa.fa-file-pdf-o
-            button.btn.btn-success.btn-lg(type='button' id='print' title= strings.print) 
+            button.btn.btn-success.btn-sm(type='button' id='print' title= str.print) 
               i.fa.fa-print
-            button.btn.btn-success.btn-lg(type='button' id='dload' title= strings.dload) 
+            button.btn.btn-success.btn-sm(type='button' id='dload' title= str.dload) 
               i.fa.fa-download
           | &nbsp;    
           .btn-group
-            button.btn.btn-info.btn-lg(type='button' id='edit' title= strings.edit)
+            button.btn.btn-info.btn-sm(type='button' id='edit' title= str.edit)
               i.fa.fa-pencil-square-o
-            button.btn.btn-primary.btn-lg(type='button' id='record' title= strings.complete)
+            button.btn.btn-primary.btn-sm(type='button' id='record' title= str.complete)
               i.fa.fa-floppy-o
       .raw
         .col-sm-12

@@ -9,6 +9,11 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $story = $('#story');
   var $img = $('#img1');
   
+  var strip = function(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  }
+  
   var arrangeStory = function() {
     $img.attr('src', '/images/practice/monsters_large/' + sessionStorage.mr + '.png')
     myStory = JSON.parse(sessionStorage.story);
@@ -16,7 +21,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     for (let i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
       p.className = 'story_text visible';
-      p.appendChild(document.createTextNode(myStory[i]));
+      p.appendChild(document.createTextNode(strip(myStory[i])));
       notebook.appendChild(p);
     }
   }();
