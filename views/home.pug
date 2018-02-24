@@ -87,46 +87,37 @@ block content
           li переслати на e-mail 
           li поширити у Facebook чи Instagram
           li негайно роздрукувати!
-  .container-fluid.text-center.bg-grey#monsters
-    h2 ЗНАЙОМСЯ З НАШИМИ МОНСТРАМИ
-    h4 що вони вміють?
-    .row.text-center.slideanim
-      each val in monsters
-        .col-sm-4
-          .thumbnail
-            img(src= '/images/practice/monsters_small/' + val.monster + '.png' alt= val.monster)
-            p 
-              strong= val[state].name
-            p= val[state].talent
-  h2.text-center Що про нас говорять діти:
-  div#myCarousel.carousel.slide.text-center(data-ride="carousel")
-    <!-- Indicators -->
-    ol.carousel-indicators
-      li.active(data-target="#myCarousel" data-slide-to="0")
-      li(data-target="#myCarousel" data-slide-to="1")
-      li(data-target="#myCarousel" data-slide-to="2")
-
-    <!-- Wrapper for slides -->
-    div.carousel-inner(role="listbox")
-      .item.active
-        h4 "Чудові історії! Мені було дуже цікаво зрозуміти, як їх писати."
-          br
-          span(style="font-style: normal;") Матвій Яценко, 11 років, Львів
-      .item
-        h4 "Ніколи б не подумала, що програмувння — це так весело!"
-          br
-          span(style="font-style: normal;") Оксана Була, 9 років, Київ
-      .item
-        h4 "Я захотів стати письменником. Тут розкрито їхні секрети."
-          br
-          span(style="font-style:normal;") Андрій Садовий, 49 років, Львів
-    <!-- Left and right controls -->
-    a.left.carousel-control(href="#myCarousel" role="button" data-slide="prev")
-      span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
-      span.sr-only Previous
-    a.right.carousel-control(href="#myCarousel" role="button" data-slide="next")
-      span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-      span.sr-only Next
+  .container#monsters        
+    h2.text-center ЗНАЙОМСЯ З НАШИМИ МОНСТРАМИ
+    div#mrCollection.carousel.slide.text-center(data-ride="carousel")
+      <!-- Indicators -->
+      ol.carousel-indicators
+        each val, ind in monsters
+          if ind === 0
+            li.active(data-target="#mrCollection" data-slide-to= ind)
+          else
+            li(data-target="#mrCollection" data-slide-to= ind)
+      <!-- Wrapper for slides -->
+      div.carousel-inner(role="listbox")
+        - var active;
+        each val, ind in monsters
+          if ind === 0
+            - active = 'active'
+          else
+            - active = ''
+          .item(class= active)
+            div
+              img.img-responsive.center-block(src= '/images/practice/monsters_small/' + val.monster + '.png' alt= val.monster)
+              p 
+                strong= val[state].name
+              p= val[state].talent
+      <!-- Left and right controls -->
+      a.left.carousel-control(href="#mrCollection" role="button" data-slide="prev")
+        span.glyphicon.glyphicon-chevron-left(aria-hidden="true")
+        span.sr-only Previous
+      a.right.carousel-control(href="#mrCollection" role="button" data-slide="next")
+        span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
+        span.sr-only Next
   .container-fluid#prices
     .text-center
       h2 Ціни
