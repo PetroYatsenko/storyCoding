@@ -18,7 +18,7 @@ exports.getMonstersCollection = (req, res, next) => {
     var strings = {};
     // TODO: messages table + lang support 
     strings[state] = {
-      title: 'Вибери монстра',
+      title: 'Доступні монстри',
       msg_prem: 'Живе у преміум акаунті.',
       msg_adv_prem: 'Живе у просунутому та преміум акаунтах.',
       msg_next: 'Живе в наступних історіях',

@@ -8,7 +8,7 @@ block scripts
 
 block content
   h1= strings.title  
-  .container-fluid.text-center#zoo
+  .container.text-center#zoo
     .raw  
     each val in podium      
       if (val.status === 'enabled')
@@ -21,19 +21,16 @@ block content
               strong= val.name
             p= val.talent
       else
-        .col-sm-3
-          .thumbnail.bg-secondary
-            img.w3-opacity(
-              src= '/images/practice/monsters_small/' + val.monster 
-              +'.png' alt= val.name)
-            p 
-              strong= val.name
-            case val.status
-              when 'prem'
-              when 'adv_prem'
+        case val.status
+          when 'prem'
+          when 'adv_prem'
+            .col-sm-3
+              .thumbnail.bg-secondary
+                img.w3-opacity(
+                  src= '/images/practice/monsters_small/' + val.monster 
+                  +'.png' alt= val.name)
+                p 
+                  strong= val.name
                 p              
                   a(href='/#prices') 
                     strong= strings['msg_' + val.status]
-              when 'next'
-                p 
-                  strong= strings['msg_' + val.status]
