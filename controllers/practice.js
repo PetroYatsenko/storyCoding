@@ -28,7 +28,7 @@ exports.getMonstersCollection = (req, res, next) => {
     var status = 'next';
     var actor = {};
     var chosen = avail.monsters[user_account];
-    
+    // TODO figure out do we need "next" status at all when no showing all monsters
     var podium = zoo.map(function(mr) {
       if (chosen.indexOf(mr.monster) === -1) {
         switch(user_account) {
@@ -97,8 +97,8 @@ exports.getStoryBuilder = (req, res, next) => {
     hero: mr, 
     type: 'practice', 
   };
-  
-  var replace = { //TODO same values -- move to general functions
+  //TODO same values -- move to general functions
+  var replace = { 
     bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
     bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
     bt3: '<button type="button" class="btn btn-success btn-sm" id="h3">',
@@ -114,7 +114,10 @@ exports.getStoryBuilder = (req, res, next) => {
     // Replace placeholders
     for (let i = 0; i < story[items].length; i++) {
       story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
-    }    
+    } 
+    // Add help message 
+    req.flash('info', {msg: story[state].hint});
+    
     res.render('13_stories/story_builder', {
       str: story[state],
       title: story[state].title + monster[state].name,
@@ -141,21 +144,23 @@ exports.arrangeStory = (req, res, next) => {
     dload: 'Завантажити',
     complete: 'Зберегти',
     author: 'Автор історії ',
-    message: 'Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати'
+    hint: 'Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати'
   };
   // Add info message
-  req.flash('info', { msg: strings[state].message });
+  req.flash('info', {msg: strings[state].hint});
   
   Lesson.findOne(query, param).then(function(lesson) {
     res.render('13_stories/arrange_story', {
       story_title: lesson[state].name,
       subject: lesson[state].subname,
-      watermark: JSON.stringify(res.locals.course_name + '\n' + lesson[state].subname),
+      watermark: JSON.stringify(
+        res.locals.course_name + '\n' + lesson[state].subname + '\n' + 
+        res.locals.siteTitle + ': ' + res.locals.url
+      ),
       next_path: genFunc.getNextPath('dashboard'), // TODO get story.type from DB
       save_path: JSON.stringify('/practice/story_builder/save'), //TODO
-      credentials: JSON.stringify(
-        strings[state].author + req.user.profile.name.toUpperCase() + '\n' + 
-        res.locals.siteTitle + ':' + res.locals.url
+      author: JSON.stringify(
+        strings[state].author + req.user.profile.name.toUpperCase()
       ),
       str: strings[state]
     });
@@ -165,7 +170,7 @@ exports.arrangeStory = (req, res, next) => {
 exports.saveStory = (req, res, next) => {
   req.sanitize('story');
   // TODO lang support
-  var message = 'Вітаємо! Твоя історія успішно записана!';
+  var hint = 'Вітаємо! Твоя історія успішно записана!';
   var query = {
     lesson: req.session.story_name,
     hero: req.body.mr,
@@ -177,8 +182,8 @@ exports.saveStory = (req, res, next) => {
     {story_txt: req.body.story}, 
     {upsert: true}, 
     function(err, doc) {
-      if (err) return res.send(500, { error: err });
-      req.flash('success', { msg: message });
+      if (err) return res.send(500, {error: err});
+      req.flash('success', {msg: hint});
       res.format({
         json: function(){
           res.send({status: 'OK'});

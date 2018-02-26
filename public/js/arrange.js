@@ -60,7 +60,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     
     doc = {
       pageSize: 'A4',
-      pageMargins: [ 40, 60, 40, 60 ], // left, top, right, bottom
+      pageMargins: [40, 60, 40, 60], // left, top, right, bottom
       background: {
         text: watermark,
         style: 'back'
@@ -86,25 +86,26 @@ window.addEventListener("DOMContentLoaded", function(event) {
           alignment: 'left',
           margin: [0, 0, 0, 20]
         },
-        sign: {
+        author: {
           fontSize: 16,
           color: '#0074c1',
-          alignment: 'right'
+          alignment: 'left',          
+          margin: [0, 0, 0, 20]
         }
       },
       content: [
-        {text: sessionStorage.title, style: 'title'}
+        {text: sessionStorage.title.toUpperCase(), style: 'title'},
+        {text: author, style: 'author'},        
       ]
     };
     
     img.onload = function() {
-      dataURL = getBase64Image(img);        
+      dataURL = getBase64Image(img);
       doc.content.push({image: dataURL, style: 'image'});
       // TODO add explanation chapters
       for (let i = 0; i < myStory.length; i++) {
         doc.content.push({text: myStory[i], style: 'para'});
-      };
-      doc.content.push({text: credentials, style: 'sign'});
+      };      
       
       switch(e.data.action) {
         case 'pdf':
