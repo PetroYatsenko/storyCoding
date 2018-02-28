@@ -9,19 +9,14 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $story = $('#story');
   var $img = $('#img1');
   
-  var strip = function(html) {
-    var doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || "";
-  }
-  
   var arrangeStory = function() {
-    $img.attr('src', '/images/practice/monsters_large/' + sessionStorage.mr + '.png')
+    $img.attr('src', '/images/practice/monsters_small/' + sessionStorage.mr + '.png')
     myStory = JSON.parse(sessionStorage.story);
     
     for (let i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
       p.className = 'story_text visible';
-      p.appendChild(document.createTextNode(strip(myStory[i])));
+      p.appendChild(document.createTextNode(myStory[i]));
       notebook.appendChild(p);
     }
   }();
@@ -55,7 +50,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     var doc = {};    
     var dataURL;
     var img = new Image();    
-    img.src = '/images/practice/monsters_small/' + sessionStorage.mr + '.png'; //TODO
+    img.src = '/images/practice/monsters_large/' + sessionStorage.mr + '.png'; //TODO
     myStory = JSON.parse(sessionStorage.story);
     
     doc = {
@@ -84,7 +79,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
         },
         image: {
           alignment: 'left',
-          margin: [0, 0, 0, 20]
+          margin: [0, 0, 0, 20],
         },
         author: {
           fontSize: 16,
@@ -95,13 +90,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
       },
       content: [
         {text: sessionStorage.title.toUpperCase(), style: 'title'},
-        {text: author, style: 'author'},        
+        {text: author, style: 'author'}
       ]
     };
     
     img.onload = function() {
       dataURL = getBase64Image(img);
-      doc.content.push({image: dataURL, style: 'image'});
+      doc.content.push({image: dataURL, width: 250, style: 'image'});
       // TODO add explanation chapters
       for (let i = 0; i < myStory.length; i++) {
         doc.content.push({text: myStory[i], style: 'para'});

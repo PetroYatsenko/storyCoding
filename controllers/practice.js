@@ -97,14 +97,8 @@ exports.getStoryBuilder = (req, res, next) => {
     hero: mr, 
     type: 'practice', 
   };
-  //TODO same values -- move to general functions
-  var replace = { 
-    bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
-    bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
-    bt3: '<button type="button" class="btn btn-success btn-sm" id="h3">',
-    bt4: '<button type="button" class="btn btn-success btn-sm" id="h4">',
-    bte: '</button>'  
-  };
+ 
+  var replace = genFunc.replaceButtonObj;
     
   Promise.all([
     Step.findOne(queryStep),

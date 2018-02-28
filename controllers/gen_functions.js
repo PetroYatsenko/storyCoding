@@ -33,6 +33,19 @@ exports.replacePlaceholders = function(val, str) {
   return parts.join("");
 };
 
-
-
-
+exports.replaceButtonObj = {
+  bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
+  bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
+  bt3: '<button type="button" class="btn btn-success btn-sm" id="h3">',
+  bt4: '<button type="button" class="btn btn-success btn-sm" id="h4">',
+  bt5: '<button type="button" class="btn btn-success btn-sm" id="h5">',
+  bt6: '<button type="button" class="btn btn-success btn-sm" id="h6">',
+  bt7: '<button type="button" class="btn btn-success btn-sm" id="h7">',
+  bt8: '<button type="button" class="btn btn-success btn-sm" id="h8">',
+  bt9: '<button type="button" class="btn btn-success btn-sm" id="h9">',
+  bt10: '<button type="button" class="btn btn-success btn-sm" id="h10">',
+  bt11: '<button type="button" class="btn btn-success btn-sm" id="h11">',
+  bt12: '<button type="button" class="btn btn-success btn-sm" id="h12">',
+  bt13: '<button type="button" class="btn btn-success btn-sm" id="h13">',
+  bte: '</button>'    
+};

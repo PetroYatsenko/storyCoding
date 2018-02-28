@@ -7,11 +7,12 @@ block scripts
   script(src='/js/explanation.js')   
 
 block content
-  span.text-lowercase.label.label-info= strings.subject
-  h2= strings.title
+  span.text-lowercase.label.label-info= str.subject
+  h2= str.title
   .container
     .raw
       .col-sm-4
+        h3= str.img_txt
         img#img1(src= img)
       .col-sm-8
         hr

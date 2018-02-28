@@ -26,13 +26,8 @@ exports.lesson = (req, res, next) => {
     story: req.session.story_name, 
     type: 'lesson'
   };
-  var replace = {
-    bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
-    bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
-    bt3: '<button type="button" class="btn btn-success btn-sm" id="h3">',
-    bt4: '<button type="button" class="btn btn-success btn-sm" id="h4">',
-    bte: '</button>'    
-  };
+  
+  var replace = genFunc.replaceButtonObj;
      
   Promise.all([
     Steps.findOne(query),
@@ -63,7 +58,7 @@ exports.explanation = (req, res, next) => {
   Story.findOne(query).then(function(d) {
     res.render('13_stories/explanation', {
       img: d.img,
-      strings: d[state],
+      str: d[state],
       expl_items: d[items],
       next_path: genFunc.getNextPath(d.type),
       next_btn: 'next' //TODO genFunc.getNextPath(story.type)

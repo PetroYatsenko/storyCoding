@@ -11,6 +11,11 @@ window.addEventListener("DOMContentLoaded", function(event) {
       alert(browserAlert);
     }
   }();
+  
+  var strip = function(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  }
     
   var getStep = function() {
     return current_step;    
@@ -44,9 +49,9 @@ window.addEventListener("DOMContentLoaded", function(event) {
     var storyItem = storyId + getStep();
     var taskItem = taskId + getStep();
     
-    story.push(document.getElementById(storyItem).innerHTML);    
-    story.push(document.getElementById(taskItem).innerHTML);
-    story.push(document.getElementById(textarea).value);
+    story.push(strip(document.getElementById(storyItem).innerHTML));    
+    story.push(strip(document.getElementById(taskItem).innerHTML));
+    story.push(strip(document.getElementById(textarea).value));
   }
   
   var saveStory = function() {
