@@ -11,15 +11,14 @@ block scripts
   script(src='/js/lib/pdfmake/vfs_fonts.js')
   script(src='/js/arrange.js')
   
-block content
-  span.label.label-info.text-lowercase= subject
-  h2= story_title
+block content  
   .container
     .col-sm-3.text-center
       img#img1(src= img_path)
     .col-sm-9
       .raw.text-center
-        .col-sm-12
+        .col-sm-12         
+          h2.text-center= story_title            
           .btn-group
             button.btn.btn-success.btn-sm(type='button' id='pdf' title= str.pdf) 
               i.fa.fa-file-pdf-o

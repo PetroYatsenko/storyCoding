@@ -113,9 +113,11 @@ exports.getStoryBuilder = (req, res, next) => {
     // Add help message 
     req.flash('info', {msg: story[state].hint});
     
+    req.session.new_story_title = monster[state].name + story[state].title;
+    
     res.render('13_stories/story_builder', {
       str: story[state],
-      title: monster[state].name + story[state].title,
+      title: req.session.new_story_title,
       story_items: story[items],
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       next_path: genFunc.getNextPath(story.type),
@@ -152,8 +154,8 @@ exports.arrangeStory = (req, res, next) => {
     var prefix = '/images/practice'; // folder + type. TODO - get from 
     var image = req.session.monster + '_' + lsn.subj + '.png';
     res.render('13_stories/arrange_story', {
-      story_title: lsn[state].name,
-      subject: lsn[state].subname,
+      story_title: req.session.new_story_title,
+      subject: lsn[state].subname, // TODO -- use or not?
       watermark: JSON.stringify(
         res.locals.course_name + '\n' + lsn[state].subname + '\n' + 
         res.locals.siteTitle + ': ' + res.locals.url

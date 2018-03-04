@@ -10,8 +10,7 @@ block scripts
   script(src='/js/narrator.js')
   script(src='/js/builder.js')
   
-block content
-  h2.text-center= title
+block content  
   .container
     .col-sm-4.text-center
       h3= str.img1_t
@@ -19,6 +18,9 @@ block content
       h3= str.img2_t
       img#img2(src= str.img2)
     .col-sm-8
+      h2.text-center= title 
+        | &nbsp; 
+        span.label.label-info.text-lowercase= str.subject
       .raw
         .col-sm-12
           hr
