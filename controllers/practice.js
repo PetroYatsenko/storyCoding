@@ -84,6 +84,7 @@ exports.getStoryBuilder = (req, res, next) => {
   //TODO figure out sanitization  
   req.sanitize('mr');
   var mr = req.query.mr;
+  req.session.monster = mr;
   var state = 'state_' + res.locals.lang; 
   var items = 'items_' + res.locals.lang;
   var queryStory = {
@@ -114,7 +115,7 @@ exports.getStoryBuilder = (req, res, next) => {
     
     res.render('13_stories/story_builder', {
       str: story[state],
-      title: story[state].title + monster[state].name,
+      title: monster[state].name + story[state].title,
       story_items: story[items],
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       next_path: genFunc.getNextPath(story.type),
@@ -126,37 +127,44 @@ exports.getStoryBuilder = (req, res, next) => {
 exports.arrangeStory = (req, res, next) => {  
   var state = 'state_' + res.locals.lang;
   var query = {name: req.session.story_name, enabled: true};  
-  var param = {_id: 0};
-  param[state] = 1;
+  var param = {
+    chapter: 1, 
+    subj: 1, 
+    name: 1, 
+    _id: 0
+  };
+  param[state] = 1;  
   // TODO -- to the lang table
   var strings = {};
   strings[state] = {
-    title: 'Майже готово',
     edit: 'Редагувати',
     print: 'Друкувати',
     pdf: 'Згенерувати .pdf файл',
     dload: 'Завантажити',
     complete: 'Зберегти',
     author: 'Автор історії ',
-    hint: 'Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати'
+    hint: 'Майже готово! Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати'
   };
   // Add info message
   req.flash('info', {msg: strings[state].hint});
   
-  Lesson.findOne(query, param).then(function(lesson) {
+  Lesson.findOne(query, param).then(function(lsn) {
+    var prefix = '/images/practice'; // folder + type. TODO - get from 
+    var image = req.session.monster + '_' + lsn.subj + '.png';
     res.render('13_stories/arrange_story', {
-      story_title: lesson[state].name,
-      subject: lesson[state].subname,
+      story_title: lsn[state].name,
+      subject: lsn[state].subname,
       watermark: JSON.stringify(
-        res.locals.course_name + '\n' + lesson[state].subname + '\n' + 
+        res.locals.course_name + '\n' + lsn[state].subname + '\n' + 
         res.locals.siteTitle + ': ' + res.locals.url
       ),
-      next_path: genFunc.getNextPath('dashboard'), // TODO get story.type from DB
+      next_path: genFunc.getNextPath('dashboard'), // TODO
       save_path: JSON.stringify('/practice/story_builder/save'), //TODO
       author: JSON.stringify(
         strings[state].author + req.user.profile.name.toUpperCase()
       ),
-      str: strings[state]
+      str: strings[state],
+      img_path: genFunc.makeImgPath(prefix, lsn.chapter, lsn.name, image) 
     });
   });
 };

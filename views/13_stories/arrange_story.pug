@@ -6,19 +6,17 @@ block scripts
     var savePath = !{save_path}
     var watermark = !{watermark}
     var author = !{author}
+    var imgPath = !{JSON.stringify(img_path)}
   script(src='/js/lib/pdfmake/pdfmake.min.js')  
   script(src='/js/lib/pdfmake/vfs_fonts.js')
   script(src='/js/arrange.js')
   
 block content
   span.label.label-info.text-lowercase= subject
-  h2= str.title
+  h2= story_title
   .container
     .col-sm-3.text-center
-      .thumbnail
-        img#img1
-        p 
-          h3= story_title
+      img#img1(src= img_path)
     .col-sm-9
       .raw.text-center
         .col-sm-12

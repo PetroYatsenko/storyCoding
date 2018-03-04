@@ -16,12 +16,12 @@ exports.tutorial = (req, res, next) => {
 exports.lesson = (req, res, next) => {
   req.sanitize('story');
   req.sanitize('subj');
-  // Important! Use session story name further
+  var state = 'state_' + res.locals.lang; 
+  var items = 'items_' + res.locals.lang; 
+  // Important! Use session story data further
   req.session.story_name = req.params.story;
   req.session.subject = req.params.subj;
-  
-  var state = 'state_' + res.locals.lang; 
-  var items = 'items_' + res.locals.lang;  
+   
   var query = {
     story: req.session.story_name, 
     type: 'lesson'

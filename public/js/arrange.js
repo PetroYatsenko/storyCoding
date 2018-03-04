@@ -7,10 +7,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $print = $('#print');
   var $dload = $('#dload');
   var $story = $('#story');
-  var $img = $('#img1');
   
   var arrangeStory = function() {
-    $img.attr('src', '/images/practice/monsters_small/' + sessionStorage.mr + '.png')
     myStory = JSON.parse(sessionStorage.story);
     
     for (let i = 0; i < myStory.length; i++) {
@@ -50,7 +48,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     var doc = {};    
     var dataURL;
     var img = new Image();    
-    img.src = '/images/practice/monsters_large/' + sessionStorage.mr + '.png'; //TODO
+    img.src = imgPath;
     myStory = JSON.parse(sessionStorage.story);
     
     doc = {

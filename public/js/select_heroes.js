@@ -1,19 +1,8 @@
 $(document).ready(function() {
   var getCurMonster = function() {    
-    var mr = this.id;
-    saveHero(mr, function() {      
-      window.location.href = nextStep + '?mr=' + mr;
-    });
+    var mr = this.id;    
+    window.location.href = nextStep + '?mr=' + mr;
   }
-  
-  var saveHero = function(mr, callback) {    
-    if (typeof(Storage) !== "undefined") {      
-      sessionStorage.mr = mr;
-      callback();
-    } else {
-       alert(webStorageAlert)
-    }    
-  }  
     
   var addZooEvents = function() {
     var nums = document.getElementById("zoo");

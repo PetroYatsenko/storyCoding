@@ -27,12 +27,14 @@ exports.replacePlaceholders = function(val, str) {
   var replaced = "";
   var parts = str.split(/(\%\w+?\%)/g).map(function(v) {
     replaced = v.replace(/\%/g,"");
+    
     return val[replaced] || replaced; 
   });
 
   return parts.join("");
 };
 
+// TODO
 exports.replaceButtonObj = {
   bt1: '<button type="button" class="btn btn-success btn-sm" id="h1">',
   bt2: '<button type="button" class="btn btn-success btn-sm" id="h2">',
@@ -49,3 +51,7 @@ exports.replaceButtonObj = {
   bt13: '<button type="button" class="btn btn-success btn-sm" id="h13">',
   bte: '</button>'    
 };
+// Makes a path from any number of arguments
+exports.makeImgPath = function() {
+  return Array.from(arguments).join('/'); 
+}; 
