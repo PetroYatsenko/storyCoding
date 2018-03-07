@@ -6,15 +6,16 @@ block scripts
     var nextBtn = !{JSON.stringify(next_btn)}
   script(src='/js/explanation.js')   
 
-block content
-  span.text-lowercase.label.label-info= str.subject
-  h2.text-center= str.title
+block content  
   .container
     .raw
       .col-sm-4
         h3= str.img_txt
         img#img1(src= img)
       .col-sm-8
+        h2.text-center= str.title
+          | &nbsp; 
+          span.label.label-info.text-lowercase= str.subject
         hr
         each val, index in expl_items
           p.story_text.visible !{val}

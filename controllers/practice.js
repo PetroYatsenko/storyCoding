@@ -122,6 +122,7 @@ exports.getStoryBuilder = (req, res, next) => {
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       next_path: genFunc.getNextPath(story.type),
       next_btn: 'next',
+      min_length: 25,
     });
   });
 };
