@@ -105,7 +105,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
           pdfMake.createPdf(doc).open();
           break;  
         case 'dload':
-          pdfMake.createPdf(doc).download(sessionStorage.mr + '.pdf');
+          pdfMake.createPdf(doc).download(sessionStorage.title + '.pdf');
           break;
         case 'print':
           pdfMake.createPdf(doc).print();
