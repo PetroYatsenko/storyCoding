@@ -34,18 +34,18 @@ block content
             .list-group          
               each val in lesson_data
                 if val.chapter === chapter
-                  if val.user_stories > 0 || val.name === 'demo' || next_step
+                  if val.user_stories > 0 || val.subj === 'tutorial' || next_step
                     a.list-group-item(href="/lessons/" + val.name + "/" + val.subj) #{val[lang].name}  &nbsp;
-                      +dashb_subj_label(val.name, val[lang].subname)
-                      if val.name !== 'demo'
+                      +dashb_subj_label(val.subj, val[lang].subname)
+                      if val.subj !== 'tutorial'
                         - counter++;
                         +dashb_next_label(next_step, state, passed)
-                      +dashb_count_badge(val.name, val.user_stories)
+                      +dashb_count_badge(val.subj, val.user_stories)
                       - next_step = counter === passed ? true : false;  
                   else    
                     p.list-group-item.bg-secondary #{val[lang].name}  &nbsp;
-                      +dashb_subj_label(val.name, val[lang].subname)
-                      +dashb_count_badge(val.name, val.user_stories)
+                      +dashb_subj_label(val.subj, val[lang].subname)
+                      +dashb_count_badge(val.subj, val.user_stories)
     h2 #{state.diploma}
     .panel-group          
       .panel.panel-default

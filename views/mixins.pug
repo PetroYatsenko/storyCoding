@@ -1,11 +1,8 @@
-mixin dashb_subj_label(name, subname)
-  case name
-    when 'demo'
+mixin dashb_subj_label(subj, subname)
+  case subj
+    when 'tutorial'
       span.label.label-info #{subname}
-    when 'knowledge_check_vars'
-    when 'knowledge_check_cond'
-    when 'knowledge_check_loop'
-    when 'knowledge_check_func'
+    when 'tests'
       span.label.label-warning #{subname}
     default
       span.label.label-success #{subname}
@@ -18,13 +15,10 @@ mixin dashb_next_label(next, state, passed)
     | &nbsp;
     span.label.label-info= state.start
 
-mixin dashb_count_badge(name, trials)
-  case name
-    when 'knowledge_check_vars'
-    when 'knowledge_check_cond'
-    when 'knowledge_check_loop'
-    when 'knowledge_check_func'
-    when 'demo'
+mixin dashb_count_badge(subj, trials)
+  case subj
+    when 'tests'
+    when 'tutorial'
       | &nbsp;
     default
       span.badge #{trials}
