@@ -41,7 +41,7 @@ exports.postLogin = (req, res, next) => {
     }
     req.logIn(user, (err) => {
       if (err) { return next(err); }
-      req.flash('success', { msg: 'Success! You are logged in.' });
+      req.flash('success', { msg: 'Успіх! Ви залогувалися.' });
       res.redirect('/lessons/dashboard'); //req.session.returnTo || '/'
     });
   })(req, res, next);

@@ -35,7 +35,7 @@ block content
               each val in lesson_data
                 if val.chapter === chapter
                   if val.user_stories > 0 || val.subj === 'tutorial' || next_step
-                    a.list-group-item(href="/lessons/" + val.name + "/" + val.subj) #{val[lang].name}  &nbsp;
+                    a.list-group-item(href= val.subj === 'tests' ? '/practice/tests/' +  val.name : '/lessons/' + val.name + '/' + val.subj) #{val[lang].name}  &nbsp;
                       +dashb_subj_label(val.subj, val[lang].subname)
                       if val.subj !== 'tutorial'
                         - counter++;

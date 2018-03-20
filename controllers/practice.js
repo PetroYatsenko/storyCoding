@@ -2,6 +2,7 @@ const Monster = require('../models/Monster');
 const Lesson = require('../models/Lesson');
 const Step = require('../models/Step');
 const Story = require('../models/Story');
+const Test = require('../models/Test');
 const UserStory = require('../models/UserStory');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
@@ -127,7 +128,7 @@ exports.getStoryBuilder = (req, res, next) => {
   });
 };
 
-exports.arrangeStory = (req, res, next) => {  
+exports.arrangeStory = (req, res, next) => { 
   var state = 'state_' + res.locals.lang;
   var query = {name: req.session.story_name, enabled: true};  
   var param = {
@@ -154,6 +155,7 @@ exports.arrangeStory = (req, res, next) => {
   Lesson.findOne(query, param).then(function(lsn) {
     var prefix = '/images/practice'; // folder + type. TODO - get from 
     var image = req.session.monster + '_' + lsn.subj + '.png';
+    
     res.render('13_stories/arrange_story', {
       story_title: req.session.new_story_title,
       subject: lsn[state].subname, // TODO -- use or not?
@@ -170,6 +172,25 @@ exports.arrangeStory = (req, res, next) => {
       img_path: genFunc.makeImgPath(prefix, lsn.chapter, lsn.name, image) 
     });
   });
+};
+
+exports.test = (req, res, next) => {
+  req.sanitize('test'); //TODO
+  var state = 'state_' + res.locals.lang; 
+  var items = 'items_' + res.locals.lang;
+  
+  query = {
+    name: req.params.test
+  };  
+  param = {
+    _id: 0
+  };
+  
+  Test.findOne(query, param).then(function(test) {
+    res.render('13_stories/test', {
+      
+    });
+  }); 
 };
 
 exports.saveStory = (req, res, next) => {
