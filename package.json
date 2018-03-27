@@ -18,7 +18,7 @@
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0",
     "chalk": "^2.1.0",
     "cheerio": "^1.0.0-rc.2",
     "clockwork": "^0.1.4",

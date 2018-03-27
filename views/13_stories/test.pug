@@ -8,12 +8,14 @@ block scripts
   script(src='/js/test.js')
   
 block content  
-  .container
+  .container-fluid
     .row#title
-      h2.text-center= str[state].title        
-      p.label.label-info.text-lowercase#subtitle
+      h2.text-center= str[state].title
+        | &nbsp; 
+        span.label.label-info.text-lowercase#subtitle
     hr
-    .row#quest    
+    .row#quest
+    hr  
     .row#btns
     hr
     .row#answ
