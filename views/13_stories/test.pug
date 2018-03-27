@@ -2,24 +2,21 @@ extends ../layout
 
 block scripts
   script.
-    var steps = !{steps}
     var nextPath = !{next_path}
     var nextButton = !{JSON.stringify(next_btn)}
-    var test = true
-  script(src='/js/narrator.js')
+    var t = !{JSON.stringify(d)}
+  script(src='/js/test.js')
   
 block content  
   .container
-    .col-sm-12
-      h2.text-center= title 
-        | &nbsp; 
-        span.label.label-info.text-lowercase= str.subject
-      hr
-      each val, index in quest
-        p.story_text(id='story_item_' + index) !{val}
-      each val, index in str.answ
-        p.story_text(id='answ_' + index) !{val}
-      div.text-right  
-        button.btn.btn-info.btn-sm(type='button' id= next_btn)
-          |>>>
-      p
+    .row#title
+      h2.text-center= str[state].title        
+      p.label.label-info.text-lowercase#subtitle
+    hr
+    .row#quest    
+    .row#btns
+    hr
+    .row#answ
+    div.text-right  
+      button.btn.btn-info.btn-sm.disabled(type='button' id= next_btn) >>>
+      

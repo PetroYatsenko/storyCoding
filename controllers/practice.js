@@ -176,19 +176,40 @@ exports.arrangeStory = (req, res, next) => {
 
 exports.test = (req, res, next) => {
   req.sanitize('test'); //TODO
-  var state = 'state_' + res.locals.lang; 
-  var items = 'items_' + res.locals.lang;
   
-  query = {
+  var state = 'state_' + res.locals.lang;  
+  var queryTest = {
     name: req.params.test
   };  
-  param = {
-    _id: 0
-  };
+  var param = {};
+  param[state] = 1;
   
-  Test.findOne(query, param).then(function(test) {
+  var str = {
+    state_uk : {
+      title: 'Тест без стресу'
+    }
+  };
+  var d = {};
+  
+  Test.find(queryTest, param).then(function(data) {
+    data.forEach(function(data) {
+      data[state].test.forEach(function(t, index) {
+        var new_id = genFunc.hashGen(data._id + index); //TODO
+        d[new_id] = {
+          q: t['quest'],
+          a: t['answ'],
+          v: t['variants'],
+          s: data[state].subtitle,
+          p: false //passed
+        };
+      });
+    });
     res.render('13_stories/test', {
-      
+      next_path: genFunc.getNextPath('test'),
+      str: str,
+      d: d,
+      state: state,
+      next_btn: 'next'
     });
   }); 
 };
