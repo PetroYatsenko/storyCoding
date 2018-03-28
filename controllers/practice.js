@@ -197,10 +197,9 @@ exports.test = (req, res, next) => {
         var new_id = genFunc.hashGen(data._id + index); //TODO
         d[new_id] = {
           q: t['quest'],
-          a: t['answ'],
+          a: Buffer.from(t['answ']).toString('base64'),
           v: t['variants'],
-          s: data[state].subtitle,
-          p: false //passed
+          s: data[state].subtitle
         };
       });
     });
