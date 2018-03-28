@@ -209,6 +209,7 @@ exports.test = (req, res, next) => {
       str: str,
       d: d,
       state: state,
+      split_symbol: JSON.stringify('@'),
       next_btn: 'next'
     });
   }); 

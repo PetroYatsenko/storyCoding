@@ -5,10 +5,11 @@ block scripts
     var nextPath = !{next_path}
     var nextButton = !{JSON.stringify(next_btn)}
     var t = !{JSON.stringify(d)}
+    var splitter = !{split_symbol}
   script(src='/js/test.js')
   
 block content  
-  .container-fluid
+  .container
     .row#title
       h2.text-center= str[state].title
         | &nbsp; 
@@ -19,6 +20,3 @@ block content
     .row#btns
     hr
     .row#answ
-    div.text-right  
-      button.btn.btn-info.btn-sm.disabled(type='button' id= next_btn) >>>
-      
