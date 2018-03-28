@@ -176,10 +176,10 @@ exports.arrangeStory = (req, res, next) => {
 
 exports.test = (req, res, next) => {
   req.sanitize('test'); //TODO
-  
+  req.session.test_name = req.params.test;
   var state = 'state_' + res.locals.lang;  
   var queryTest = {
-    name: req.params.test
+    name: req.session.test_name
   };  
   var param = {};
   param[state] = 1;
@@ -205,6 +205,7 @@ exports.test = (req, res, next) => {
     });
     res.render('13_stories/test', {
       next_path: genFunc.getNextPath('test'),
+      save_path: JSON.stringify('/practice/tests/save'), //TODO: get from general source? 
       str: str,
       d: d,
       state: state,
@@ -214,8 +215,31 @@ exports.test = (req, res, next) => {
   }); 
 };
 
+exports.saveTest = (req, res, next) => {
+  req.sanitize('score');
+  // TODO lang support
+  var hint = 'Вітаємо! Ти переходиш до нового розділу!';
+  var query = {
+    lesson: req.session.test_name,
+    userId: req.user.id
+  };
+  
+  UserStory.findOneAndUpdate(query, {story_txt: req.body.score}, {upsert: true}, 
+    function(err, doc) {
+      if (err) return res.send(500, {error: err});
+      req.flash('success', {msg: hint});
+      res.format({
+        json: function(){
+          res.send({status: 'OK'});
+        }
+      });
+    }
+  );
+};
+
 exports.saveStory = (req, res, next) => {
   req.sanitize('story');
+  req.sanitize('mr');
   // TODO lang support
   var hint = 'Вітаємо! Твоя історія успішно записана!';
   var query = {

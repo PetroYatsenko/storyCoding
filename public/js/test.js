@@ -4,6 +4,7 @@ $(document).ready(function() {
   var $a = document.getElementById('answ');
   var $s = document.getElementById('subtitle');
   var prop;
+  sessionStorage.score = 'none';
   
   var pickRandomProp = function(obj) {
     var keys = Object.keys(obj);
@@ -13,17 +14,16 @@ $(document).ready(function() {
   var initTest = function() {
     prop = pickRandomProp(t);
     if (typeof prop === 'undefined') {
-      alert('no tests more!');
+      saveRedirect();
+      return;
     }
-    
-    $s.innerHTML = t[prop].s;
-    
+    $s.innerHTML = t[prop].s;    
     var pq = document.createElement("P");
     pq.className = 'story_text visible';
     pq.innerHTML = t[prop].q;
     $q.appendChild(pq);
     
-    var sml = Math.round(12 / t[prop].v.split(splitter).length);
+    var sml = Math.round(12 / t[prop].v.split(splitter).length); // TODO
     t[prop].v.split(splitter).forEach(function(val, ind) {      
       var pb = document.createElement("BUTTON");
       var div = document.createElement('DIV');
@@ -56,19 +56,38 @@ $(document).ready(function() {
     $("[name='variant']").off('click');
   };
   
-  var cleaner = function () {
+    var cleaner = function() {
     $q.innerHTML = '';
     $b.innerHTML = '';
     $a.innerHTML = '';
-    $s.innerHTML = '';    
+    $s.innerHTML = '';
+    $('#answ').css('display','none');
     delete t[prop];
     window.scrollTo(0, 0);
+  };
+  
+  var getStep = function() {
+    cleaner();    
     initTest();
     $("[name='variant']").on('click', showAnsw);
   };
   
   $("[name='variant']").on('click', showAnsw);
-  $(document).on('click', '#next', cleaner);
+  $(document).on('click', '#next', getStep);
+  
+  var saveRedirect = function() {       
+    $.post(savePath,
+      {
+        score: sessionStorage.score,
+        _csrf: $('meta[name=csrf-token]').attr("content")
+      },
+      function(data) {
+        if (data.status === 'OK') {
+           window.location.href = nextPath;
+        }
+      }            
+    );
+  }
   
   var Base64 = {
     _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",

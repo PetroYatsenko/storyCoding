@@ -142,11 +142,9 @@ window.addEventListener("DOMContentLoaded", function(event) {
   
   var saveStory = function() {
     if ($edit.attr('disabled')) {
-      // Save to the sessionStorage
       endStoryEdit();
       recEditedStory();
     } else {
-      // Redirect to the dashboard page with message
       saveRedirect();
     }
   }
