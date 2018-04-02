@@ -98,8 +98,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
       // TODO add explanation chapters
       for (let i = 0; i < myStory.length; i++) {
         doc.content.push({text: myStory[i], style: 'para'});
-      };      
-      
+      };
       switch(e.data.action) {
         case 'pdf':
           pdfMake.createPdf(doc).open();
@@ -131,12 +130,10 @@ window.addEventListener("DOMContentLoaded", function(event) {
   }
   
   var recEditedStory = function() {
-    var newStory = [];
-    
+    var newStory = [];    
     $('#story p').each(function() {
       newStory.push($(this).text());
-    });
-    
+    });   
     sessionStorage.story = JSON.stringify(newStory);
   }
   
