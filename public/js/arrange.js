@@ -8,10 +8,9 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $dload = $('#dload');
   var $story = $('#story');
   
-  var arrangeStory = function() {
+  var arrangeStory = function() {    
     myStory = JSON.parse(sessionStorage.story);
-    
-    for (let i = 0; i < myStory.length; i++) {
+    for (var i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
       p.className = 'story_text visible';
       p.appendChild(document.createTextNode(myStory[i]));
@@ -96,7 +95,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
       dataURL = getBase64Image(img);
       doc.content.push({image: dataURL, width: 250, style: 'image'});
       // TODO add explanation chapters
-      for (let i = 0; i < myStory.length; i++) {
+      for (var i = 0; i < myStory.length; i++) {
         doc.content.push({text: myStory[i], style: 'para'});
       };
       switch(e.data.action) {
