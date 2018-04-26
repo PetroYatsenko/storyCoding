@@ -18,7 +18,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   }
     
   var getStep = function() {
-    return current_step;    
+    return current_step; 
   };
   
   // TODO: get a step from the browser`s session
@@ -88,6 +88,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     if (typeof practice !== 'undefined' && practice) {
       document.getElementById(textarea).classList.remove('visible');
       document.getElementById(textarea).value = '';
+      document.getElementById(textarea).placeholder = '';
       document.getElementById(taskId + prevStep).classList.remove('visible');      
     }
   };
@@ -145,7 +146,11 @@ window.addEventListener("DOMContentLoaded", function(event) {
           btn.classList.add(stepInitials[key]);
         }
       }
-    }    
+    }
+    
+    if (typeof practice !== 'undefined' && practice) {
+      document.getElementById(textarea).placeholder = tips[getStep()];
+    }
   };
   
   var addActions = function() {

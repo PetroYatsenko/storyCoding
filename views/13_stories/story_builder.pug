@@ -7,6 +7,7 @@ block scripts
     var minLength = !{min_length}
     var nextButton = !{JSON.stringify(next_btn)}
     var storyTitle = !{JSON.stringify(title)}
+    var tips = !{JSON.stringify(str.tips)}
     var practice = true
   script(src='/js/narrator.js')
   script(src='/js/builder.js')
@@ -32,7 +33,6 @@ block content
           div.text-right
             button.btn.btn-info.btn-lg(type='button' id= next_btn)
               |>>>
-          p    
-      .raw
-        .col-sm-12
-          textarea#your_story.story_text(rows="4" placeholder= str.write)
+          p
+          textarea.story_text#your_story(rows="4")
+          
