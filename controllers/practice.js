@@ -215,6 +215,41 @@ exports.test = (req, res, next) => {
   }); 
 };
 
+exports.diploma = (req, res, next) => {
+  
+  var queryStep, queryStory;
+  var state = 'state_' + res.locals.lang;
+  var items = 'items_' + res.locals.lang;
+  
+  queryStep = queryStory = {
+    story: 'diploma_story',
+    type: 'diploma',
+  };
+  
+  Promise.all([
+    Step.findOne(queryStep),
+    Story.findOne(queryStory)
+  ]).spread(function(steps, story) {
+    
+    // Replace placeholders
+    for (let i = 0; i < story[items].length; i++) {
+      story[items][i] = genFunc.replacePlaceholders(genFunc.replaceButtonObj, story[items][i]);
+    } 
+    // Add help message 
+    req.flash('info', {msg: story[state].hint});
+  
+    res.render('13_stories/diploma_story', {
+      str: story[state],
+      title: story[state].title,
+      story_items: story[items],
+      steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
+      next_path: genFunc.getNextPath(story.type),
+      next_btn: 'next',
+      min_length: 50, //more than for practice
+    });
+  });
+};
+
 exports.saveTest = (req, res, next) => {
   req.sanitize('score');
   // TODO lang support

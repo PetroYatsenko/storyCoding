@@ -163,7 +163,7 @@ exports.dashboard = (req, res, next) => {
         }
       });
     });
-    
+    console.log(passed, max_steps);
     res.render('dashboard', {      
       min_val: 0,
       max_val: max_steps,     
