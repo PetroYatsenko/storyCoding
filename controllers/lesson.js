@@ -101,10 +101,6 @@ exports.dashboard = (req, res, next) => {
       diploma: 'Отримай диплом',
       start: 'Починай!',
       next: '>>',
-      diploma_story: 'Дипломна історія',
-      diploma_story_avail: 'Доступна у',
-      accounts: 'Просунутому та преміум ',
-      acc: 'акаунтах',
       diploma_story_disabled: 'Спочатку пройди всі страшні історії!',
       get_diploma: 'Напиши фінальну історію та отримай диплом!'
     }
@@ -163,7 +159,7 @@ exports.dashboard = (req, res, next) => {
         }
       });
     });
-    console.log(passed, max_steps);
+    
     res.render('dashboard', {      
       min_val: 0,
       max_val: max_steps,     

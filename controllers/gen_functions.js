@@ -13,6 +13,8 @@ exports.getNextPath = function(storyType = undefined) {
       nextPath = '/practice/story_builder';
       break;
     case 'diploma':
+      nextPath = '/practice/story_builder/diploma'
+      break;
     case 'practice':
       nextPath = '/practice/story_builder/arrange';
       break;

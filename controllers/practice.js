@@ -21,7 +21,7 @@ exports.getMonstersCollection = (req, res, next) => {
     strings[state] = {
       title: 'Доступні герої',
       msg_prem: 'Живе у преміум акаунті.',
-      msg_adv_prem: 'Живе у просунутому та преміум акаунтах.',
+      msg_adv_prem: 'Живе в оптимум та преміум акаунтах.',
       msg_next: 'Живе в наступних історіях',
       msg_storage: 'Здається, ваш браузер не підтримує веб-сесії. Будь ласка, встановіть найновішу версію',
     };
@@ -245,9 +245,13 @@ exports.diploma = (req, res, next) => {
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       next_path: genFunc.getNextPath(story.type),
       next_btn: 'next',
-      min_length: 50, //more than for practice
+      min_length: 5, // less than for practice -- to handle the story name
     });
   });
+};
+
+exports.arrangeDiploma = (req, res, next) => {
+  
 };
 
 exports.saveTest = (req, res, next) => {
