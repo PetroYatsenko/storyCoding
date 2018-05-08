@@ -1,0 +1,33 @@
+extends ../layout
+  
+block scripts
+  script.
+    var nextPath = !{next_path}
+    var savePath = !{save_path}
+    var watermark = !{watermark}
+    var author = !{author}
+    var imgPath = !{JSON.stringify(img_pdf)}
+  script(src='/js/lib/pdfmake/pdfmake.min.js')  
+  script(src='/js/lib/pdfmake/vfs_fonts.js')
+  script(src='/js/arrange_diploma.js')
+  
+block content  
+  .container
+    .col-sm-3.text-center
+      h3= str.img1_t
+      img#img1(src= img_path)
+    .col-sm-9
+      .raw.text-center
+        .col-sm-12         
+          h2.text-center#story_title
+          button.btn.btn-success.btn-sm(type='button' id='dload' title= str.dload) 
+            i.fa.fa-download
+          button.btn.btn-info.btn-sm(type='button' id='edit' title= str.edit)
+            i.fa.fa-pencil-square-o
+          button.btn.btn-primary.btn-sm(type='button' id='record' title= str.send)
+            i.fa.fa-floppy-o
+      .raw
+        .col-sm-12
+          hr
+          #story
+          hr 

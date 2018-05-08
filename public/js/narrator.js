@@ -45,19 +45,31 @@ window.addEventListener("DOMContentLoaded", function(event) {
     }
   };
   
-  var recordStory = function() {
+  var recordStep = function() {
     var storyItem = storyId + getStep();
     var taskItem = taskId + getStep();
     
     story.push(strip(document.getElementById(storyItem).innerHTML));    
     story.push(strip(document.getElementById(taskItem).innerHTML));
     story.push(strip(document.getElementById(textarea).value));
-  }
+  };
+  
+  var recordDiplomaStep = function() {
+    if (getStep() === 0) {
+      sessionStorage.setItem('title', strip(document.getElementById(textarea).value));
+    } else {
+      story.push(strip(document.getElementById(textarea).value));
+    }
+  };
   
   var saveStory = function() {
     sessionStorage.setItem('story', JSON.stringify(story));
     sessionStorage.setItem('title', storyTitle);
-  }
+  };
+  
+  var saveDiplomaStory = function() {
+    sessionStorage.setItem('story', JSON.stringify(story));
+  };
   
   var arrangeNewStep = function() {         
     document.getElementById(storyId + getStep()).classList.add('visible');
@@ -66,7 +78,14 @@ window.addEventListener("DOMContentLoaded", function(event) {
     var next = document.getElementById(nextButton);
     
     next.onclick = function() {
-      if (typeof practice !== 'undefined' && practice) recordStory();
+      switch (storyType) {
+        case 'practice':
+          recordStep();
+          break;
+        case 'diploma':
+          recordDiplomaStep();
+          break;
+      }
       increaseStep();
       // Detect the last step
       if (getStep() < steps.length) {
@@ -75,17 +94,24 @@ window.addEventListener("DOMContentLoaded", function(event) {
         addActions();        
         window.scrollTo(0, 0);
       } else {
-        if (typeof practice !== 'undefined' && practice) saveStory();
+        switch (storyType) {
+          case 'practice':
+            saveStory();
+            break;
+          case 'diploma':
+            saveDiplomaStory();
+            break;
+        }
         window.location.replace(nextPath);
       }      
-    }
+    };
   };  
 
   var rmPrevTxtItem = function() {
     var prevStep = getStep() - 1;
     document.getElementById(storyId + prevStep).classList.remove('visible');
     // For story builder remove previous task & user`s text too
-    if (typeof practice !== 'undefined' && practice) {
+    if (storyType !== 'lesson') {
       document.getElementById(textarea).classList.remove('visible');
       document.getElementById(textarea).value = '';
       document.getElementById(textarea).placeholder = '';
@@ -148,7 +174,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
       }
     }
     
-    if (typeof practice !== 'undefined' && practice) {
+    if (storyType !== 'lesson') {
       document.getElementById(textarea).placeholder = tips[getStep()];
     }
   };

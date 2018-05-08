@@ -140,7 +140,7 @@ exports.arrangeStory = (req, res, next) => {
   param[state] = 1;  
   // TODO -- to the lang table
   var strings = {};
-  strings[state] = {
+  strings[state] = { //TODO -- move to state_uk subobject
     edit: 'Редагувати',
     print: 'Друкувати',
     pdf: 'Згенерувати .pdf файл',
@@ -251,7 +251,42 @@ exports.diploma = (req, res, next) => {
 };
 
 exports.arrangeDiploma = (req, res, next) => {
+  var state = 'state_' + res.locals.lang;
+  var strings = {};
+  var prefix = '/images/practice'; // folder + type. TODO - get from 
+  var image = 'se_' + genFunc.getRandomInt(1, 2) + '.png';
   
+  strings.state_uk = {
+    img1_t: 'Секретний Редактор чекає',
+    edit: 'Редагувати',
+    dload: 'Завантажити .pdf файл',
+    send: 'Надіслати Таємному Редактору',
+    author: 'Автор ',
+    diploma: 'Дипломна історія',
+    hint: 'Тобі залишилося тільки відредагувати свою історію: ' +
+      'прочитати на свіже око і виправити помилки. Можливо, щось переписати. ' + 
+      'Тоді сміливо натискай кнопку “Надіслати Таємному Редактору”. ' + 
+      'Він прочитає і дасть поради, як можна покращити твою історію. ' + 
+      'А тоді вишле тобі іменний диплом, на який ти заслуговуєш!'
+  };
+  
+   // Add info message
+  req.flash('info', {msg: strings[state].hint});
+  
+  res.render('13_stories/arrange_diploma', {
+    watermark: JSON.stringify(
+      strings[state].diploma + '\n' + res.locals.course_name + '\n' + 
+      res.locals.siteTitle + ': ' + res.locals.url
+    ),
+    next_path: genFunc.getNextPath('dashboard'),
+    save_path: JSON.stringify('/practice/story_builder/save'),
+    author: JSON.stringify(
+      strings[state].author + req.user.profile.name.toUpperCase()
+    ),
+    str: strings[state],
+    img_path: genFunc.makeImgPath(prefix, 'diploma', 'secret_editors', image),
+    img_pdf: genFunc.makeImgPath(prefix, 'diploma', 'story', 'sign.png'),
+  });
 };
 
 exports.saveTest = (req, res, next) => {

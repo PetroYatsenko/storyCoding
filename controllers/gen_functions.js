@@ -13,7 +13,7 @@ exports.getNextPath = function(storyType = undefined) {
       nextPath = '/practice/story_builder';
       break;
     case 'diploma':
-      nextPath = '/practice/story_builder/diploma'
+      nextPath = '/practice/story_builder/diploma';
       break;
     case 'practice':
       nextPath = '/practice/story_builder/arrange';
@@ -64,4 +64,14 @@ exports.md5Gen = function(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function 
 
 exports.hashGen = function(s){
   return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+};
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * @param {int} min
+ * @param {int} max
+ * @returns {Number}
+ */
+exports.getRandomInt = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
