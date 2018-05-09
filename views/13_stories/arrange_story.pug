@@ -6,6 +6,9 @@ block scripts
     var savePath = !{save_path}
     var watermark = !{watermark}
     var author = !{author}
+    var storyTitle = !{JSON.stringify(story_title)}
+    var storyHero = !{story_hero}
+    var storyName = !{story_name}
     var imgPath = !{JSON.stringify(img_path)}
   script(src='/js/lib/pdfmake/pdfmake.min.js')  
   script(src='/js/lib/pdfmake/vfs_fonts.js')

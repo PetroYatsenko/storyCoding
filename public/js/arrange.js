@@ -21,8 +21,10 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var saveRedirect = function() {       
     $.post(savePath,
       {
+        title: storyTitle,
+        story_name: storyName,
         story: sessionStorage.story,
-        mr: sessionStorage.mr,
+        hero: storyHero,
         _csrf: $('meta[name=csrf-token]').attr("content")
       },
       function(data) {

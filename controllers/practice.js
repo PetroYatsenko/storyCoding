@@ -7,12 +7,13 @@ const UserStory = require('../models/UserStory');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 
-exports.getMonstersCollection = (req, res, next) => {
-  var sn = req.session.story_name;
+exports.getMonstersCollection = (req, res, next) => {  
+  req.sanitize('story');
+  var story_name = req.params.story;
   const user_account = req.user.classes[res.locals.course_id].account;
   
   Promise.all([
-    Lesson.findOne({name: sn, enabled: true}, {monsters: 1, _id: 0}),
+    Lesson.findOne({name: story_name, enabled: true}, {monsters: 1, _id: 0}),
     Monster.find({}, {_id: 0})
   ]).spread(function(avail, zoo) {    
     var state = 'state_' + res.locals.lang;
@@ -75,7 +76,7 @@ exports.getMonstersCollection = (req, res, next) => {
     res.render('13_stories/select_heroes', {
       strings: strings[state],
       podium: podium,
-      next_step: genFunc.getNextPath('heroes'),
+      next_step: genFunc.getNextPath('heroes', story_name),
       no_storage: JSON.stringify(strings[state].msg_storage)
     });
   });
@@ -84,19 +85,20 @@ exports.getMonstersCollection = (req, res, next) => {
 exports.getStoryBuilder = (req, res, next) => {
   //TODO figure out sanitization  
   req.sanitize('mr');
-  var mr = req.query.mr;
-  req.session.monster = mr;
+  req.sanitize('story');
+  var story_name = req.params.story;
+  var hero = req.params.hero; 
   var state = 'state_' + res.locals.lang; 
-  var items = 'items_' + res.locals.lang;
+  var items = 'items_' + res.locals.lang;  
   var queryStory = {
-    story: req.session.story_name,
-    hero: mr, 
+    story: story_name,
+    hero: hero, 
     type: 'practice',
   };
   // For now queryStep is equal to queryStory
   var queryStep = {
-    story: req.session.story_name,
-    hero: mr, 
+    story: story_name,
+    hero: hero, 
     type: 'practice', 
   };
  
@@ -105,7 +107,7 @@ exports.getStoryBuilder = (req, res, next) => {
   Promise.all([
     Step.findOne(queryStep),
     Story.findOne(queryStory),
-    Monster.findOne({monster: mr})
+    Monster.findOne({monster: hero})
   ]).spread(function(steps, story, monster) {
     // Replace placeholders
     for (let i = 0; i < story[items].length; i++) {
@@ -113,24 +115,28 @@ exports.getStoryBuilder = (req, res, next) => {
     } 
     // Add help message 
     req.flash('info', {msg: story[state].hint});
-    
-    req.session.new_story_title = monster[state].name + story[state].title;
+    var story_title = monster[state].name + story[state].title;
     
     res.render('13_stories/story_builder', {
       str: story[state],
-      title: req.session.new_story_title,
+      title: story_title,
       story_items: story[items],
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      next_path: genFunc.getNextPath(story.type),
+      next_path: genFunc.getNextPath(story.type, story_name, hero, story_title),
       next_btn: 'next',
       min_length: 25,
     });
   });
 };
 
-exports.arrangeStory = (req, res, next) => { 
+exports.arrangeStory = (req, res, next) => {
+  req.sanitize('story');
+  req.sanitize('hero');
+  req.sanitize('title');
+  var story_name = req.params.story;
+  var hero = req.params.hero;
   var state = 'state_' + res.locals.lang;
-  var query = {name: req.session.story_name, enabled: true};  
+  var query = {name: story_name, enabled: true};  
   var param = {
     chapter: 1, 
     subj: 1, 
@@ -140,7 +146,7 @@ exports.arrangeStory = (req, res, next) => {
   param[state] = 1;  
   // TODO -- to the lang table
   var strings = {};
-  strings[state] = { //TODO -- move to state_uk subobject
+  strings.state_uk = {
     edit: 'Редагувати',
     print: 'Друкувати',
     pdf: 'Згенерувати .pdf файл',
@@ -154,17 +160,19 @@ exports.arrangeStory = (req, res, next) => {
   
   Lesson.findOne(query, param).then(function(lsn) {
     var prefix = '/images/practice'; // folder + type. TODO - get from 
-    var image = req.session.monster + '_' + lsn.subj + '.png';
+    var image = hero + '_' + lsn.subj + '.png';
     
     res.render('13_stories/arrange_story', {
-      story_title: req.session.new_story_title,
+      story_title: req.params.title,
       subject: lsn[state].subname, // TODO -- use or not?
       watermark: JSON.stringify(
-        res.locals.course_name + '\n' + lsn[state].subname + '\n' + 
+        lsn[state].subname + '\n' + res.locals.course_name + '\n' +  
         res.locals.siteTitle + ': ' + res.locals.url
       ),
-      next_path: genFunc.getNextPath('dashboard'), // TODO
-      save_path: JSON.stringify('/practice/story_builder/save'), //TODO
+      next_path: genFunc.getNextPath('dashboard'),
+      story_hero: JSON.stringify(hero),
+      story_name: JSON.stringify(story_name),
+      save_path: JSON.stringify('/practice/story_builder/save'),
       author: JSON.stringify(
         strings[state].author + req.user.profile.name.toUpperCase()
       ),
@@ -176,10 +184,10 @@ exports.arrangeStory = (req, res, next) => {
 
 exports.test = (req, res, next) => {
   req.sanitize('test'); //TODO
-  req.session.test_name = req.params.test;
+  var test_name = req.params.test;
   var state = 'state_' + res.locals.lang;  
   var queryTest = {
-    name: req.session.test_name
+    name: test_name
   };  
   var param = {};
   param[state] = 1;
@@ -205,10 +213,11 @@ exports.test = (req, res, next) => {
     });
     res.render('13_stories/test', {
       next_path: genFunc.getNextPath('test'),
-      save_path: JSON.stringify('/practice/tests/save'), //TODO: get from general source? 
+      save_path: JSON.stringify('/practice/tests/save'),
       str: str,
       d: d,
       state: state,
+      test_name: JSON.stringify(test_name),
       split_symbol: JSON.stringify('@'),
       next_btn: 'next'
     });
@@ -291,14 +300,18 @@ exports.arrangeDiploma = (req, res, next) => {
 
 exports.saveTest = (req, res, next) => {
   req.sanitize('score');
+  req.sanitize('test_name');
   // TODO lang support
   var hint = 'Вітаємо! Ти переходиш до нового розділу!';
   var query = {
-    lesson: req.session.test_name,
+    lesson: req.body.test_name,
     userId: req.user.id
   };
+  var params = {
+    story_txt: req.body.score
+  };  
   
-  UserStory.findOneAndUpdate(query, {story_txt: req.body.score}, {upsert: true}, 
+  UserStory.findOneAndUpdate(query, params, {upsert: true}, 
     function(err, doc) {
       if (err) return res.send(500, {error: err});
       req.flash('success', {msg: hint});
@@ -312,19 +325,25 @@ exports.saveTest = (req, res, next) => {
 };
 
 exports.saveStory = (req, res, next) => {
+  req.sanitize('story_name');
   req.sanitize('story');
-  req.sanitize('mr');
+  req.sanitize('hero');
+  req.sanitize('title');
   // TODO lang support
   var hint = 'Вітаємо! Твоя історія успішно записана!';
   var query = {
-    lesson: req.session.story_name,
-    hero: req.body.mr,
+    lesson: req.body.story_name,
     userId: req.user.id
+  };
+  var params = {
+    story_txt: req.body.story, 
+    story_title: req.body.title,
+    hero: req.body.hero
   };
   
   UserStory.findOneAndUpdate(
     query, 
-    {story_txt: req.body.story}, 
+    params, 
     {upsert: true}, 
     function(err, doc) {
       if (err) return res.send(500, {error: err});

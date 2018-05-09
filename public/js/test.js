@@ -77,7 +77,8 @@ $(document).ready(function() {
   
   var saveRedirect = function() {       
     $.post(savePath,
-      {
+      { 
+        test_name: testName, 
         score: sessionStorage.score,
         _csrf: $('meta[name=csrf-token]').attr("content")
       },
@@ -91,6 +92,7 @@ $(document).ready(function() {
   
   var Base64 = {
     _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+    
     encode : function (input) {
       var output = "";
       var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -176,12 +178,10 @@ $(document).ready(function() {
 
       while ( i < utftext.length ) {
         c = utftext.charCodeAt(i);
-
         if (c < 128) {
           string += String.fromCharCode(c);
           i++;
         }
-
         else if((c > 191) && (c < 224)) {
           c2 = utftext.charCodeAt(i+1);
           string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
@@ -194,6 +194,7 @@ $(document).ready(function() {
           i += 3;
         }
       };
+      
       return string;
     }
   };

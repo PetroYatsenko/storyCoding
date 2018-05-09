@@ -15,15 +15,13 @@ exports.tutorial = (req, res, next) => {
 
 exports.lesson = (req, res, next) => {
   req.sanitize('story');
-  req.sanitize('subj');
+  req.sanitize('subj'); //TODO we are not using it further;
   var state = 'state_' + res.locals.lang; 
-  var items = 'items_' + res.locals.lang; 
-  // Important! Use session story data further
-  req.session.story_name = req.params.story;
-  req.session.subject = req.params.subj;
+  var items = 'items_' + res.locals.lang;
+  var story_name = req.params.story; 
    
   var query = {
-    story: req.session.story_name, 
+    story: story_name, 
     type: 'lesson'
   };
   
@@ -41,17 +39,19 @@ exports.lesson = (req, res, next) => {
       strings: story[state],
       story_items: story[items],     
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
-      next_path: genFunc.getNextPath(story.type),
+      next_path: genFunc.getNextPath(story.type, story_name),
       next_btn: 'next' //TODO genFunc.getNextPath(story.type)
     });
   });
 };
 
 exports.explanation = (req, res, next) => {
+  req.sanitize('story'); //TODO figure out
   var state = 'state_' + res.locals.lang; 
   var items = 'items_' + res.locals.lang;
+  var story_name = req.params.story;
   var query = {
-    story: req.session.story_name, 
+    story: story_name, 
     type: 'explanation'
   };
   
@@ -60,8 +60,8 @@ exports.explanation = (req, res, next) => {
       img: d.img,
       str: d[state],
       expl_items: d[items],
-      next_path: genFunc.getNextPath(d.type),
-      next_btn: 'next' //TODO genFunc.getNextPath(story.type)
+      next_path: genFunc.getNextPath(d.type, story_name),
+      next_btn: 'next'
     });  
   });
 };

@@ -1,7 +1,6 @@
 $(document).ready(function() {
-  var getCurMonster = function() {    
-    var mr = this.id;    
-    window.location.href = nextStep + '?mr=' + mr;
+  var getCurHero = function() {
+    window.location.href = nextStep + '/' + this.id;
   }
     
   var addZooEvents = function() {
@@ -9,7 +8,7 @@ $(document).ready(function() {
     var listItem = nums.getElementsByClassName("w3-hover-opacity-off");    
     
     for (var i = 0; i < listItem.length; i++) {           
-      listItem[i].onclick = getCurMonster;
+      listItem[i].onclick = getCurHero;
     }
   }();
 });
