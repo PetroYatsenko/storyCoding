@@ -38,8 +38,7 @@ const app = express();
  */
 mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI, {
-  useMongoClient: true,
-  /* other options */
+  /*options */
 });
 mongoose.connection.on('error', (err) => {
   console.error(err);

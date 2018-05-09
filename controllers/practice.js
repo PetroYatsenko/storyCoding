@@ -6,6 +6,7 @@ const Test = require('../models/Test');
 const UserStory = require('../models/UserStory');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
+const UserDiploma = require('../models/UserDiploma');
 
 exports.getMonstersCollection = (req, res, next) => {  
   req.sanitize('story');
@@ -224,8 +225,7 @@ exports.test = (req, res, next) => {
   }); 
 };
 
-exports.diploma = (req, res, next) => {
-  
+exports.diploma = (req, res, next) => {  
   var queryStep, queryStory;
   var state = 'state_' + res.locals.lang;
   var items = 'items_' + res.locals.lang;
@@ -295,7 +295,45 @@ exports.arrangeDiploma = (req, res, next) => {
     str: strings[state],
     img_path: genFunc.makeImgPath(prefix, 'diploma', 'secret_editors', image),
     img_pdf: genFunc.makeImgPath(prefix, 'diploma', 'story', 'sign.png'),
+    story_type: 'diploma'// TODO
   });
+};
+
+exports.saveDiploma = (req, res, next) => {
+  req.sanitize('story_name');
+  req.sanitize('story');
+  req.sanitize('title');
+  var strings = {};
+  var state = 'state_' + res.locals.lang;
+  
+  strings.state_uk = {
+    hint: 'Твою дипломну історію успішно поставлено в чергу до Секретного ' + 
+      'Редактора. Зазвичай він відповідає впродовж 24 годин. Тримаємо кулачки!'
+  };
+  
+  var query = {
+    d_story: req.body.story_name,
+    userId: req.user.id
+  };
+  var params = {
+    story_txt: req.body.story,
+    story_title: req.body.title
+  };
+  
+  UserDiploma.findOneAndUpdate(
+    query, 
+    params, 
+    {upsert: true}, 
+    function(err, doc) {
+      if (err) return res.status(500).send({error: err});
+      req.flash('success', {msg: strings[state].hint});
+      res.format({
+        json: function(){
+          res.send({status: 'OK'});
+        }
+      });
+    }
+  );
 };
 
 exports.saveTest = (req, res, next) => {
@@ -313,7 +351,7 @@ exports.saveTest = (req, res, next) => {
   
   UserStory.findOneAndUpdate(query, params, {upsert: true}, 
     function(err, doc) {
-      if (err) return res.send(500, {error: err});
+      if (err) return res.status(500).send({error: err});
       req.flash('success', {msg: hint});
       res.format({
         json: function(){
@@ -346,7 +384,7 @@ exports.saveStory = (req, res, next) => {
     params, 
     {upsert: true}, 
     function(err, doc) {
-      if (err) return res.send(500, {error: err});
+      if (err) return res.status(500).send({error: err});
       req.flash('success', {msg: hint});
       res.format({
         json: function(){

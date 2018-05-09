@@ -8,10 +8,10 @@ router.get('/story_builder/:story/:hero', passportConfig.isAuthenticated, practi
 router.get('/story_builder/arrange/:story/:hero/:title', passportConfig.isAuthenticated, practiceController.arrangeStory);
 router.get('/story_builder/diploma', passportConfig.isAuthenticated, practiceController.arrangeDiploma);
 router.get('/tests/:test', passportConfig.isAuthenticated, practiceController.test);
-//router.get('/tests/save', passportConfig.isAuthenticated, practiceController.saveTest);
 router.get('/diploma/story', passportConfig.isAuthenticated, practiceController.diploma);
 
 router.post('/story_builder/save', passportConfig.isAuthenticated, practiceController.saveStory);
+router.post('/story_builder/diploma/save', passportConfig.isAuthenticated, practiceController.saveDiploma);
 router.post('/tests/save', passportConfig.isAuthenticated, practiceController.saveTest);
 
 module.exports = router;
