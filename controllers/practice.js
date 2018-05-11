@@ -19,8 +19,8 @@ exports.getMonstersCollection = (req, res, next) => {
   ]).spread(function(avail, zoo) {    
     var state = 'state_' + res.locals.lang;
     var strings = {};
-    // TODO: messages table + lang support 
-    strings[state] = {
+    
+    strings.state_uk = {
       title: 'Доступні герої',
       msg_prem: 'Живе у преміум акаунті.',
       msg_adv_prem: 'Живе в оптимум та преміум акаунтах.',

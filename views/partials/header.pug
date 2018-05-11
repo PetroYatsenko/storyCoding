@@ -6,9 +6,11 @@
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/')
-        i.fa.fa-file-code-o
-        span= siteTitle
+      a.navbar-brand(href='/')        
+        span.label.label-danger= siteLogo
+        +account_label(user.classes[course_id].account, global_str)
+        if process.env.ENVIRONMENT === 'development'
+          +account_label(process.env.ENVIRONMENT, global_str)
     .collapse.navbar-collapse
       if (title === 'Home')
         ul.nav.navbar-nav          
@@ -32,9 +34,9 @@
           li.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               if user.profile.picture
-                img(src=user.profile.picture)
+                img(src= user.profile.picture)
               else
-                img(src=user.gravatar(60))
+                img(src= user.gravatar(60))
               span= user.profile.name || user.email || user.id
               i.caret
             ul.dropdown-menu              

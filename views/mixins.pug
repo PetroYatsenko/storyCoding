@@ -26,3 +26,22 @@ mixin dashb_count_badge(subj, trials)
 mixin dashb_read_label(state)
   | &nbsp;
   span.label.label-info= state.read_story
+
+mixin account_label(acc_type, str)
+  case acc_type
+    when 'sandbox'
+      span.label.label-default= str.sandbox  
+    when 'basic'
+      span.label.label-info= str.basic
+    when 'advanced'
+      span.label.label-success= str.advanced
+    when 'premium'
+      span.label.label-warning= str.premium   
+    when 'editor'
+      span.label.label-warning= str.editor
+    when 'admin'
+      span.label.label-warning= str.admin  
+    when 'development'
+      span.label.label-warning= str.devel
+    default
+      span

@@ -59,11 +59,22 @@ app.set('view engine', 'pug');
 app.use(function(req, res, next){
   res.locals = {
     lang: 'uk',
-    siteTitle: "Чудова проза", //TODO move to the lang table
+    siteLogo: 'ЧудоваПроза',
+    siteTitle: "Чудова проза", 
     course_id: 'storycoding',
     course_name: 'Програмуємо... страшні історії!', //TODO pass to the home page too
-    url: 'www.greatprose.com'
-  }
+    url: 'www.greatprose.com',
+    global_str: {
+      sandbox: 'пісочниця',
+      basic: 'базовий',
+      advanced: 'оптимум',
+      premium: 'преміум',
+      devel: 'devel',
+      editor: 'редактор',
+      admin: 'адмін'
+    }
+  };  
+  
   next();
 });
 
@@ -72,7 +83,7 @@ app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
-app.use(logger('dev')); // Change on taking param from the .env or so
+app.use(logger('dev')); //TODO Change on taking param from the .env or so
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
