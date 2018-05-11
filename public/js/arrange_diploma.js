@@ -1,10 +1,11 @@
 window.addEventListener("DOMContentLoaded", function(event) {
   var myStory = [];
   var notebook = document.getElementById('story');
-//  var $pdf = $('#pdf');
+  var $pdf = $('#pdf');
   var $edit = $('#edit');
-  var $rec = $('#record');
-//  var $print = $('#print');
+  var $rec = $('#save');
+  var $send = $('#send');
+  var $print = $('#print');
   var $dload = $('#dload');
   var $story = $('#story');
   var $title = $('#story_title');
@@ -23,7 +24,6 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var saveRedirect = function() {       
     $.post(savePath,
       {
-        story_name: storyType,
         story: sessionStorage.story,
         title: sessionStorage.title,
         _csrf: $('meta[name=csrf-token]').attr("content")
@@ -108,28 +108,12 @@ window.addEventListener("DOMContentLoaded", function(event) {
         case 'dload':
           pdfMake.createPdf(doc).download(sessionStorage.title + '.pdf');
           break;
-//        case 'print':
-//          pdfMake.createPdf(doc).print();
-//          break;
+        case 'print':
+          pdfMake.createPdf(doc).print();
+          break;
       }
     };
   };
-  
-  var startStoryEdit = function() {
-    $story.attr('contenteditable', true).focus();
-    $edit.attr('disabled', true);
-//    $pdf.attr('disabled', true);
-    $dload.attr('disabled', true);
-//    $print.attr('disabled', true);
-  }
-  
-  var endStoryEdit = function() {
-    $story.attr('contenteditable', false);
-    $edit.attr('disabled', false);
-//    $pdf.attr('disabled', false);
-    $dload.attr('disabled', false);
-//    $print.attr('disabled', false);
-  }
   
   var recEditedStory = function() {
     var newStory = [];    
@@ -137,22 +121,34 @@ window.addEventListener("DOMContentLoaded", function(event) {
       newStory.push($(this).text());
     });   
     sessionStorage.story = JSON.stringify(newStory);
-  }
+  };
   
-  var saveStory = function() {
-    if ($edit.attr('disabled')) {
-      endStoryEdit();
-      recEditedStory();
-    } else {
-      saveRedirect();
-    }
-  }
+  var startStoryEdit = function() {
+    $story.attr('contenteditable', true).focus();
+    $edit.attr('disabled', true).removeClass('btn-info').addClass('btn-default');
+    $rec.attr('disabled', false).removeClass('btn-default').addClass('btn-info');
+    $send.attr('disabled', true);
+    $pdf.attr('disabled', true);
+    $dload.attr('disabled', true);
+    $print.attr('disabled', true);
+  };
   
-//  $pdf.on('click', {action:'pdf'}, processStory);
-//  $print.on('click', {action: 'print'}, processStory);
+  var endStoryEdit = function() {
+    $story.attr('contenteditable', false);
+    $edit.attr('disabled', false).removeClass('btn-default').addClass('btn-info');
+    $rec.attr('disabled', true).removeClass('btn-info').addClass('btn-default');
+    $pdf.attr('disabled', false);
+    $dload.attr('disabled', false);
+    $send.attr('disabled', false);
+    $print.attr('disabled', false);
+  };
+    
+  $pdf.on('click', {action:'pdf'}, processStory);
+  $print.on('click', {action: 'print'}, processStory);
   $dload.on('click', {action: 'dload'}, processStory);
   $edit.on('click', startStoryEdit);
-  $rec.on('click', saveStory);
+  $rec.on('click', recEditedStory, endStoryEdit);
+  $send.on('click', saveRedirect);
   
 }, false);
 

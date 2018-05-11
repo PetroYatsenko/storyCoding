@@ -20,14 +20,22 @@ block content
       .raw.text-center
         .col-sm-12         
           h2.text-center#story_title
-          button.btn.btn-success.btn-sm(type='button' id='dload' title= str.dload) 
-            i.fa.fa-download
-          button.btn.btn-info.btn-sm(type='button' id='edit' title= str.edit)
-            i.fa.fa-pencil-square-o
-          button.btn.btn-primary.btn-sm(type='button' id='record' title= str.send)
-            i.fa.fa-floppy-o
+          .btn-group
+            button.btn.btn-success.btn-md(type='button' id='pdf' title= str.pdf) 
+              i.fa.fa-file-pdf-o            
+            button.btn.btn-info.btn-md(type='button' id='dload' title= str.dload) 
+              i.fa.fa-download      
+            button.btn.btn-success.btn-md(type='button' id='print' title= str.print) 
+              i.fa.fa-print          
+          | &nbsp;  
+          .btn-group            
+            button.btn.btn-info.btn-md(type='button' id='edit' title= str.edit)
+              i.fa.fa-pencil-square-o
+            button.btn.btn-default.btn-md(type='button' id='save' title= str.save 'disabled')
+              i.fa.fa-floppy-o
       .raw
         .col-sm-12
           hr
           #story
-          hr 
+          div.text-right
+            button.btn.btn-info.btn-lg(type='button' id= next_btn)= str.send

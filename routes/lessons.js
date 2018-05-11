@@ -10,5 +10,7 @@ router.get('/dashboard/tutorial', passportConfig.isAuthenticated, lessonControll
 router.get('/story/tutorial', passportConfig.isAuthenticated, lessonController.tutorial);
 router.get('/practice/tutorial', passportConfig.isAuthenticated, lessonController.tutorial);
 router.get('/:story/:subj', passportConfig.isAuthenticated, lessonController.lesson);
+router.get('/story/diploma/read', passportConfig.isAuthenticated, lessonController.readDiplomaStory);
+//router.get('/story/:name/read', passportConfig.isAuthenticated, lessonController.readStory); //TODO
 
 module.exports = router;

@@ -1,10 +1,12 @@
 const Monster = require('../models/Monster');
 const Story = require('../models/Story');
 const UserStory = require('../models/UserStory');
+const UserDiploma = require('../models/UserDiploma');
 const Steps = require('../models/Step');
 const Lesson = require('../models/Lesson');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
+
 
 exports.tutorial = (req, res, next) => {
   res.render('13_stories/tutorial', {
@@ -102,7 +104,9 @@ exports.dashboard = (req, res, next) => {
       start: 'Починай!',
       next: '>>',
       diploma_story_disabled: 'Спочатку пройди всі страшні історії!',
-      get_diploma: 'Напиши фінальну історію та отримай диплом!'
+      get_diploma: 'Напиши фінальну історію та отримай диплом!',
+      dipl_exists: 'Твою дипломну історію вже надіслано Таємному Редакторові.',
+      read_story: 'Прочитати'
     }
   }
   // TODO -- wether move it somewhere?
@@ -113,8 +117,9 @@ exports.dashboard = (req, res, next) => {
       {$match: {userId: req.user.id}}, 
       {$group: {_id: '$lesson', count: {$sum: 1}}}]),
     Lesson.find(lesson, param).sort({number: 1}),
-    Lesson.count({enabled: true, chapter: {$ne: 'demo'}})
-  ]).spread(function(userStories, lessons, max_steps) {
+    Lesson.count({enabled: true, chapter: {$ne: 'demo'}}),
+    UserDiploma.findOne({userId: req.user.id})
+  ]).spread(function(userStories, lessons, max_steps, diploma) {
     // Grab passed and new lessons into one array of objects
     // TODO: understand this piece of code :)
     var user_stories = 0;
@@ -170,8 +175,20 @@ exports.dashboard = (req, res, next) => {
       lang: state,
       chapters: chapters,
       lesson_data: lsn_data,
+      diploma: diploma ? true : false,
       user_acc: req.user.classes[res.locals.course_id].account
     });
   });
+};
+
+exports.readDiplomaStory = (req, res, next) => {
+  UserDiploma.findOne({userId: req.user.id}, (err, story) => {
+    if (err) return res.status(500).send({error: err});
+    if (story) {
+      res.render('13_stories/read_story', {
+        //TODO
+      });
+    };
+  }); 
 };
 

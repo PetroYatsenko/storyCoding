@@ -3,7 +3,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var notebook = document.getElementById('story');
   var $pdf = $('#pdf');
   var $edit = $('#edit');
-  var $rec = $('#record');
+  var $send = $('#send');
+  var $rec = $('#save');
   var $print = $('#print');
   var $dload = $('#dload');
   var $story = $('#story');
@@ -114,22 +115,6 @@ window.addEventListener("DOMContentLoaded", function(event) {
     };
   };
   
-  var startStoryEdit = function() {
-    $story.attr('contenteditable', true).focus();
-    $edit.attr('disabled', true);
-    $pdf.attr('disabled', true);
-    $dload.attr('disabled', true);
-    $print.attr('disabled', true);
-  }
-  
-  var endStoryEdit = function() {
-    $story.attr('contenteditable', false);
-    $edit.attr('disabled', false);
-    $pdf.attr('disabled', false);
-    $dload.attr('disabled', false);
-    $print.attr('disabled', false);
-  }
-  
   var recEditedStory = function() {
     var newStory = [];    
     $('#story p').each(function() {
@@ -138,20 +123,32 @@ window.addEventListener("DOMContentLoaded", function(event) {
     sessionStorage.story = JSON.stringify(newStory);
   }
   
-  var saveStory = function() {
-    if ($edit.attr('disabled')) {
-      endStoryEdit();
-      recEditedStory();
-    } else {
-      saveRedirect();
-    }
-  }
+  var startStoryEdit = function() {
+    $story.attr('contenteditable', true).focus();
+    $edit.attr('disabled', true).removeClass('btn-info').addClass('btn-default');
+    $rec.attr('disabled', false).removeClass('btn-default').addClass('btn-info');
+    $send.attr('disabled', true);
+    $pdf.attr('disabled', true);
+    $dload.attr('disabled', true);
+    $print.attr('disabled', true);
+  };
   
+  var endStoryEdit = function() {
+    $story.attr('contenteditable', false);
+    $edit.attr('disabled', false).removeClass('btn-default').addClass('btn-info');
+    $rec.attr('disabled', true).removeClass('btn-info').addClass('btn-default');
+    $pdf.attr('disabled', false);
+    $dload.attr('disabled', false);
+    $send.attr('disabled', false);
+    $print.attr('disabled', false);
+  };
+    
   $pdf.on('click', {action:'pdf'}, processStory);
   $print.on('click', {action: 'print'}, processStory);
   $dload.on('click', {action: 'dload'}, processStory);
   $edit.on('click', startStoryEdit);
-  $rec.on('click', saveStory);
+  $rec.on('click', recEditedStory, endStoryEdit);
+  $send.on('click', saveRedirect);
   
 }, false);
 

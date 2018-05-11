@@ -154,7 +154,9 @@ exports.arrangeStory = (req, res, next) => {
     dload: 'Завантажити',
     complete: 'Зберегти',
     author: 'Автор історії ',
-    hint: 'Майже готово! Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати'
+    hint: 'Майже готово! Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати',
+    save: 'Зберегти зміни',
+    record: 'Записати'
   };
   // Add info message
   req.flash('info', {msg: strings[state].hint});
@@ -178,7 +180,8 @@ exports.arrangeStory = (req, res, next) => {
         strings[state].author + req.user.profile.name.toUpperCase()
       ),
       str: strings[state],
-      img_path: genFunc.makeImgPath(prefix, lsn.chapter, lsn.name, image) 
+      img_path: genFunc.makeImgPath(prefix, lsn.chapter, lsn.name, image),
+      next_btn: 'record' 
     });
   });
 };
@@ -254,7 +257,8 @@ exports.diploma = (req, res, next) => {
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
       next_path: genFunc.getNextPath(story.type),
       next_btn: 'next',
-      min_length: 5, // less than for practice -- to handle the story name
+      min_length: 5, // less than for practice -- to handle the story name      
+      story_type: 'diploma'// TODO
     });
   });
 };
@@ -262,19 +266,21 @@ exports.diploma = (req, res, next) => {
 exports.arrangeDiploma = (req, res, next) => {
   var state = 'state_' + res.locals.lang;
   var strings = {};
-  var prefix = '/images/practice'; // folder + type. TODO - get from 
+  var prefix = '/images';
+  var folder = 'diploma';
   var image = 'se_' + genFunc.getRandomInt(1, 2) + '.png';
   
   strings.state_uk = {
-    img1_t: 'Секретний Редактор чекає',
+    img1_t: 'Таємний Редактор чекає',
     edit: 'Редагувати',
     dload: 'Завантажити .pdf файл',
-    send: 'Надіслати Таємному Редактору',
+    send: 'Надіслати',
+    save: 'Зберегти зміни',
     author: 'Автор ',
     diploma: 'Дипломна історія',
     hint: 'Тобі залишилося тільки відредагувати свою історію: ' +
-      'прочитати на свіже око і виправити помилки. Можливо, щось переписати. ' + 
-      'Тоді сміливо натискай кнопку “Надіслати Таємному Редактору”. ' + 
+      'прочитати на свіже око і виправити помилки, а, можливо, щось переписати. ' + 
+      'Тоді сміливо натискай кнопку “Надіслати", щоби відправити історію Таємному Редактору. ' + 
       'Він прочитає і дасть поради, як можна покращити твою історію. ' + 
       'А тоді вишле тобі іменний диплом, на який ти заслуговуєш!'
   };
@@ -288,19 +294,18 @@ exports.arrangeDiploma = (req, res, next) => {
       res.locals.siteTitle + ': ' + res.locals.url
     ),
     next_path: genFunc.getNextPath('dashboard'),
-    save_path: JSON.stringify('/practice/story_builder/save'),
+    save_path: JSON.stringify('/practice/story_builder/diploma/save'),
+    next_btn: 'send',
     author: JSON.stringify(
       strings[state].author + req.user.profile.name.toUpperCase()
     ),
     str: strings[state],
-    img_path: genFunc.makeImgPath(prefix, 'diploma', 'secret_editors', image),
-    img_pdf: genFunc.makeImgPath(prefix, 'diploma', 'story', 'sign.png'),
-    story_type: 'diploma'// TODO
+    img_path: genFunc.makeImgPath(prefix, folder, 'secret_editors', image),
+    img_pdf: genFunc.makeImgPath(prefix, folder, 'story', 'sign.png')
   });
 };
 
 exports.saveDiploma = (req, res, next) => {
-  req.sanitize('story_name');
   req.sanitize('story');
   req.sanitize('title');
   var strings = {};
@@ -308,32 +313,41 @@ exports.saveDiploma = (req, res, next) => {
   
   strings.state_uk = {
     hint: 'Твою дипломну історію успішно поставлено в чергу до Секретного ' + 
-      'Редактора. Зазвичай він відповідає впродовж 24 годин. Тримаємо кулачки!'
+      'Редактора. Зазвичай він відповідає впродовж 24 годин. Тримаємо кулачки!',
+    dipl_exists: 'Твою дипломну історію вже надіслано Таємному Редакторові.'
   };
   
   var query = {
-    d_story: req.body.story_name,
     userId: req.user.id
   };
-  var params = {
-    story_txt: req.body.story,
-    story_title: req.body.title
-  };
   
-  UserDiploma.findOneAndUpdate(
-    query, 
-    params, 
-    {upsert: true}, 
-    function(err, doc) {
-      if (err) return res.status(500).send({error: err});
-      req.flash('success', {msg: strings[state].hint});
+  const diploma = new UserDiploma({
+    d_title: req.body.title,
+    d_story: req.body.story,
+    userId: req.user.id
+  });
+
+  UserDiploma.findOne(query, (err, existingDiploma) => {    
+    if (err) return res.status(500).send({error: err});
+    if (existingDiploma) {
+      req.flash('errors', { msg: strings[state].dipl_exists });
       res.format({
         json: function(){
           res.send({status: 'OK'});
         }
       });
-    }
-  );
+    } else {
+      diploma.save((err) => {
+        if (err) return res.status(500).send({error: err});
+        req.flash('success', {msg: strings[state].hint});
+        res.format({
+          json: function(){
+            res.send({status: 'OK'});
+          }
+        });
+      });
+    };
+  });
 };
 
 exports.saveTest = (req, res, next) => {

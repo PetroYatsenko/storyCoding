@@ -22,3 +22,7 @@ mixin dashb_count_badge(subj, trials)
       | &nbsp;
     default
       span.badge #{trials}
+      
+mixin dashb_read_label(state)
+  | &nbsp;
+  span.label.label-info= state.read_story
