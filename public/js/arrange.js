@@ -115,14 +115,6 @@ window.addEventListener("DOMContentLoaded", function(event) {
     };
   };
   
-  var recEditedStory = function() {
-    var newStory = [];    
-    $('#story p').each(function() {
-      newStory.push($(this).text());
-    });   
-    sessionStorage.story = JSON.stringify(newStory);
-  }
-  
   var startStoryEdit = function() {
     $story.attr('contenteditable', true).focus();
     $edit.attr('disabled', true).removeClass('btn-info').addClass('btn-default');
@@ -142,12 +134,22 @@ window.addEventListener("DOMContentLoaded", function(event) {
     $send.attr('disabled', false);
     $print.attr('disabled', false);
   };
+  
+  var recEditedStory = function() {
+    console.log('record');
+    var newStory = [];    
+    $('#story p').each(function() {
+      newStory.push($(this).text());
+    });   
+    sessionStorage.story = JSON.stringify(newStory);
+    endStoryEdit();
+  }
     
   $pdf.on('click', {action:'pdf'}, processStory);
   $print.on('click', {action: 'print'}, processStory);
   $dload.on('click', {action: 'dload'}, processStory);
   $edit.on('click', startStoryEdit);
-  $rec.on('click', recEditedStory, endStoryEdit);
+  $rec.on('click', recEditedStory);
   $send.on('click', saveRedirect);
   
 }, false);

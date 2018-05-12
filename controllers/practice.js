@@ -46,6 +46,7 @@ exports.getMonstersCollection = (req, res, next) => {
               status = 'next'; 
               break;
             }
+          case 'sandbox':  
           case 'basic':
             if (avail.monsters.advanced.indexOf(mr.monster) > 0) {
               status = 'adv_prem';
@@ -144,9 +145,9 @@ exports.arrangeStory = (req, res, next) => {
     name: 1, 
     _id: 0
   };
-  param[state] = 1;  
-  // TODO -- to the lang table
+  param[state] = 1;
   var strings = {};
+  
   strings.state_uk = {
     edit: 'Редагувати',
     print: 'Друкувати',
@@ -155,12 +156,20 @@ exports.arrangeStory = (req, res, next) => {
     complete: 'Зберегти',
     author: 'Автор історії ',
     hint: 'Майже готово! Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати',
+    add_name: "Хочеш побачити замість мейла своє ім'я як автора? Клікни по аватарці, \n\
+      зайди у \"Мій профіль\", напиши ім'я та натисни \"Зберегти\". \n\
+      Повернися назад і не забудь оновити сторінку з історією.",
     save: 'Зберегти зміни',
     record: 'Записати'
   };
   // Add info message
   req.flash('info', {msg: strings[state].hint});
+  if (typeof req.user.profile.name === 'undefined' || req.user.profile.name === '') {
+    req.flash('success', {msg: strings[state].add_name});
+  }
   
+  var author_name = req.user.profile.name || req.user.email;
+    
   Lesson.findOne(query, param).then(function(lsn) {
     var prefix = '/images/practice'; // folder + type. TODO - get from 
     var image = hero + '_' + lsn.subj + '.png';
@@ -177,11 +186,11 @@ exports.arrangeStory = (req, res, next) => {
       story_name: JSON.stringify(story_name),
       save_path: JSON.stringify('/practice/story_builder/save'),
       author: JSON.stringify(
-        strings[state].author + req.user.profile.name.toUpperCase()
+        strings[state].author + author_name.toUpperCase()
       ),
       str: strings[state],
       img_path: genFunc.makeImgPath(prefix, lsn.chapter, lsn.name, image),
-      next_btn: 'record' 
+      next_btn: 'send' 
     });
   });
 };
@@ -278,6 +287,9 @@ exports.arrangeDiploma = (req, res, next) => {
     save: 'Зберегти зміни',
     author: 'Автор ',
     diploma: 'Дипломна історія',
+    add_name: "Хочеш побачити замість мейла своє ім'я як автора? \n\
+      Клікни по аватарці, зайди у \"Мій профіль\" та впиши його. \n\
+      І не забудь оновити сторінку",
     hint: 'Тобі залишилося тільки відредагувати свою історію: ' +
       'прочитати на свіже око і виправити помилки, а, можливо, щось переписати. ' + 
       'Тоді сміливо натискай кнопку “Надіслати", щоби відправити історію Таємному Редактору. ' + 
@@ -287,6 +299,10 @@ exports.arrangeDiploma = (req, res, next) => {
   
    // Add info message
   req.flash('info', {msg: strings[state].hint});
+  if (typeof req.user.profile.name === 'undefined'  || req.user.profile.name === '') {
+    req.flash('success', {msg: strings[state].add_name});
+  };
+  var author_name = req.user.profile.name.toUpperCase() || req.user.email;
   
   res.render('13_stories/arrange_diploma', {
     watermark: JSON.stringify(
@@ -297,7 +313,7 @@ exports.arrangeDiploma = (req, res, next) => {
     save_path: JSON.stringify('/practice/story_builder/diploma/save'),
     next_btn: 'send',
     author: JSON.stringify(
-      strings[state].author + req.user.profile.name.toUpperCase()
+      strings[state].author + author_name.toUpperCase()
     ),
     str: strings[state],
     img_path: genFunc.makeImgPath(prefix, folder, 'secret_editors', image),

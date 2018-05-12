@@ -8,7 +8,8 @@ const lessonSchema = new mongoose.Schema({
   monsters: {
     basic: {type: Array, match: /[a-z,A-Z]/},
     advanced: {type: Array, match: /[a-z,A-Z]/},
-    premium: {type: Array, match: /[a-z,A-Z]/}
+    premium: {type: Array, match: /[a-z,A-Z]/},
+    sandbox: {type: Array, match: /[a-z,A-Z]/}
   },
   enabled: {type: Boolean},
   state_uk: {

@@ -9,8 +9,11 @@
       a.navbar-brand(href='/')        
         span.label.label-danger= siteLogo
         small
-          +account_label(user.classes[course_id].account, global_str)
+          if user
+            | &nbsp;
+            +account_label(user.classes[course_id].account, global_str)
           if process.env.ENVIRONMENT === 'development'
+            | &nbsp;
             +account_label(process.env.ENVIRONMENT, global_str)
     .collapse.navbar-collapse
       if (title === 'Home')
