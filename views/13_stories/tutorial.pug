@@ -1,16 +1,39 @@
 extends ../layout
 
-block scripts
-  script.
-    var nextPath = !{next_path} 
-
 block content
-  h2= title
-  div
-    iframe(width="560" height="315" 
-      src="https://www.youtube.com/embed/0y6-4Gq3iP4?rel=0" 
-      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
-    )
-  div
-    a.btn.btn-success.btn-lg(href="/lessons/dashboard")        
-      | Повернутися до історій
+  .container
+    .raw.text-center
+      .col-sm-12      
+        h2= str['title_' + chapter]
+        div
+          case chapter
+            when 'dashboard'
+              iframe(width="560" height="315" 
+                src="https://www.youtube.com/embed/0y6-4Gq3iP4?rel=0" 
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+              )
+            when 'story'
+              iframe(width="560" height="315" 
+                src="https://www.youtube.com/embed/0y6-4Gq3iP4?rel=0" 
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+              )
+            when 'practice'
+              iframe(width="560" height="315" 
+                src="https://www.youtube.com/embed/0y6-4Gq3iP4?rel=0" 
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+              )
+            when 'tests'
+              iframe(width="560" height="315" 
+                src="https://www.youtube.com/embed/0y6-4Gq3iP4?rel=0" 
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+              )
+            when 'diploma'
+              iframe(width="560" height="315" 
+                src="https://www.youtube.com/embed/0y6-4Gq3iP4?rel=0" 
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+              )
+    .raw.text-center   
+      .col-sm-12
+        .btn-group
+          a.btn.btn-success.btn-lg.right(href='/lessons/dashboard')= str.go_back
+          a.btn.btn-info.btn-lg(href='/lessons/' + str.next_to[chapter] + '/tutorial')= str.next_tutorial

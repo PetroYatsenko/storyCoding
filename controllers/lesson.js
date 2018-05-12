@@ -9,9 +9,31 @@ const Promise = require('bluebird');
 
 
 exports.tutorial = (req, res, next) => {
+  req.sanitize('chapter');
+  var chpt = req.params.chapter;
+  var strings = {};
+  var state = 'state_' + res.locals.lang;
+  
+  strings.state_uk = {
+    title_dashboard: 'Як працює зміст',
+    title_story: 'Як читати страшну історію',
+    title_practice: 'Як конструювати свою історію',
+    title_tests: 'Як працюють тести',
+    title_diploma: 'Як отримати диплом',
+    go_back: 'До історій',
+    next_tutorial: 'Наступне відео',
+    next_to: {
+      dashboard: 'story',
+      story: 'practice',
+      practice: 'tests',
+      tests: 'diploma',
+      diploma: 'dashboard'
+    }
+  };
+  
   res.render('13_stories/tutorial', {
-    title: 'Як побудовані наші уроки', //TODO
-    nextPath: JSON.stringify('/lessons/transparent_dude/simple_var') //TODO
+    chapter: chpt, 
+    str: strings[state]
   });  
 }; 
 
