@@ -13,3 +13,7 @@ exports.index = (req, res) => {
     });
   });
 };
+
+exports.userAgreement = (req, res, next) => {
+  res.render('user_agreement');
+};
