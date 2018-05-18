@@ -2,100 +2,96 @@ extends ../layout
 
 block content
   .page-header
-    h3 Profile Information
+    h3= str.title
 
   form.form-horizontal(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
-      label.col-sm-3.control-label(for='email') Email
+      label.col-sm-3.control-label(for='email')= str.email
       .col-sm-7
         input.form-control(type='email', name='email', id='email', value=user.email)
     .form-group
-      label.col-sm-3.control-label(for='name') Name
+      label.col-sm-3.control-label(for='name')= str.name
       .col-sm-7
         input.form-control(type='text', name='name', id='name', value=user.profile.name)
     .form-group
-      label.col-sm-3.control-label Gender
+      label.col-sm-3.control-label= str.gender
       .col-sm-6
         label.radio.col-sm-3
           input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
-          span Male
+          span= str.gent.male
         label.radio.col-sm-3
           input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
-          span Female
+          span= str.gent.female
         label.radio.col-sm-3
           input(type='radio', checked=user.profile.gender=='other', name='gender', value='other', data-toggle='radio')
-          span Other
+          span= str.gent.other
     .form-group
-      label.col-sm-3.control-label(for='location') Location
+      label.col-sm-3.control-label(for='location')= str.address
       .col-sm-7
         input.form-control(type='text', name='location', id='location', value=user.profile.location)
     .form-group
-      label.col-sm-3.control-label(for='website') Website
-      .col-sm-7
-        input.form-control(type='text', name='website', id='website', value=user.profile.website)
-    .form-group
-      label.col-sm-3.control-label Gravatar
+      label.col-sm-3.control-label= str.gravatar
       .col-sm-4
         img(src=user.gravatar(), class='profile', width='100', height='100')
     .form-group
       .col-sm-offset-3.col-sm-4
         button.btn.btn.btn-primary(type='submit')
           i.fa.fa-pencil
-          | Update Profile
+          span= str.profile_upd
 
   .page-header
-    h3 Change Password
+    h3= str.change_pass
 
   form.form-horizontal(action='/account/password', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
-      label.col-sm-3.control-label(for='password') New Password
+      label.col-sm-3.control-label(for='password')= str.new_pass
       .col-sm-7
         input.form-control(type='password', name='password', id='password')
     .form-group
-      label.col-sm-3.control-label(for='confirmPassword') Confirm Password
+      label.col-sm-3.control-label(for='confirmPassword')= str.confirm_new
       .col-sm-7
         input.form-control(type='password', name='confirmPassword', id='confirmPassword')
     .form-group
       .col-sm-offset-3.col-sm-4
         button.btn.btn-primary(type='submit')
           i.fa.fa-lock
-          | Change Password
+          span= str.change_pass_btn
 
   .page-header
-    h3 Delete Account
+    h3= str.delete_acc
 
   form.form-horizontal(action='/account/delete', method='POST')
     .form-group
-      p.col-sm-offset-3.col-sm-4 You can delete your account, but keep in mind this action is irreversible.
+      p.col-sm-offset-3.col-sm-4= str.delete_msg 
       input(type='hidden', name='_csrf', value=_csrf)
       .col-sm-offset-3.col-sm-4
         button.btn.btn-danger(type='submit')
           i.fa.fa-trash
-          | Delete my account
+          span= str.delete_acc_btn
 
   .page-header
-    h3 Linked Accounts
+    h3= str.linked_acc
   .form-horizontal
     .form-group
       .col-sm-offset-3.col-sm-4
         if user.instagram
-          p: a.text-danger(href='/account/unlink/instagram') Unlink your Instagram account
+          p: a.text-danger(href='/account/unlink/instagram')= str.unlink + ' ' + str.ig + ' ' + str.acc
         else
-          p: a(href='/auth/instagram') Link your Instagram account
+          p: a(href='/auth/instagram')= str.link + ' ' + str.ig + ' ' + str.acc
       .col-sm-offset-3.col-sm-4
         if user.google
-          p: a.text-danger(href='/account/unlink/google') Unlink your Google account
+          p: a.text-danger(href='/account/unlink/google')= str.unlink + ' ' + str.gl + ' ' + str.acc
         else
-          p: a(href='/auth/google') Link your Google account
+          p: a(href='/auth/google')= str.link + ' ' + str.gl + ' ' + str.acc
       .col-sm-offset-3.col-sm-4
         if user.facebook
-          p: a.text-danger(href='/account/unlink/facebook') Unlink your Facebook account
+          p: a.text-danger(href='/account/unlink/facebook')= str.unlink + ' ' + str.fb + ' ' + str.acc
         else
-          p: a(href='/auth/facebook') Link your Facebook account
+          p: a(href='/auth/facebook')= str.link + ' ' + str.fb + ' ' + str.acc
       .col-sm-offset-3.col-sm-4
         if user.twitter
-          p: a.text-danger(href='/account/unlink/twitter') Unlink your Twitter account
+          p: a.text-danger(href='/account/unlink/twitter')= str.unlink + ' ' + str.tw + ' ' + str.acc
         else
-          p: a(href='/auth/twitter') Link your Twitter account      
+          p: a(href='/auth/twitter')= str.link + ' ' + str.tw + ' ' + str.acc 

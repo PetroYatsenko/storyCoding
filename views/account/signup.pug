@@ -2,23 +2,24 @@ extends ../layout
 
 block content
   .page-header
-    h3 Sign up
+    h3= str.sign_up
   form.form-horizontal(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
-      label.col-sm-3.control-label(for='email') Email
+      label.col-sm-3.control-label(for='email')= str.email
       .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+        input.form-control(type='email', name='email', id='email', placeholder= str.email, autofocus, required)
     .form-group
-      label.col-sm-3.control-label(for='password') Password
+      label.col-sm-3.control-label(for='password')= str.pass
       .col-sm-7
-        input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+        input.form-control(type='password', name='password', id='password', placeholder= str.pass, required)
     .form-group
-      label.col-sm-3.control-label(for='confirmPassword') Confirm Password
+      label.col-sm-3.control-label(for='confirmPassword')= str.confirm
       .col-sm-7
-        input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
+        input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder= str.confirm_pass, required)
     .form-group
       .col-sm-offset-3.col-sm-7
+        p.strong !{str.sign_up_msg}
         button.btn.btn-success(type='submit')
           i.fa.fa-user-plus
-          | Signup
+          span= str.sign_up_btn

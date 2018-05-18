@@ -15,11 +15,31 @@ exports.getLogin = (req, res) => {
   var lang = res.locals.lang;         
   var strings = {
     uk: {
-      log_in: 'Вхід'
+      sign_in: 'Вхід',
+      email: 'Електронна пошта',
+      password: 'Пароль',
+      pass_forgot: 'Не можеш згадати пароль?',
+      enter: 'Заходь',
+      sign_in_with: 'Заходь за допомогою',
+      fb: 'Facebook',
+      tw: 'Twitter',
+      gl: 'Google',
+      ig: 'Instagram'
+    },
+    en: {
+      sign_in: 'Sign in',
+      email: 'Email',
+      password: 'Password',
+      pass_forgot: 'Forgot your password?',
+      sign_in_with: 'Sign in with',
+      fb: 'Facebook',
+      tw: 'Twitter',
+      gl: 'Google',
+      ig: 'Instagram'
     }
   }; 
   res.render('account/login', {
-    title: strings[lang].log_in
+    str: strings[lang]
   });
 };
 
@@ -81,11 +101,26 @@ exports.getSignup = (req, res) => {
   var lang = res.locals.lang;         
   var strings = {
     uk: {
-      sign_up: 'Реєстрація'
+      sign_up: 'Реєстрація',
+      email: 'Е-пошта',
+      pass: 'Пароль',
+      confirm: 'Підтвердити',
+      confirm_pass: '... іще раз пароль',
+      sign_up_btn: 'Створити профіль',      
+      sign_up_msg: 'Натискаючи на кнопку "Створити профіль", ви підтверджуєте, що прочитали <a href="/user_agreement" >"Публічний договір з користувачем"</a> та повністю і беззаперечно згодні з усіма його пунктами'
+    }, 
+    en: {
+      sign_up: 'Sign up',
+      email: 'Email',
+      pass: 'Password',
+      confirm: 'Confirm',
+      confirm_pass: 'Confirm Password',
+      sign_up_btn: 'Signup',
+      sign_up_msg: ''
     }
   }; 
   res.render('account/signup', {
-    title: strings[lang].sign_up
+    str: strings[lang]
   });
 };
 
@@ -146,11 +181,68 @@ exports.getAccount = (req, res) => {
   var lang = res.locals.lang;         
   var str = {
     uk: {
-      my_acc: 'Мій профіль',
+      title: 'Мій профіль',
+      email: 'Е-пошта',
+      name: 'Імʼя',
+      gender: 'Стать',
+      gent: {
+        male: 'Чоловіча',
+        female: 'Жіноча',
+        other: 'Інша'
+      },
+      address: 'Адреса',
+      phone: 'Телефон',
+      gravatar: 'Граватар',
+      profile_upd: 'Оновити профіль',      
+      change_pass: 'Зміна пароля',
+      new_pass: 'Новий пароль',
+      confirm_new: '... і ще раз новий пароль',
+      change_pass_btn: 'Змінити пароль',
+      delete_acc: 'Видалити профіль',
+      delete_msg: 'Ти можеш видалити свій профіль, але май на увазі, що його вже не можна буде відновити.',
+      delete_acc_btn: 'Стерти свій чудовий профіль',
+      linked_acc: 'Повʼязані профілі',
+      link: 'Привʼяжи свій',
+      unlink: 'Відʼєднай свій',
+      fb: 'Facebook',
+      tw: 'Twitter',
+      gl: 'Google',
+      ig: 'Instagram',
+      acc: 'профіль'
+    },
+    en: {
+      title: 'Account Management',
+       email: 'Email',
+      name: 'Name',
+      gender: 'Gender',
+      gent: {
+        male: 'Male',
+        female: 'Female',
+        other: 'Other'
+      },
+      address: 'Address',
+      phone: 'Phone',
+      gravatar: 'Gravatar',
+      profile_upd: 'Update Profile',
+      change_pass: 'Change Password',
+      new_pass: 'New Password',
+      confirm_new: 'Confirm New Password',
+      change_pass_btn: 'Change Password',
+      delete_acc: 'Delete Account',
+      delete_msg: 'You can delete your account, but keep in mind this action is irreversible.',
+      delete_acc_btn: 'Delete Account',
+      linked_acc: 'Linked Accounts',
+      link: 'Link your',
+      unlink: 'Unlink your',
+      fb: 'Facebook',
+      tw: 'Twitter',
+      gl: 'Google',
+      ig: 'Instagram',
+      acc: 'account'
     }
   }; 
   res.render('account/profile', {
-    title: str[lang].my_acc // Account Management
+    str: str[lang]
   });
 };
 
@@ -280,8 +372,18 @@ exports.getReset = (req, res, next) => {
   var lang = res.locals.lang;         
   var str = {
     uk: {
-      passw_reset: 'Зміна пароля',
+      pass_reset: 'Зміна пароля',
+      new_pass: 'Новий пароль',
+      confirm_pass: 'Підтвердити новий пароль',
+      change_pass: 'Змінити пароль',
       passw_err_reset: 'Зверніть увагу: лінк на зміну пароля неправильний або термін його дії закінчився.'
+    },
+    en: {
+      pass_reset: 'Reset Password',      
+      new_pass: 'New Password',
+      confirm_pass: 'Confirm Password',
+      change_pass: 'Change Password',
+      passw_err_reset: 'Password reset token is invalid or has expired.'
     }
   }; 
   User
@@ -290,11 +392,11 @@ exports.getReset = (req, res, next) => {
     .exec((err, user) => {
       if (err) { return next(err); }
       if (!user) {
-        req.flash('errors', { msg: str[lang].passw_err_reset});//'Password reset token is invalid or has expired.'
+        req.flash('errors', { msg: str[lang].passw_err_reset});
         return res.redirect('/forgot');
       }
       res.render('account/reset', {
-        title: str[lang].passw_reset//'Password Reset'
+        str: str[lang]
       });
     });
 };
@@ -384,11 +486,20 @@ exports.getForgot = (req, res) => {
   var lang = res.locals.lang;
   var str = {
     uk: {
-      passw_forgot: 'Забули пароль'
+      p_forgot: 'Забули пароль? Жодних проблем, таке трапляється.',
+      help_txt: 'Напишіть адресу електронної пошти, і ми негайно надішлемо вам листа з допомогою.',
+      email: 'E-пошта',
+      reset: 'Відновити доступ'
+    },
+    en: {
+      p_forgot: 'Forgot Password',
+      help_txt: 'Enter your email address below and we will send you password reset instructions.',
+      email: 'Email',
+      reset: 'Reset Password'
     }
   }; 
   res.render('account/forgot', {
-    title: str[lang].passw_forgot,//'Forgot Password'
+    str: str[lang],
   });
 };
 
@@ -402,22 +513,13 @@ exports.postForgot = (req, res, next) => {
     uk: {
       email_err: 'Зверніть увагу: вірогідно, адреса вашої електронної пошти містить помилку.',
       email_err_acc: 'Зверніть увагу: профілю з такою адресою електронної пошти не існує.',
-      passw_reset_mail_theme: `Запит на зміну вашого пароля на платформі ${res.locals.siteLogo}`,
-      passw_change_msg: `Ми надіслали електронного листа на твою адресу ${user.email}. Там написано, що робити далі.`,
-      passw_change_mail_txt: `Ви отримали цього листа, тому що ви (або хто-небудь інший) надіслали запит на зміну пароля до вашого профілю.\n\n
-        Будь ласка, клікніть на лінк або скопіюйте його до вашого веб-браузера, щоби завершити процес:\n\n
-        http://${req.headers.host}/reset/${token}\n\n
-        Якщо ви не надсилали запиту на зміню пароля, будь ласка, проігноруйте цей лист, і ваш пароль залишиться без змін.\n`
+      passw_reset_mail_theme: `Запит на зміну вашого пароля на платформі ${res.locals.siteLogo}`
     },
     en: {
-      passw_change_mail_txt: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:\n\n
-        http://${req.headers.host}/reset/${token}\n\n
-        If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-      passw_change_msg: `An e-mail has been sent to ${user.email} with further instructions.`
+      email_err: 'Please enter a valid email address.',
     }
   }; 
-  req.assert('email', str[lang].email_err).isEmail();//'Please enter a valid email address.'
+  req.assert('email', str[lang].email_err).isEmail();
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
@@ -455,6 +557,16 @@ exports.postForgot = (req, res, next) => {
         pass: process.env.SENDGRID_PASSWORD
       }
     });
+    str.uk.passw_change_msg = `Ми надіслали електронного листа на твою адресу ${user.email}. Там написано, що робити далі.`;
+    str.uk.passw_change_mail_txt = `Ви отримали цього листа, тому що ви (або хто-небудь інший) надіслали запит на зміну пароля до вашого профілю.\n\n
+        Будь ласка, клікніть на лінк або скопіюйте його до вашого веб-браузера, щоби завершити процес:\n\n
+        http://${req.headers.host}/reset/${token}\n\n
+        Якщо ви не надсилали запиту на зміню пароля, будь ласка, проігноруйте цей лист, і ваш пароль залишиться без змін.\n`;
+    str.en.passw_change_mail_txt = `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+        Please click on the following link, or paste this into your browser to complete the process:\n\n
+        http://${req.headers.host}/reset/${token}\n\n
+        If you did not request this, please ignore this email and your password will remain unchanged.\n`;
+    str.en.passw_change_msg = `An e-mail has been sent to ${user.email} with further instructions.`;
     const mailOptions = {
       to: user.email,
       from: res.locals.email,

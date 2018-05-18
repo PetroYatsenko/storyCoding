@@ -3,15 +3,15 @@ extends ../layout
 block content
   .col-sm-8.col-sm-offset-2
     form(method='POST')
-      legend Reset Password
+      legend= str.pass_reset
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group
-        label(for='password') New Password
-        input.form-control(type='password', name='password', id='password', placeholder='New password', autofocus, required)
+        label(for='password')= str.new_pass
+        input.form-control(type='password', name='password', id='password', placeholder= str.new_pass, autofocus, required)
       .form-group
-        label(for='confirm') Confirm Password
-        input.form-control(type='password', name='confirm', id='confirm', placeholder='Confirm password', required)
+        label(for='confirm')= str.confirm_pass
+        input.form-control(type='password', name='confirm', id='confirm', placeholder= str.confirm_pass, required)
       .form-group
         button.btn.btn-primary.btn-reset(type='submit')
           i.fa.fa-keyboard-o
-          | Change Password
+          span= str.change_pass

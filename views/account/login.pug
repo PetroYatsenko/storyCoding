@@ -2,23 +2,23 @@ extends ../layout
 
 block content
   .page-header
-    h3 Sign in
+    h3= str.sign_in
   form.form-horizontal(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
-      label.col-sm-3.control-label(for='email') Email
+      label.col-sm-3.control-label(for='email')= str.email
       .col-sm-7
         input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
     .form-group
-      label.col-sm-3.control-label(for='password') Password
+      label.col-sm-3.control-label(for='password')= str.password
       .col-sm-7
         input.form-control(type='password', name='password', id='password', placeholder='Password', required)
     .form-group
       .col-sm-offset-3.col-sm-7
         button.col-sm-3.btn.btn-primary(type='submit')
-          i.fa.fa-user
-          | Login
-        a.btn.btn-link(href='/forgot') Forgot your password?
+          i.fa.fa-user 
+          span= str.enter
+        a.btn.btn-link(href='/forgot')= str.pass_forgot
     .form-group
       .col-sm-offset-3.col-sm-7
         hr
@@ -26,13 +26,13 @@ block content
       .col-sm-offset-3.col-sm-7
         a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
           i.fa.fa-facebook
-          | Sign in with Facebook
+          span= str.sign_in_with + ' ' + str.fb
         a.btn.btn-block.btn-twitter.btn-social(href='/auth/twitter')
           i.fa.fa-twitter
-          | Sign in with Twitter
+          span= str.sign_in_with + ' ' + str.tw
         a.btn.btn-block.btn-google.btn-social(href='/auth/google')
           i.fa.fa-google-plus
-          | Sign in with Google       
+          span= str.sign_in_with + ' ' + str.gl       
         a.btn.btn-block.btn-instagram.btn-social(href='/auth/instagram')
           i.fa.fa-instagram
-          | Sign in with Instagram
+          span= str.sign_in_with + ' ' + str.ig
