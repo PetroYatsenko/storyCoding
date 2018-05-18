@@ -25,17 +25,17 @@
           li
             a(href='#prices') Ціни
           li
-            a(href='#faq') FAQ  
+            a(href='#faq') Питання  
           li
             a(href='#contact') Контакти          
       ul.nav.navbar-nav.navbar-right
         if !user
-          li(class=(title === 'Login') ? 'active' : undefined)
-            a(href='/login') Login
-          li(class=(title === 'Create Account') ? 'active' : undefined)
-            a(href='/signup') Create Account
+          li(class=(title === 'Вхід') ? 'active' : undefined)
+            a(href='/login') Вхід
+          li(class=(title === 'Реєстрація') ? 'active' : undefined)
+            a(href='/signup') Реєстрація
         else
-          li.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
+          li.dropdown(class=(title === 'Мій профіль') ? 'active' : undefined)
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               if user.profile.picture
                 img(src= user.profile.picture)

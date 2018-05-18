@@ -64,6 +64,7 @@ app.use(function(req, res, next){
     course_id: 'storycoding',
     course_name: 'Програмуємо... страшні історії!', //TODO pass to the home page too
     url: 'www.greatprose.com',
+    email: 'support@greatprose.com', //TODO pass to the User Agreement
     global_str: {
       sandbox: 'пісочниця',
       basic: 'базовий',
