@@ -2,13 +2,11 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var current_step = 0;
   const textarea = 'your_story';
   const taskId = 'task_';
-  const storyId = 'story_item_';
-  // TODO: translation
-  const browserAlert = 'Looks like your browser has no web-session support. Please, use a newest browser version.';  
+  const storyId = 'story_item_'; 
   var story = [];
   var webStorageCheck = function() {
     if (typeof(Storage) === "undefined") {
-      alert(browserAlert);
+      alert(wsAlert);
     }
   }();
   

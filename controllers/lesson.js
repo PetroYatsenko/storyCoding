@@ -40,14 +40,24 @@ exports.tutorial = (req, res, next) => {
 exports.lesson = (req, res, next) => {
   req.sanitize('story');
   req.sanitize('subj'); //TODO we are not using it further;
-  var state = 'state_' + res.locals.lang; 
-  var items = 'items_' + res.locals.lang;
+  var lang = res.locals.lang;
+  var state = 'state_' + lang; 
+  var items = 'items_' + lang;
   var story_name = req.params.story; 
    
   var query = {
     story: story_name, 
     type: 'lesson'
   };
+  
+  var alert = {
+    uk: {
+      ws_err: 'Виглядає на те, що ваш бровзер не підтримує веб-сховище (web storage). Будь ласка, встановіть найновішу версію бровзера.'
+    },
+    en: {
+      ws_err: 'Looks like your browser has no Web Storage support. Please, use a newest browser version.'
+    }
+  }
   
   var replace = genFunc.replaceButtonObj;
      
@@ -59,7 +69,8 @@ exports.lesson = (req, res, next) => {
       story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
     }
     
-    res.render('13_stories/lesson', { 
+    res.render('13_stories/lesson', {
+      alert: alert[lang].ws_err,
       strings: story[state],
       story_items: story[items],     
       steps: JSON.stringify(steps.steps).replace(/<\//g, "<\\/"),
