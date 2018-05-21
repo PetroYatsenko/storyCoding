@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   .page-header
-    h3= str.sign_in
+    h3 !{str.sign_in}
   form.form-horizontal(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group

@@ -15,7 +15,7 @@ exports.getLogin = (req, res) => {
   var lang = res.locals.lang;         
   var strings = {
     uk: {
-      sign_in: 'Вхід',
+      sign_in: 'Увійди або <a href="/signup">Зареєструйся</a>',
       email: 'Електронна пошта',
       password: 'Пароль',
       pass_forgot: 'Не можеш згадати пароль?',
@@ -101,13 +101,15 @@ exports.getSignup = (req, res) => {
   var lang = res.locals.lang;         
   var strings = {
     uk: {
-      sign_up: 'Реєстрація',
+      sign_up: 'Зареєструйся або <a href="/login" >Увійди</a>',
       email: 'Е-пошта',
       pass: 'Пароль',
       confirm: 'Підтвердити',
       confirm_pass: '... іще раз пароль',
       sign_up_btn: 'Створити профіль',      
-      sign_up_msg: 'Натискаючи на кнопку "Створити профіль", ви підтверджуєте, що прочитали <a href="/user_agreement" >"Публічний договір з користувачем"</a> та повністю і беззаперечно згодні з усіма його пунктами'
+      sign_up_msg: 'Натискаючи на кнопку "Створити профіль", ви підтверджуєте, \n\
+        що прочитали <a href="/user_agreement" >"Публічний договір з користувачем"</a> \n\
+        та повністю і беззаперечно згодні з усіма його пунктами'
     }, 
     en: {
       sign_up: 'Sign up',
@@ -136,11 +138,17 @@ exports.postSignup = (req, res, next) => {
       email_err_acc: 'Зверніть увагу: профіль з такою адресою електронної пошти вже існує.',
       passw_err_width: 'Зверніть увагу: пароль має бути довжиною принаймні 8 символів.',
       passw_err_match: 'Зверніть увагу: паролі не збігаються.',
+    },
+    en: {
+      email_err: 'Email is not valid',
+      email_err_acc: 'Account with that email address already exists.',
+      passw_err_width: 'Password must be at least 8 characters long',
+      passw_err_match: 'Passwords do not match'
     }
   }; 
-  req.assert('email', str[lang].email_err).isEmail(); //'Email is not valid'
-  req.assert('password', str[lang].passw_err_width).len(8); //'Password must be at least 8 characters long'
-  req.assert('confirmPassword', str[lang].passw_err_match).equals(req.body.password);// 'Passwords do not match'
+  req.assert('email', str[lang].email_err).isEmail();
+  req.assert('password', str[lang].passw_err_width).len(8);
+  req.assert('confirmPassword', str[lang].passw_err_match).equals(req.body.password); 
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
@@ -158,7 +166,7 @@ exports.postSignup = (req, res, next) => {
   User.findOne({ email: req.body.email }, (err, existingUser) => {
     if (err) { return next(err); }
     if (existingUser) {
-      req.flash('errors', {msg: str[lang].email_err_acc}); // 'Account with that email address already exists.'
+      req.flash('errors', {msg: str[lang].email_err_acc}); 
       return res.redirect('/signup');
     }
     user.save((err) => {
@@ -167,7 +175,7 @@ exports.postSignup = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        res.redirect('/');
+        res.redirect(req.session.returnTo || '/lessons/dashboard');
       });
     });
   });
@@ -257,9 +265,14 @@ exports.postUpdateProfile = (req, res, next) => {
       email_err: 'Зверніть увагу: вірогідно, помилка в адресі вашої електронної пошти.',
       email_err_acc: 'Зверніть увагу: профіль з такою адресою електронної пошти вже існує.',
       email_suc_upd: 'Інформацію профілю успішно оновлено.' 
+    }, 
+    en: {
+      email_err: 'Please enter a valid email address.',
+      email_err_acc: 'The email address you have entered is already associated with an account.',
+      email_suc_upd: 'Profile information has been updated.'
     }
   }; 
-  req.assert('email', str[lang].email_err).isEmail(); //'Please enter a valid email address.'
+  req.assert('email', str[lang].email_err).isEmail();
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
@@ -279,12 +292,12 @@ exports.postUpdateProfile = (req, res, next) => {
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', {msg: str[lang].email_err_acc}); // 'The email address you have entered is already associated with an account.'
+          req.flash('errors', {msg: str[lang].email_err_acc});
           return res.redirect('/account');
         }
         return next(err);
       }
-      req.flash('success', {msg: str[lang].email_suc_upd}); //'Profile information has been updated.'
+      req.flash('success', {msg: str[lang].email_suc_upd});
       res.redirect('/account');
     });
   });
@@ -301,10 +314,16 @@ exports.postUpdatePassword = (req, res, next) => {
       passw_err_width: 'Зверніть увагу: пароль має бути довжиною принаймні 8 символів.',
       passw_err_match: 'Зверніть увагу: паролі не збігаються.',
       passw_suc_upd: 'Пароль успішно змінено.'
+    }, 
+    en: {
+      passw_err_width: 'Password must be at least 8 characters long',
+      passw_err_match: 'Passwords do not match',
+      passw_suc_upd: 'Password has been changed.'
     }
+    
   };
-  req.assert('password', str[lang].passw_err_width).len(8); //'Password must be at least 8 characters long'
-  req.assert('confirmPassword', str[lang].passw_err_match).equals(req.body.password);// 'Passwords do not match'
+  req.assert('password', str[lang].passw_err_width).len(8);
+  req.assert('confirmPassword', str[lang].passw_err_match).equals(req.body.password); 
 
   const errors = req.validationErrors();
 
@@ -318,7 +337,7 @@ exports.postUpdatePassword = (req, res, next) => {
     user.password = req.body.password;
     user.save((err) => {
       if (err) { return next(err); }
-      req.flash('success', { msg: str[lang].passw_suc_upd});//'Password has been changed.'
+      req.flash('success', { msg: str[lang].passw_suc_upd});
       res.redirect('/account');
     });
   });
@@ -333,12 +352,15 @@ exports.postDeleteAccount = (req, res, next) => {
   var str = {
     uk: {
       acc_suc_del: 'Ваш профіль успішно закрито. Хоча нам дуже шкода. Повертайтеся!'
+    }, 
+    en: {
+      acc_suc_del: 'Your account has been deleted.'
     }
   };
   User.remove({ _id: req.user.id }, (err) => {
     if (err) { return next(err); }
     req.logout();
-    req.flash('info', {msg: str[lang].acc_suc_del});// 'Your account has been deleted.'
+    req.flash('info', {msg: str[lang].acc_suc_del});
     res.redirect('/');
   });
 };
@@ -413,7 +435,10 @@ exports.postReset = (req, res, next) => {
       passw_err_width: 'Зверніть увагу: пароль має бути довжиною принаймні 8 символів.',
       passw_err_match: 'Зверніть увагу: паролі не збігаються.',
       passw_err_reset: 'Зверніть увагу: лінк на зміну пароля неправильний або термін його дії закінчився.',
-      passw_changed_mail_txt: `Вітаємо!\n\n Ваш пароль до профілю ${user.email} був щойно змінений. Якщо це зроблено без вашого відома, будь ласка, негайно зв'яжіться з технічною підтримкою: ${res.locals.email} \n\n З повагою, навчальна платформа ${res.locals.siteTitle}`
+      passw_changed_mail_txt: `Вітаємо!\n\n Ваш пароль до профілю ${user.email} 
+        був щойно змінений. Якщо це зроблено без вашого відома, будь ласка, негайно 
+        зв'яжіться з технічною підтримкою: ${res.locals.email} \n\n 
+        З повагою, навчальна платформа ${res.locals.siteTitle}`
     },
     en: {
       passw_changed_mail_txt: `Hello,\n\nThis is a confirmation that the password for your account ${user.email} has just been changed.\n`
@@ -487,7 +512,8 @@ exports.getForgot = (req, res) => {
   var str = {
     uk: {
       p_forgot: 'Забули пароль? Жодних проблем, таке трапляється.',
-      help_txt: 'Напишіть адресу електронної пошти, з якою ви реєструвалися, і ми негайно надішлемо вам листа, де розкажемо, що робити далі.',
+      help_txt: 'Напишіть адресу електронної пошти, з якою ви реєструвалися, \n\
+        і ми негайно надішлемо вам листа, де розкажемо, що робити далі.',
       email: 'E-пошта',
       reset: 'Відновити доступ'
     },
@@ -517,6 +543,7 @@ exports.postForgot = (req, res, next) => {
     },
     en: {
       email_err: 'Please enter a valid email address.',
+      email_err_acc: 'Account with that email address does not exist.'
     }
   }; 
   req.assert('email', str[lang].email_err).isEmail();
@@ -538,7 +565,7 @@ exports.postForgot = (req, res, next) => {
       .findOne({ email: req.body.email })
       .then((user) => {
         if (!user) {
-          req.flash('errors', {msg: str[lang].email_err_acc});//'Account with that email address does not exist.'
+          req.flash('errors', {msg: str[lang].email_err_acc});
         } else {
           user.passwordResetToken = token;
           user.passwordResetExpires = Date.now() + 3600000; // 1 hour

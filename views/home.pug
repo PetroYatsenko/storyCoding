@@ -4,7 +4,7 @@ block content
   .jumbotron.text-center
     h1 Програмуємо... страшні історії
     p.lead Основи інформатики легко, весело й вичерпно.
-    form(method='get' action='/signup')
+    form(method='get' action='/lessons/dashboard')
       button.btn.btn-success.btn-lg        
         | Починай,
         br
@@ -13,116 +13,6 @@ block content
     p.lead
       i.fa.fa-paint-brush
       | Розроблено спеціально для гуманітаріїв
-  .container-fluid#about
-    .row
-      .col-sm-8
-        h2 Чи можна програмувати... звичайною мовою?
-        h4 Зазвичай для навчання використовують спрощену "псевдо-мову", якої треба навчитися. Але чому б не використати для початку мову, яку ти вже знаєш? 
-        p
-        button.btn.btn-default.btn-sm(data-toggle="collapse" data-target="#answ_1") Дізнатися більше »
-        div.collapse#answ_1
-          p Ви не зустрінете в нас означень на кшталт "оператор — це елемент мови, що задає повне описання дії, яку необхідно виконати".
-          p Ми зробили пояснення максимально доступними і водночас вичерпними. Видима простота наших історій та завдань насправді потребувала тривалої та ретельної праці.
-          p Цей курс покликаний дати глибоке розуміння основ програмування та креативного письма у легкій та цікавій формі. 
-      .col-sm-4
-        i.fa.fa-file-code-o.logo.slideanim
-  .container-fluid.bg-grey#team
-    .row
-      .col-sm-4
-        img.slideanim(src='/images/heroes/authors/ptak.png')
-        img.slideanim(src='/images/heroes/authors/bilka.png')
-        img.slideanim(src='/images/heroes/authors/mamay.png')
-      .col-sm-8
-        h2 Про нас
-        h4 Хто ми і чому це придумали?
-        p
-          strong.text-uppercase Петро Яценко, 
-          | викладач програмування, автор курсу — навчає дітей та дорослих мислити послідовно й логічно.
-        p 
-          strong.text-uppercase Галина Ткачук, 
-          | дитяча письменниця, викладачка креативного письма — написала бестселер "13 історій у темряві", що став "Книгою року Бі-Бі-Сі". 
-        p 
-          strong.text-uppercase Ірина Мамаєва, 
-          | дизайнерка та художниця — зробила чудові ілюстрації для нашого курсу.  
-  .container-fluid.text-center#services 
-    h2 Чому цей курс унікальний?
-    p
-    .row.slideanim
-      .col-sm-4
-        span.glyphicon.glyphicon-education.logo-small 
-        h4.text-uppercase Корисно
-        ul
-          li Вивчимо типи 
-            span.text-uppercase змінних
-          li Дізнаємося про 
-            span.text-uppercase умови
-          li Застосуємо 
-            span.text-uppercase цикли
-          li Зрозуміємо 
-            span.text-uppercase функції
-        
-      .col-sm-4
-        span.glyphicon.glyphicon-leaf.logo-small
-        h4.text-uppercase Просто
-        ul
-          li Без "псевдо-коду"
-          li З прикладами та підказками
-          li З підтримкою по телефону та email
-      .col-sm-4
-        span.glyphicon.glyphicon-heart.logo-small
-        h4.text-uppercase Цікаво
-        ul
-          li На основі бестселера "13 історій у темряві"
-          li Навчають Монстри
-          li Перевірка "тестами без стресу"
-      p
-    .row.slideanim
-      .col-sm-4
-        span.glyphicon.glyphicon-thumbs-up.logo-small
-        h4.text-uppercase Доступно
-        p Потрібні лише:
-        ul
-          li комп'ютер чи планшет
-          li доступ до інтернету
-        p Не обовʼязково:  
-        ul 
-          li принтер
-      .col-sm-4
-        span.glyphicon.glyphicon-certificate.logo-small
-        h4.text-uppercase Без обмежень
-        p Необхідні навички:
-        ul
-          li уміти читати і друкувати
-          li розуміти поняття "більше" та "менше"
-          li любити вигадувати
-          li не боятися монстрів
-      .col-sm-4
-        span.glyphicon.glyphicon-wrench.logo-small
-        h4.text-uppercase Результативно
-        p Нову історію можна:
-        ul
-          li побачити зверстаною
-          li зберегти в PDF 
-          li поширити у Facebook чи Instagram (у розробці)
-          li негайно роздрукувати!
-        p
-  .container-fluid.bg-grey#how_it_works
-    .row
-      .col-sm-8
-        h2 Як це працює
-        h4 Методика Петра Яценка “9 кроків креативної інформатики”:        
-        ol
-          li Читаємо страшну історію.
-          li Дізнаємося, які поняття програмування в ній застосовані.
-          li Вибираємо героя для своєї історії.
-          li Пишемо власну історію із застосуванням цих понять, з покроковими підказками.
-          li Закріплюємо знання з «тестами без стресу».
-          li У кінці курсу пишемо фінальну "дипломну історію".
-          li Надсилаємо на перевірку Таємному Редакторові.
-          li Якщо треба – редагуємо.
-            li Отримуємо диплом курсу!
-      .col-sm-4
-        span.glyphicon.glyphicon-cog.logo.slideanim
   .container-fluid#monsters        
     h2.text-center Знайомся з нашими героями
     div#mrCollection.carousel.slide.text-center(data-ride="carousel")
@@ -153,8 +43,118 @@ block content
         span.sr-only Попередній
       a.right.carousel-control(href="#mrCollection" role="button" data-slide="next")
         span.glyphicon.glyphicon-chevron-right(aria-hidden="true")
-        span.sr-only Наступний
-  .container#prices
+        span.sr-only Наступний    
+  .container-fluid#about
+    .row
+      .col-sm-8
+        h2 Чи можна програмувати... звичайною мовою?
+        h4 Зазвичай для навчання використовують спрощену псевдомову програмування, якої треба навчитися. Але чому б не використати для початку мову, яку ти вже знаєш? 
+        p
+        button.btn.btn-default.btn-sm(data-toggle="collapse" data-target="#answ_1") Дізнатися більше »
+        div.collapse#answ_1
+          p Ви не зустрінете в нас означень на кшталт "оператор — це елемент мови, що задає повне описання дії, яку необхідно виконати".
+          p Ми зробили пояснення максимально доступними і водночас вичерпними. Видима простота наших історій та завдань насправді потребувала тривалої та ретельної праці.
+          p Цей курс покликаний дати глибоке розуміння основ програмування та креативного письма у легкій та цікавій формі. 
+      .col-sm-4
+        i.fa.fa-file-code-o.logo.slideanim
+  .container-fluid.bg-grey#team
+    .row
+      .col-sm-4
+        img.slideanim(src='/images/heroes/authors/ptak.png')
+        img.slideanim(src='/images/heroes/authors/bilka.png')
+        img.slideanim(src='/images/heroes/authors/mamay.png')
+      .col-sm-8
+        h2 Про нас
+        h4 Хто ми і чому це придумали?
+        p
+          strong.text-uppercase Петро Яценко, 
+          | викладач програмування, автор курсу — навчає дітей та дорослих мислити послідовно й логічно.
+        p 
+          strong.text-uppercase Галина Ткачук, 
+          | дитяча письменниця, викладачка креативного письма — написала бестселер "Тринадцять історій у темряві", що став "Книгою року Бі-Бі-Сі". 
+        p 
+          strong.text-uppercase Ірина Мамаєва, 
+          | дизайнерка та художниця — зробила чудові ілюстрації для нашого курсу.  
+  .container-fluid.text-center#services 
+    h2 Чому цей курс унікальний?
+    p
+    .row.slideanim
+      .col-sm-4
+        span.glyphicon.glyphicon-education.logo-small 
+        h4.text-uppercase Корисно
+        ul
+          li Вивчимо типи 
+            span.text-uppercase змінних
+          li Дізнаємося про 
+            span.text-uppercase умови
+          li Застосуємо 
+            span.text-uppercase цикли
+          li Зрозуміємо 
+            span.text-uppercase функції
+
+      .col-sm-4
+        span.glyphicon.glyphicon-leaf.logo-small
+        h4.text-uppercase Просто
+        ul
+          li Без псевдокоду
+          li З прикладами та підказками
+          li З підтримкою по телефону та email
+      .col-sm-4
+        span.glyphicon.glyphicon-heart.logo-small
+        h4.text-uppercase Цікаво
+        ul
+          li На основі бестселера "Тринадцять історій у темряві"
+          li Навчають Монстри
+          li Перевірка "тестами без стресу"
+      p
+    .row.slideanim
+      .col-sm-4
+        span.glyphicon.glyphicon-thumbs-up.logo-small
+        h4.text-uppercase Доступно
+        p Потрібні лише:
+        ul
+          li комп'ютер чи планшет
+          li доступ до інтернету
+        p Не обовʼязково:  
+        ul 
+          li принтер
+      .col-sm-4
+        span.glyphicon.glyphicon-certificate.logo-small
+        h4.text-uppercase Без обмежень
+        p Необхідні навички:
+        ul
+          li уміти читати і писати
+          li розуміти поняття "більше" та "менше"
+          li любити вигадувати
+          li не боятися монстрів
+      .col-sm-4
+        span.glyphicon.glyphicon-wrench.logo-small
+        h4.text-uppercase Результативно
+        p Свою історію можна:
+        ul
+          li побачити зверстаною
+          li зберегти в PDF 
+          li поширити у Facebook чи Instagram (у розробці)
+          li негайно роздрукувати!
+        p
+  .container-fluid.bg-grey#how_it_works
+    .row
+      .col-sm-8
+        h2 Як це працює
+        h4 “9 кроків креативної інформатики”:        
+        ol
+          li Читаємо страшну історію.
+          li Дізнаємося, які поняття програмування в ній застосовані.
+          li Вибираємо героя для своєї історії.
+          li Пишемо власну історію з покроковими підказками.
+          li Закріплюємо знання з «тестами без стресу».
+          li У кінці курсу пишемо фінальну "дипломну історію".
+          li Надсилаємо на перевірку Таємному Редакторові.
+          li Якщо треба – редагуємо.
+          li Отримуємо диплом курсу!
+      .col-sm-4
+        span.glyphicon.glyphicon-cog.logo.slideanim  
+  .container-fluid#prices
     .text-center
       h2 Ціни
       h4 Вибери, які можливості пасують тобі більше
@@ -162,7 +162,7 @@ block content
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
-            h1 Преміум
+            h1 Гурток
           .panel-body
             p
               strong 20 самостійних занять
@@ -175,15 +175,17 @@ block content
             p 
               strong Понад 30 тестів без стресу!
             p
-              strong Особиста увага Таємного Редактора         
+              strong Особиста увага Таємного Редактора
+            p
+              strong До девʼяти дипломів
           .panel-footer
-            h3 UAH 999.00
+            h3 UAH #{prices.premium}
             h4 за рік
             button.btn.btn-lg#premium(disabled) Скоро!
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
-            h1 Оптимум
+            h1 Родина
           .panel-body
             p
               strong 20 самостійних занять
@@ -192,19 +194,21 @@ block content
             p 
               strong 48 конструкторів страшилок
             p 
-              strong Два герої + монстр
+              strong Два герої + один монстр
             p 
               strong Понад 30 тестів без стресу!
             p
               strong Особиста увага Таємного Редактора
+            p
+              strong До трьох дипломів
           .panel-footer
-            h3 UAH 749.00
+            h3 UAH #{prices.advanced}
             h4 за півроку
             button.btn.btn-lg#optimum(disabled) Скоро!
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
-            h1 Базум
+            h1 Учень
           .panel-body
             p
               strong 20 самостійних занять
@@ -213,17 +217,19 @@ block content
             p 
               strong 32 конструктори страшилок
             p
-              strong Два герої
+              strong Два герої для власних історій
             p 
               strong Понад 30 тестів без стресу!
             p
               strong Особиста увага Таємного Редактора
+            p
+              strong Один диплом
           .panel-footer
-            h3 Лише за UAH 499.00
+            h3 Лише UAH #{prices.basic}
             h4 за три місяці
-            form(method='get' action='/payment')
+            form(method='get' action='/payment/499')
               button.btn.btn-lg#base Хочу!      
-  .container#faq   
+  .container-fluid#faq   
     h2 Поширені запитання       
     .row.slideanim
       .col-sm-6
@@ -268,13 +274,13 @@ block content
         p Напишіть, і ми відповімо впродовж 24 годин
         p 
           span.glyphicon.glyphicon-map-marker 
-          |&nbsp; м. Львів, вул. Стефаника, 7/1, Україна, 79000
+          |&nbsp; м. Львів, вул. Стефаника, 7/1, Україна, 79005
         p
           span.glyphicon.glyphicon-phone 
-          |&nbsp; +38 097 000 00 00
+          |&nbsp; #{support_phone}
         p 
           span.glyphicon.glyphicon-envelope 
-          |&nbsp; support@gmail.com
+          |&nbsp; #{support_email}
       .col-sm-7.slideanim
         .row
           .col-sm-6.form-group

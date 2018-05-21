@@ -64,16 +64,22 @@ app.use(function(req, res, next){
     course_id: 'storycoding',
     course_name: 'Програмуємо... страшні історії!', //TODO pass to the home page too
     url: 'www.greatprose.com',
-    email: 'support@greatprose.com', //TODO pass to the User Agreement
+    support_email: 'support@greatprose.com', 
+    support_phone: '+38 097 000 00 00', //TODO pass to the User Agreement
     global_str: {
       sandbox: 'пісочниця',
-      basic: 'базовий',
-      advanced: 'оптимум',
-      premium: 'преміум',
+      basic: 'учень',
+      advanced: 'родина',
+      premium: 'гурток',
       devel: 'devel',
       editor: 'редактор',
       admin: 'адмін',
       beta: '&beta;'
+    },
+    prices: {
+      basic: '299,00',
+      advanced: '749,00',
+      premium: '999,00'
     }
   };  
   

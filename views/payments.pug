@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  .page-header
+    h3= str.title
+  .container
+    h4 !{str.intro_mess}
+    .table-responsive
+      table.table.table-striped.table-hover
+        thead 
+          tr
+            th
+              p= str.sum_field
+            th(scope="col")
+              p= str.login_field
+            th(scope="col")
+              p= str.card_field
+            th(scope="col")
+              p= str.name_field
+        tbody
+          tr
+            td
+              p= str.sum
+            td
+              p= str.sender
+            td
+              p= str.card_num
+            td
+              p= str.accepter
+    h4 !{str.activation_mess}          
+    h3 Контакти:      
+    p
+      span.glyphicon.glyphicon-phone 
+      |&nbsp; #{support_phone}
+    p 
+      span.glyphicon.glyphicon-envelope 
+      |&nbsp; #{support_email}       

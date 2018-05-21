@@ -13,8 +13,11 @@ block content
     div.progress-bar.progress-bar-success.progress-bar-striped.active(
       role="progressbar" aria-valuenow= progress aria-valuemin= min_val 
       aria-valuemax= max_val style="width:" + progress + "%" 
-    )
-      span #{progress + '%'}
+    )  
+      if passed === 0 
+        span  >>>
+      else
+        span #{progress + '%'}
   .container
     h2 #{state.dash_title}
     p
@@ -28,7 +31,7 @@ block content
               a(data-toggle="collapse" href="#collapse" + index) #{state[chapter]}
                 if chapter !== 'demo'
                   span.badge(data-toggle="tooltip" data-placement="top" title= state.tooltip.trials) #{state.trials}
-          div.panel-collapse.collapse(id="collapse" + index class= (chapter === curr_chapter) && (passed !== max_val) ? "in" : "")
+          div.panel-collapse.collapse(id="collapse" + index class= ((chapter === curr_chapter) && (passed !== max_val)) || (passed === 0 && chapter === 'demo') ? "in" : "")
             .list-group          
               each val in lesson_data
                 if val.chapter === chapter
