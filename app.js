@@ -72,7 +72,8 @@ app.use(function(req, res, next){
       premium: 'преміум',
       devel: 'devel',
       editor: 'редактор',
-      admin: 'адмін'
+      admin: 'адмін',
+      beta: '&beta;'
     }
   };  
   

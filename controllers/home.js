@@ -15,5 +15,13 @@ exports.index = (req, res) => {
 };
 
 exports.userAgreement = (req, res, next) => {
-  res.render('user_agreement');
+  res.render('user_agreement', {
+    // TODO add parameters (links, addresses, names so on)
+  }); 
+};
+
+exports.paymentPage = (req, res, next) => {
+  res.render('payments', {
+    
+  });
 };

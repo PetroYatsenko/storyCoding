@@ -44,4 +44,4 @@ mixin account_label(acc_type, str)
     when 'development'
       span.label.label-warning= str.devel
     default
-      span
+      span.label.label-warning !{str.beta}

@@ -2,9 +2,9 @@ extends layout
 
 block content
   .jumbotron.text-center
-    h1 Програмуємо страшні історії
+    h1 Програмуємо... страшні історії
     p.lead Основи інформатики легко, весело й вичерпно.
-    form(method='get' action='/lessons/dashboard')
+    form(method='get' action='/signup')
       button.btn.btn-success.btn-lg        
         | Починай,
         br
@@ -26,7 +26,7 @@ block content
           p Цей курс покликаний дати глибоке розуміння основ програмування та креативного письма у легкій та цікавій формі. 
       .col-sm-4
         i.fa.fa-file-code-o.logo.slideanim
-  .container-fluid.bg-grey
+  .container-fluid.bg-grey#team
     .row
       .col-sm-4
         img.slideanim(src='/images/heroes/authors/ptak.png')
@@ -36,13 +36,13 @@ block content
         h2 Про нас
         h4 Хто ми і чому це придумали?
         p
-          span.text-uppercase Петро Яценко, 
+          strong.text-uppercase Петро Яценко, 
           | викладач програмування, автор курсу — навчає дітей та дорослих мислити послідовно й логічно.
         p 
-          span.text-uppercase Галина Ткачук, 
-          | дитяча письменниця, викладач креативного письма — написала бестселер "13 історій у темряві", що став "Книгою року" "Бі-Бі-Сі". 
+          strong.text-uppercase Галина Ткачук, 
+          | дитяча письменниця, викладачка креативного письма — написала бестселер "13 історій у темряві", що став "Книгою року Бі-Бі-Сі". 
         p 
-          span.text-uppercase Ірина Мамаєва, 
+          strong.text-uppercase Ірина Мамаєва, 
           | дизайнерка та художниця — зробила чудові ілюстрації для нашого курсу.  
   .container-fluid.text-center#services 
     h2 Чому цей курс унікальний?
@@ -52,18 +52,22 @@ block content
         span.glyphicon.glyphicon-education.logo-small 
         h4.text-uppercase Корисно
         ul
-          li Вивчимо типи змінних
-          li Дізнаємося про умови
-          li Застосуємо цикли
-          li Зрозуміємо функції
+          li Вивчимо типи 
+            span.text-uppercase змінних
+          li Дізнаємося про 
+            span.text-uppercase умови
+          li Застосуємо 
+            span.text-uppercase цикли
+          li Зрозуміємо 
+            span.text-uppercase функції
         
       .col-sm-4
         span.glyphicon.glyphicon-leaf.logo-small
         h4.text-uppercase Просто
         ul
           li Без "псевдо-коду"
-          li З прикладами
-          li З підтримкою по телефону чи email
+          li З прикладами та підказками
+          li З підтримкою по телефону та email
       .col-sm-4
         span.glyphicon.glyphicon-heart.logo-small
         h4.text-uppercase Цікаво
@@ -102,7 +106,7 @@ block content
           li поширити у Facebook чи Instagram (у розробці)
           li негайно роздрукувати!
         p
-  .container-fluid.bg-grey
+  .container-fluid.bg-grey#how_it_works
     .row
       .col-sm-8
         h2 Як це працює
@@ -217,9 +221,10 @@ block content
           .panel-footer
             h3 Лише за UAH 499.00
             h4 за три місяці
-            button.btn.btn-lg#base Хочу!      
+            form(method='get' action='/payment')
+              button.btn.btn-lg#base Хочу!      
   .container#faq   
-    h2 Поширені запитання:          
+    h2 Поширені запитання       
     .row.slideanim
       .col-sm-6
         h3 Ви навчаєте програмувати чи писати історії?        
