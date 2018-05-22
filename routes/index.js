@@ -5,6 +5,7 @@ const passportConfig = require('../config/passport');
 
 router.get('/', homeController.index);
 router.get('/user_agreement', homeController.userAgreement);
-router.get('/payment/:sum', passportConfig.isAuthenticated, homeController.paymentPage);
+
+router.post('/payment', passportConfig.isAuthenticated, homeController.paymentPage);
 
 module.exports = router;

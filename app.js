@@ -77,9 +77,10 @@ app.use(function(req, res, next){
       beta: '&beta;'
     },
     prices: {
-      basic: '299,00',
-      advanced: '749,00',
-      premium: '999,00'
+      basic: '299',
+      advanced: '749',
+      premium: '999',
+      suffix: '.00'
     }
   };  
   

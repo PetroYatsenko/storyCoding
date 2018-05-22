@@ -54,10 +54,15 @@ exports.postLogin = (req, res, next) => {
       email_err: 'Зверніть увагу: вірогідно, помилка в адресі вашої електронної пошти.',
       passw_err_empty: 'Зверніть увагу: поле для пароля не може залишатися порожнім',
       success_login: 'Успіх! Ви залогувалися.'
+    }, 
+    en: {
+      email_err: 'Email is not valid',
+      passw_err_empty: 'Password cannot be blank',
+      success_login: 'Congrats! You are logged in.'
     }
   }; 
-  req.assert('email', str[lang].email_err).isEmail(); //'Email is not valid'
-  req.assert('password', str[lang].passw_err_empty).notEmpty(); //'Password cannot be blank'
+  req.assert('email', str[lang].email_err).isEmail(); //
+  req.assert('password', str[lang].passw_err_empty).notEmpty(); //
   req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();

@@ -22,6 +22,7 @@ exports.userAgreement = (req, res, next) => {
 
 exports.paymentPage = (req, res, next) => {
   req.sanitize('sum');
+  req.sanitize('acc_type');
   var lang = res.locals.lang;
   var sender = req.user.profile.name || req.user.email;
   var str = {
@@ -35,8 +36,9 @@ exports.paymentPage = (req, res, next) => {
       login_field: 'Ваш логін/повне імʼя',
       card_field: 'Номер карти Приватбанку',
       name_field: 'Імʼя отримувача',
-      sum_field: 'Cума',
-      sum: res.locals.prices.basic
+      sum_field: 'Cума/профіль',
+      sum: req.body.sum,
+      acc: req.body.acc_type
     } 
   };
   res.render('payments', {

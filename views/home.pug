@@ -134,7 +134,7 @@ block content
         ul
           li побачити зверстаною
           li зберегти в PDF 
-          li поширити у Facebook чи Instagram (у розробці)
+          //- li поширити в соцмережах
           li негайно роздрукувати!
         p
   .container-fluid.bg-grey#how_it_works
@@ -171,7 +171,7 @@ block content
             p 
               strong 64 конструктори страшилок
             p 
-              strong Два герої + два монстри
+              strong Два герої + додаткові монстри
             p 
               strong Понад 30 тестів без стресу!
             p
@@ -179,9 +179,14 @@ block content
             p
               strong До девʼяти дипломів
           .panel-footer
-            h3 UAH #{prices.premium}
+            h3 UAH #{prices.premium}#{prices.suffix}
             h4 за рік
-            button.btn.btn-lg#premium(disabled) Скоро!
+            form#team(method='POST' action='/payment')
+              input(type='hidden', name='_csrf', value=_csrf)
+              input(type='hidden', name='sum', value= prices.premium)
+              input(type='hidden', name='acc_type', value= global_str.premium)
+              button.btn.btn-lg(type='submit') Хочу!
+            //- button.btn.btn-lg#premium(disabled) Скоро!
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
@@ -194,7 +199,7 @@ block content
             p 
               strong 48 конструкторів страшилок
             p 
-              strong Два герої + один монстр
+              strong Два герої + додатковий монстр
             p 
               strong Понад 30 тестів без стресу!
             p
@@ -202,9 +207,14 @@ block content
             p
               strong До трьох дипломів
           .panel-footer
-            h3 UAH #{prices.advanced}
+            h3 UAH #{prices.advanced}#{prices.suffix}
             h4 за півроку
-            button.btn.btn-lg#optimum(disabled) Скоро!
+            form#family(method='POST' action='/payment')
+              input(type='hidden', name='_csrf', value=_csrf)
+              input(type='hidden', name='sum', value= prices.advanced)
+              input(type='hidden', name='acc_type', value= global_str.advanced)
+              button.btn.btn-lg(type='submit') Хочу!
+            //- button.btn.btn-lg#optimum(disabled) Скоро!
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
@@ -225,10 +235,13 @@ block content
             p
               strong Один диплом
           .panel-footer
-            h3 Лише UAH #{prices.basic}
+            h3 Лише UAH #{prices.basic}#{prices.suffix}
             h4 за три місяці
-            form(method='get' action='/payment/499')
-              button.btn.btn-lg#base Хочу!      
+            form#student(method='POST' action='/payment')
+              input(type='hidden', name='_csrf', value=_csrf)
+              input(type='hidden', name='sum', value= prices.basic)
+              input(type='hidden', name='acc_type', value= global_str.basic)
+              button.btn.btn-lg(type='submit') Хочу!      
   .container-fluid#faq   
     h2 Поширені запитання       
     .row.slideanim
