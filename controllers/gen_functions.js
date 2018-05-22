@@ -94,12 +94,13 @@ exports.checkAccount = (req, res, next) => {
     }
   };
   const user_account = req.user.classes[res.locals.course_id].account;
-//  console.log(req.originalUrl);
-  // Only allowed stories for Sandbox account. For now it is just one story.
+  // Allowed for Sandbox account. For now it is just three stories.
   if (user_account === 'sandbox') {
     switch (req.params.story) {
-      case 'introduction':  
-        return next();
+      case 'transparent_dude':
+      case 'introduction':
+      case 'black_story':  
+        return next();  
       default:
         req.flash('errors', {msg: strings[res.locals.lang].hint});
         res.redirect('/#prices');
