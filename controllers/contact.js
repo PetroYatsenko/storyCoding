@@ -1,18 +1,12 @@
 const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  service: 'SendGrid',
-  auth: {
-    user: process.env.SENDGRID_USER,
-    pass: process.env.SENDGRID_PASSWORD
-  }
-});
+const sgTransport = require('nodemailer-sendgrid-transport');
 
 /**
  * GET /contact
  * Contact form page.
  */
 exports.getContact = (req, res) => {
+  
   res.render('contact', {
     title: 'Contact'
   });
@@ -23,9 +17,27 @@ exports.getContact = (req, res) => {
  * Send a contact form via Nodemailer.
  */
 exports.postContact = (req, res) => {
-  req.assert('name', 'Name cannot be blank').notEmpty();
-  req.assert('email', 'Email is not valid').isEmail();
-  req.assert('message', 'Message cannot be blank').notEmpty();
+  var lang = res.locals.lang;
+  var str = {
+    uk: {
+      name: 'Будь ласка, напишіть імʼя',
+      email: 'Поштова адреса не чинна',
+      message: 'Введіть повідомлення',
+      subject: 'Зворотний звʼязок | ЧудоваПроза',
+      success: 'Ваше повідомлення успішно надіслане! Якщо воно потребує відповіді, ви отримаєте її впродовж 24 годин.'
+    },
+    en: {
+      name: 'Name cannot be blank',
+      email: 'Email is not valid',
+      message: 'Message cannot be blank',
+      subject: 'Contact Form | GreatProse',
+      success: 'Email has been sent successfully!'
+    }
+  };
+  
+  req.assert('name', str[lang].name).notEmpty();
+  req.assert('email', str[lang].email).isEmail();
+  req.assert('message', str[lang].message).notEmpty();
 
   const errors = req.validationErrors();
 
@@ -33,20 +45,30 @@ exports.postContact = (req, res) => {
     req.flash('errors', errors);
     return res.redirect('/contact');
   }
-
-  const mailOptions = {
-    to: res.locals.email, //'your@email.com',
-    from: `${req.body.name} <${req.body.email}>`,
-    subject: 'Contact Form | Story Coding',
-    text: req.body.message
+  
+  var options = {
+    auth: {
+      api_user: process.env.SENDGRID_USER,
+      api_key: process.env.SENDGRID_PASSWORD
+    }
   };
-
-  transporter.sendMail(mailOptions, (err) => {
+  
+  const mailOptions = {
+    to: res.locals.support_email,
+    from: `${req.body.name} <${req.body.email}>`,
+    subject: str[lang].subject,
+    text: req.body.message,
+    html: req.body.html || ''
+  };  
+  
+  var client = nodemailer.createTransport(sgTransport(options));
+  
+  client.sendMail(mailOptions, (err) => {
     if (err) {
       req.flash('errors', { msg: err.message });
       return res.redirect('/contact');
     }
-    req.flash('success', { msg: 'Email has been sent successfully!' });
+    req.flash('success', { msg: str[lang].success });
     res.redirect('/contact');
   });
 };

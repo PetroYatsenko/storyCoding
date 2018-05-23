@@ -37,16 +37,19 @@ const app = express();
  * Connect to MongoDB.
  */
 mongoose.Promise = require('bluebird');
-mongoose.connect(process.env.MONGODB_URI, {
-  /*options */
+// Use with EvenNode hosting 
+var evenNodeConfig = JSON.parse(process.env.APP_CONFIG);
+
+mongoose.connect(evenNodeConfig.mongo.hostString, {
+// Options
+  user: evenNodeConfig.mongo.user,
+  pass: encodeURIComponent(process.env.MONGODB_PASS)       
 });
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
-//TODO: remove on production
-console.log(process.env.MONGODB_URI);
 
 /**
  * Express configuration.
@@ -101,7 +104,7 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: process.env.MONGODB_URI,
+    url: evenNodeConfig.mongo.hostString,
     autoReconnect: true,
     clear_interval: 3600
   })

@@ -3,6 +3,7 @@ const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
+const sgTransport = require('nodemailer-sendgrid-transport');
 
 /**
  * GET /login
@@ -439,18 +440,17 @@ exports.postReset = (req, res, next) => {
       passw_suc_reset: 'Ми успішно змінили ваш пароль',
       passw_err_width: 'Зверніть увагу: пароль має бути довжиною принаймні 8 символів.',
       passw_err_match: 'Зверніть увагу: паролі не збігаються.',
-      passw_err_reset: 'Зверніть увагу: лінк на зміну пароля неправильний або термін його дії закінчився.',
-      passw_changed_mail_txt: `Вітаємо!\n\n Ваш пароль до профілю ${user.email} 
-        був щойно змінений. Якщо це зроблено без вашого відома, будь ласка, негайно 
-        зв'яжіться з технічною підтримкою: ${res.locals.email} \n\n 
-        З повагою, навчальна платформа ${res.locals.siteTitle}`
+      passw_err_reset: 'Зверніть увагу: лінк на зміну пароля неправильний або термін його дії закінчився.',      
     },
     en: {
-      passw_changed_mail_txt: `Hello,\n\nThis is a confirmation that the password for your account ${user.email} has just been changed.\n`
+      passw_suc_reset: 'Success! Your password has been changed.',
+      passw_err_width: 'Password must be at least 8 characters long.',
+      passw_err_match: 'Passwords must match.',
+      passw_err_reset: 'Password reset token is invalid or has expired.',
     }
   }; 
-  req.assert('password', str[lang].passw_err_width).len(8); //'Password must be at least 8 characters long.'
-  req.assert('confirm', str[lang].passw_err_match).equals(req.body.password);//'Passwords must match.'
+  req.assert('password', str[lang].passw_err_width).len(8);
+  req.assert('confirm', str[lang].passw_err_match).equals(req.body.password);
 
   const errors = req.validationErrors();
 
@@ -465,7 +465,7 @@ exports.postReset = (req, res, next) => {
       .where('passwordResetExpires').gt(Date.now())
       .then((user) => {
         if (!user) {
-          req.flash('errors', {msg: str[lang].passw_err_reset});//'Password reset token is invalid or has expired.'
+          req.flash('errors', {msg: str[lang].passw_err_reset});
           return res.redirect('back');
         }
         user.password = req.body.password;
@@ -481,21 +481,31 @@ exports.postReset = (req, res, next) => {
 
   const sendResetPasswordEmail = (user) => {
     if (!user) { return; }
-    const transporter = nodemailer.createTransport({
-      service: 'SendGrid',
+    var options = {
       auth: {
-        user: process.env.SENDGRID_USER,
-        pass: process.env.SENDGRID_PASSWORD
+        api_user: process.env.SENDGRID_USER,
+        api_key: process.env.SENDGRID_PASSWORD
       }
-    });
+    };
+    str.uk.passw_changed_mail_txt = `Вітаємо!\n\n Ваш пароль до профілю ${user.email} 
+        був щойно змінений. Якщо це зроблено без вашого відома, будь ласка, негайно 
+        зв'яжіться з технічною підтримкою: ${res.locals.support_email} \n\n 
+        З повагою, навчальна платформа ${res.locals.siteTitle}`;
+    str.en.passw_changed_mail_txt = `Hello,\n\nThis is a confirmation that the 
+      password for your account ${user.email} has just been changed.\n`;
+    var client = nodemailer.createTransport(sgTransport(options));
+    
     const mailOptions = {
       to: user.email,
-      from: res.locals.email,
+      from: res.locals.support_email,
       subject: str[lang].passw_suc_reset,
-      text: str[lang].passw_changed_mail_txt};
-    return transporter.sendMail(mailOptions)
+      text: str[lang].passw_changed_mail_txt,
+      html: req.body.html || ''
+    };    
+    
+    return client.sendMail(mailOptions)
       .then(() => {
-        req.flash('success', {msg: str[lang].passw_suc_reset}); //'Success! Your password has been changed.'
+        req.flash('success', {msg: str[lang].passw_suc_reset});
       });
   };
 
@@ -516,9 +526,9 @@ exports.getForgot = (req, res) => {
   var lang = res.locals.lang;
   var str = {
     uk: {
-      p_forgot: 'Забули пароль? Жодних проблем, таке трапляється.',
+      p_forgot: 'Забули пароль? Таке трапляється.',
       help_txt: 'Напишіть адресу електронної пошти, з якою ви реєструвалися, \n\
-        і ми негайно надішлемо вам листа, де розкажемо, що робити далі.',
+        і ми негайно надішлемо вам листа з описом, що робити далі.',
       email: 'E-пошта',
       reset: 'Відновити доступ'
     },
@@ -582,30 +592,41 @@ exports.postForgot = (req, res, next) => {
   const sendForgotPasswordEmail = (user) => {
     if (!user) { return; }
     const token = user.passwordResetToken;
-    const transporter = nodemailer.createTransport({
-      service: 'SendGrid',
+    var options = {
       auth: {
-        user: process.env.SENDGRID_USER,
-        pass: process.env.SENDGRID_PASSWORD
+        api_user: process.env.SENDGRID_USER,
+        api_key: process.env.SENDGRID_PASSWORD
       }
-    });
-    str.uk.passw_change_msg = `Ми надіслали електронного листа на твою адресу ${user.email}. Там написано, що робити далі.`;
-    str.uk.passw_change_mail_txt = `Ви отримали цього листа, тому що ви (або хто-небудь інший) надіслали запит на зміну пароля до вашого профілю.\n\n
-        Будь ласка, клікніть на лінк або скопіюйте його до вашого веб-браузера, щоби завершити процес:\n\n
-        http://${req.headers.host}/reset/${token}\n\n
-        Якщо ви не надсилали запиту на зміню пароля, будь ласка, проігноруйте цей лист, і ваш пароль залишиться без змін.\n`;
-    str.en.passw_change_mail_txt = `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:\n\n
-        http://${req.headers.host}/reset/${token}\n\n
-        If you did not request this, please ignore this email and your password will remain unchanged.\n`;
-    str.en.passw_change_msg = `An e-mail has been sent to ${user.email} with further instructions.`;
+    };
+    var client = nodemailer.createTransport(sgTransport(options));
+    
+    str.uk.passw_change_msg = `Ми надіслали електронного листа на твою адресу 
+      ${user.email}. Про всяк випадок перевір папку "спам".`;
+    str.uk.passw_change_mail_txt = `Ви отримали цього листа, тому що ви 
+      (або хто-небудь інший) надіслали запит на зміну пароля до вашого профілю.\n\n
+      Будь ласка, клікніть на лінк або скопіюйте його до вашого веб-браузера, 
+      щоби завершити процес:\n\n
+      http://${req.headers.host}/reset/${token}\n\n
+      Якщо ви не надсилали запиту на зміню пароля, будь ласка, проігноруйте 
+      цей лист, і ваш пароль залишиться без змін.\n`;
+    str.en.passw_change_mail_txt = `You are receiving this email because you 
+      (or someone else) have requested the reset of the password for your account.\n\n
+      Please click on the following link, or paste this into your browser to 
+      complete the process:\n\n
+      http://${req.headers.host}/reset/${token}\n\n
+      If you did not request this, please ignore this email and your password 
+      will remain unchanged.\n`;
+    str.en.passw_change_msg = `An e-mail has been sent to ${user.email} with 
+      further instructions.`;
+    
     const mailOptions = {
       to: user.email,
-      from: res.locals.email,
+      from: res.locals.support_email,
       subject: str[lang].passw_reset_mail_theme,
-      text: str[lang].passw_change_mail_txt
+      text: str[lang].passw_change_mail_txt,
+      html: req.body.html || ''
     };
-    return transporter.sendMail(mailOptions)
+    return client.sendMail(mailOptions)
       .then(() => {
         req.flash('info', { msg: str[lang].passw_change_msg});
       });

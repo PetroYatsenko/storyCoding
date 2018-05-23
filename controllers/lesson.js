@@ -15,7 +15,7 @@ exports.tutorial = (req, res, next) => {
   var state = 'state_' + res.locals.lang;
   
   strings.state_uk = {
-    title_dashboard: 'Як працює зміст',
+    title_dashboard: 'Як працює список занять',
     title_story: 'Як читати страшну історію',
     title_practice: 'Як конструювати свою історію',
     title_tests: 'Як працюють тести',
