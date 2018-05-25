@@ -22,7 +22,7 @@ exports.getMonstersCollection = (req, res, next) => {
     
     strings.state_uk = {
       title: 'Доступні герої',
-      msg_prem: 'Живе в акаунті "Гурток".',
+      msg_prem: 'Живе в акаунті "Родина".',
       msg_adv_prem: 'Живе в аканутах "Гурток" та "Родина".',
       msg_next: 'Живе в наступних історіях',
       msg_storage: 'Здається, ваш браузер не підтримує веб-сесії. Будь ласка, встановіть найновішу версію',
@@ -397,9 +397,14 @@ exports.saveStory = (req, res, next) => {
   req.sanitize('story');
   req.sanitize('hero');
   req.sanitize('title');
-  // TODO lang support
-  var hint = 'Вітаємо! Твоя історія успішно записана!';
+  var lang = res.locals.lang;
+  var str = {
+    uk: {
+      hint: 'Вітаємо! Твоя історія успішно записана.'
+    }
+  };
   var query = {
+    hero: req.body.hero,
     lesson: req.body.story_name,
     userId: req.user.id
   };
@@ -415,7 +420,7 @@ exports.saveStory = (req, res, next) => {
     {upsert: true}, 
     function(err, doc) {
       if (err) return res.status(500).send({error: err});
-      req.flash('success', {msg: hint});
+      req.flash('success', {msg: str[lang].hint});
       res.format({
         json: function(){
           res.send({status: 'OK'});

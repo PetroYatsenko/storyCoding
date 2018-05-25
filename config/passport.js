@@ -25,17 +25,27 @@ passport.deserializeUser((id, done) => {
  * Sign in using Email and Password.
  */
 passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+  var str = {
+    uk: {
+      wrong_email: `Логін ${email} не знайдено.`,
+      invalid_cred: 'Неправильний логін або пароль'
+    },
+    en: {
+      wrong_email: `Email ${email} not found.`,
+      invalid_cred: 'Invalid email or password.'
+    }
+  }
   User.findOne({ email: email.toLowerCase() }, (err, user) => {
     if (err) { return done(err); }
     if (!user) {
-      return done(null, false, { msg: `Email ${email} not found.` });
+      return done(null, false, { msg: str.uk.wrong_email }); //TODO
     }
     user.comparePassword(password, (err, isMatch) => {
       if (err) { return done(err); }
       if (isMatch) {
         return done(null, user);
       }
-      return done(null, false, { msg: 'Invalid email or password.' });
+      return done(null, false, { msg: str.uk.invalid_cred });
     });
   });
 }));
