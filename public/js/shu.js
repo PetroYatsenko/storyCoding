@@ -1,0 +1,1 @@
+$(document).ready(function(){var e=function(){window.location.href=nextStep+"/"+this.id};(function(){for(var n=document.getElementById("zoo"),o=n.getElementsByClassName("w3-hover-opacity-off"),t=0;t<o.length;t++)o[t].onclick=e})()})
