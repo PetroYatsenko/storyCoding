@@ -17,6 +17,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
 const sass = require('node-sass-middleware');
+const redisClient = require('redis').createClient();
+const helmet = require('helmet');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -32,6 +34,16 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
+
+const limiter = require('express-limiter')(app, redisClient);
+/**
+ * Bot`s protection. Limit requests to 100 per hour per ip address.
+ */
+limiter({
+  lookup: ['connection.remoteAddress'],
+  total: 100,
+  expire: 1000 * 60 * 60
+});
 
 /**
  * Connect to MongoDB.
@@ -91,6 +103,10 @@ app.use(function(req, res, next){
   
   next();
 });
+/**
+ * Vulnerabilities protection
+ */
+app.use(helmet());
 
 app.use(compression());
 app.use(sass({
@@ -105,6 +121,14 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
+  key: process.env.KEY,
+  cookie: {
+    secure: true,
+    domain: process.env.DOMAIN,
+    // Cookie will expire in 1 hour from when it's generated 
+    // TODO: pay attention
+    expires: new Date( Date.now() + 60 * 60 * 1000 )
+  },
   store: new MongoStore({
     url: evenNodeConfig.mongo.hostString,
     autoReconnect: true,
@@ -114,13 +138,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
-    next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
-});
+app.use(lusca.csrf());
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.use((req, res, next) => {
@@ -164,9 +182,23 @@ app.use('/api', api);
 app.use('/auth', auth);
 
 /**
- * Error Handler.
+ * Error Handling segment
  */
-app.use(errorHandler());
+if (process.env.NODE_ENV === 'development') {
+//  app.use(errorHandler());
+}; 
+app.use((req, res, next) => {
+  res.render('errors/404', {
+    status: 404,
+    url: req.url, //TODO - not used
+  });
+});
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.render('errors/500', {
+    status: err.status || 500
+  });
+});
 
 /**
  * Start Express server.

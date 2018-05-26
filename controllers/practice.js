@@ -16,7 +16,10 @@ exports.getMonstersCollection = (req, res, next) => {
   Promise.all([
     Lesson.findOne({name: story_name, enabled: true}, {monsters: 1, _id: 0}),
     Monster.find({}, {_id: 0})
-  ]).spread(function(avail, zoo) {    
+  ]).spread(function(avail, zoo) {
+    if (avail === null || zoo === null) {
+      return next();
+    }
     var state = 'state_' + res.locals.lang;
     var strings = {};
     
@@ -24,7 +27,7 @@ exports.getMonstersCollection = (req, res, next) => {
       title: 'Доступні герої',
       msg_prem: 'Невдовзі оселиться в профілі "Родина".',
       msg_adv_prem: `Невдовзі оселиться \n в "Гуртку" та "Родині".`,
-      msg_next: 'Живе в наступних історіях', // TODO
+      msg_next: 'Живе в наступних історіях', // TODO -- never used
       msg_storage: 'Здається, ваш браузер не підтримує веб-сесії. Будь ласка, встановіть найновішу версію',
     };
     
@@ -111,6 +114,9 @@ exports.getStoryBuilder = (req, res, next) => {
     Story.findOne(queryStory),
     Monster.findOne({monster: hero})
   ]).spread(function(steps, story, monster) {
+    if (steps === null || story === null || monster === null) {
+      return next();
+    }
     // Replace placeholders
     for (let i = 0; i < story[items].length; i++) {
       story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
@@ -171,6 +177,9 @@ exports.arrangeStory = (req, res, next) => {
   var author_name = req.user.profile.name || req.user.email;
     
   Lesson.findOne(query, param).then(function(lsn) {
+    if (lsn === null) {
+      return next();
+    }
     var prefix = '/images/practice'; // folder + type. TODO - get from 
     var image = hero + '_' + lsn.subj + '.png';
     
@@ -213,6 +222,9 @@ exports.test = (req, res, next) => {
   var d = {};
   
   Test.find(queryTest, param).then(function(data) {
+    if (typeof data === 'undefined' || data.length === 0) {
+      return next();
+    }
     data.forEach(function(data) {
       data[state].test.forEach(function(t, index) {
         var new_id = genFunc.hashGen(data._id + index); //TODO
@@ -235,6 +247,10 @@ exports.test = (req, res, next) => {
       next_btn: 'next'
     });
   }); 
+  // TODO catch possible errors like
+  // .catch(function(err) {
+  //  if (err) return next(err);
+  // }); -- figure it out
 };
 
 exports.diploma = (req, res, next) => {  
@@ -344,7 +360,10 @@ exports.saveDiploma = (req, res, next) => {
   });
 
   UserDiploma.findOne(query, (err, existingDiploma) => {    
-    if (err) return res.status(500).send({error: err});
+    if (err) {
+      console.error(err);
+      return res.status(500).send({error: 'Internal Server Error'});
+    }  
     if (existingDiploma) {
       req.flash('errors', { msg: strings[state].dipl_exists });
       res.format({
@@ -354,7 +373,10 @@ exports.saveDiploma = (req, res, next) => {
       });
     } else {
       diploma.save((err) => {
-        if (err) return res.status(500).send({error: err});
+        if (err) {
+          console.error(err);
+          return res.status(500).send({error: 'Internal Server Error'});
+        }  
         req.flash('success', {msg: strings[state].hint});
         res.format({
           json: function(){
@@ -381,7 +403,10 @@ exports.saveTest = (req, res, next) => {
   
   UserStory.findOneAndUpdate(query, params, {upsert: true}, 
     function(err, doc) {
-      if (err) return res.status(500).send({error: err});
+      if (err) {
+        console.error(err);
+        return res.status(500).send({error: 'Internal Server Error'});
+      }  
       req.flash('success', {msg: hint});
       res.format({
         json: function(){
@@ -419,7 +444,10 @@ exports.saveStory = (req, res, next) => {
     params, 
     {upsert: true}, 
     function(err, doc) {
-      if (err) return res.status(500).send({error: err});
+      if (err) {
+        console.error(err);
+        return res.status(500).send({error: 'Internal Server Error'});
+      }  
       req.flash('success', {msg: str[lang].hint});
       res.format({
         json: function(){

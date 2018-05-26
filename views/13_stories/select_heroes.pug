@@ -12,7 +12,7 @@ block content
     .raw  
     each val in podium      
       if (val.status === 'enabled')
-        .col-sm-3
+        .col-sm-6
           .thumbnail
             img.pointer.w3-opacity.w3-hover-opacity-off(
               src= '/images/heroes/' + val.monster 
@@ -24,7 +24,7 @@ block content
         case val.status
           when 'prem'
           when 'adv_prem'
-            .col-sm-3
+            .col-sm-6
               .thumbnail.bg-secondary
                 img.w3-opacity(
                   src= '/images/heroes/' + val.monster 

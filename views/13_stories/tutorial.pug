@@ -8,32 +8,33 @@ block content
         div
           case chapter
             when 'dashboard'
-              iframe(width="720" height="405" 
+              iframe(width="560" height="315" 
                 src="https://www.youtube.com/embed/dGNyOQeYve4?rel=0" 
                 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
               )
             when 'story'
-              iframe(width="720" height="405" 
+              iframe(width="560" height="315" 
                 src="https://www.youtube.com/embed/LJGuAJ7JPtk?rel=0" 
                 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
               )
             when 'practice'
-              iframe(width="720" height="405" 
+              iframe(width="560" height="315" 
                 src="https://www.youtube.com/embed/FcEouqoYuIM?rel=0" 
                 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
               )
             when 'tests'
-              iframe(width="720" height="405" 
+              iframe(width="560" height="315" 
                 src="https://www.youtube.com/embed/B0OfHxx_Xxw?rel=0" 
                 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
               )
             when 'diploma'
-              iframe(width="720" height="405" 
+              iframe(width="560" height="315" 
                 src="https://www.youtube.com/embed/QjRIFnoAnyo?rel=0" 
                 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
               )
-    .raw.text-center   
-      .col-sm-12
+            default
+              h4 Ми не знайшли такого відео. Спробуйте наступне.
+              - chapter = 'dashboard'
         .btn-group
           a.btn.btn-success.btn-lg.right(href='/lessons/dashboard')= str.go_back
           a.btn.btn-info.btn-lg(href='/lessons/' + str.next_to[chapter] + '/tutorial')= str.next_tutorial

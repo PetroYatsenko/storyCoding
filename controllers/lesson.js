@@ -52,19 +52,24 @@ exports.lesson = (req, res, next) => {
   
   var alert = {
     uk: {
-      ws_err: 'Виглядає на те, що ваш бровзер не підтримує веб-сховище (web storage). Будь ласка, встановіть найновішу версію бровзера.'
+      ws_err: 'Виглядає на те, що ваш бровзер не підтримує веб-сховище \n\
+        (web storage). Будь ласка, встановіть найновішу версію бровзера.'
     },
     en: {
-      ws_err: 'Looks like your browser has no Web Storage support. Please, use a newest browser version.'
+      ws_err: 'Looks like your browser has no Web Storage support. \n\
+        Please, use a newest browser version.'
     }
-  }
+  };
   
   var replace = genFunc.replaceButtonObj;
      
   Promise.all([
     Steps.findOne(query),
     Story.findOne(query)
-  ]).spread(function(steps, story) {    
+  ]).spread(function(steps, story) {
+    if (steps === null || story === null) {
+      return next();
+    }
     for (let i = 0; i < story[items].length; i++) {
       story[items][i] = genFunc.replacePlaceholders(replace, story[items][i]);
     }
@@ -77,6 +82,8 @@ exports.lesson = (req, res, next) => {
       next_path: genFunc.getNextPath(story.type, story_name),
       next_btn: 'next' //TODO genFunc.getNextPath(story.type)
     });
+  }).catch(function(err) {
+    if (err) return next(err);
   });
 };
 
@@ -91,6 +98,9 @@ exports.explanation = (req, res, next) => {
   };
   
   Story.findOne(query).then(function(d) {
+    if (d === null) {
+      return next();
+    }
     res.render('13_stories/explanation', {
       img: d.img,
       str: d[state],
@@ -212,12 +222,14 @@ exports.dashboard = (req, res, next) => {
       diploma: diploma ? true : false,
       user_acc: req.user.classes[res.locals.course_id].account
     });
-  });
+  }).catch(function(err) {
+    if (err) return next(err);
+   });
 };
 
 exports.readDiplomaStory = (req, res, next) => {
   UserDiploma.findOne({userId: req.user.id}, (err, story) => {
-    if (err) return res.status(500).send({error: err});
+    if (err) return next(err);
     if (story) {
       res.render('13_stories/read_story', {
         //TODO
