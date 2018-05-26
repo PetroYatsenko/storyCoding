@@ -4,6 +4,7 @@ const sgTransport = require('nodemailer-sendgrid-transport');
 /**
  * GET /contact
  * Contact form page.
+ * TODO: disabled for now, decide wether to remove it.
  */
 exports.getContact = (req, res) => {
   
@@ -43,7 +44,7 @@ exports.postContact = (req, res) => {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/contact');
+    return res.redirect('/');
   }
   
   var options = {
@@ -66,9 +67,9 @@ exports.postContact = (req, res) => {
   client.sendMail(mailOptions, (err) => {
     if (err) {
       req.flash('errors', { msg: err.message });
-      return res.redirect('/contact');
+      return res.redirect('/');
     }
     req.flash('success', { msg: str[lang].success });
-    res.redirect('/contact');
+    res.redirect('/');
   });
 };

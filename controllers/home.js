@@ -7,7 +7,7 @@ exports.index = (req, res) => {
   
   Monster.find(query, q_param).then(function(monsters) {
     res.render('home', {
-      title: 'Home', // TODO
+      title: 'Домівка', // TODO
       state: state,
       monsters: monsters
     });

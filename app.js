@@ -69,6 +69,7 @@ app.use(function(req, res, next){
     url: 'www.greatprose.com',
     support_email: 'support@greatprose.com', 
     support_phone: '+38 097 000 00 00', //TODO pass to the User Agreement
+    support_address: 'вул. Одеська, 23а/21, с. Крюківщина, Києво-Святошинський район, Київська обл., 08136',
     global_str: {
       sandbox: 'пісочниця',
       basic: 'учень',

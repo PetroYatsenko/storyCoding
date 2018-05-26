@@ -2,13 +2,13 @@ extends layout
 
 block content
   .jumbotron.text-center
-    h1 Програмуємо... страшні історії
+    h1 Програмуємо... страшні історії!
     p.lead Основи інформатики легко, весело й вичерпно.
     form(method='get' action='/lessons/dashboard')
       button.btn.btn-success.btn-lg        
         | Починай,
         br
-        | це безкоштовно!&nbsp;
+        | це безкоштовно&nbsp;
         span.glyphicon.glyphicon-play
     p.lead
       i.fa.fa-paint-brush
@@ -68,7 +68,7 @@ block content
         h4 Хто ми і чому це придумали?
         p
           strong.text-uppercase Петро Яценко, 
-          | сеньйор-програміст, викладач, автор курсу — навчає дітей та дорослих мислити послідовно й логічно.
+          | інженер-програміст, письменник, викладач, автор курсу — навчає дітей та дорослих мислити послідовно й логічно.
         p 
           strong.text-uppercase Галина Ткачук, 
           | дитяча письменниця, викладачка креативного письма — написала бестселер "Тринадцять історій у темряві", що став "Книгою року Бі-Бі-Сі". 
@@ -157,27 +157,27 @@ block content
   .container-fluid#prices
     .text-center
       h2 Ціни
-      h4 Вибери, які можливості пасують тобі більше
+      h4 Оберіть, які можливості пасують вам більше
     .row.slideanim      
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
             h1 Гурток
-          .panel-body
+          .panel-body            
+            p
+              strong До девʼяти дипломів!
             p
               strong 20 самостійних занять
             p
               strong 16 історій
             p 
-              strong 64 конструктори страшилок
+              strong До 64 конструкторів страшилок
             p 
               strong Два герої + додаткові монстри
             p 
               strong Понад 30 тестів без стресу!
             p
               strong Особиста увага Таємного Редактора
-            p
-              strong До девʼяти дипломів
           .panel-footer
             h3 UAH #{prices.premium}#{prices.suffix}
             h4 за рік
@@ -191,21 +191,21 @@ block content
         .panel.panel-default.text-center
           .panel-heading
             h1 Родина
-          .panel-body
+          .panel-body            
+            p
+              strong До трьох дипломів
             p
               strong 20 самостійних занять
             p
               strong 16 історій
             p 
-              strong 48 конструкторів страшилок
+              strong До 48 конструкторів страшилок
             p 
               strong Два герої + додатковий монстр
             p 
               strong Понад 30 тестів без стресу!
             p
               strong Особиста увага Таємного Редактора
-            p
-              strong До трьох дипломів
           .panel-footer
             h3 UAH #{prices.advanced}#{prices.suffix}
             h4 за півроку
@@ -219,7 +219,9 @@ block content
         .panel.panel-default.text-center
           .panel-heading
             h1 Учень
-          .panel-body
+          .panel-body            
+            p
+              strong Один диплом
             p
               strong 20 самостійних занять
             p
@@ -232,8 +234,6 @@ block content
               strong Понад 30 тестів без стресу!
             p
               strong Особиста увага Таємного Редактора
-            p
-              strong Один диплом
           .panel-footer
             h3 Лише UAH #{prices.basic}#{prices.suffix}
             h4 за три місяці
@@ -281,27 +281,30 @@ block content
           p За десяток років набирають та втрачають популярність чимало мов програмування, але їх основа залишається незмінною.
         p  
   .container-fluid.bg-grey#contact
-    h2.text-center Контакти
+    h2.text-center Контакти    
     .row
       .col-sm-5
-        p Напишіть, і ми відповімо впродовж 24 годин
         p 
           span.glyphicon.glyphicon-map-marker 
-          |&nbsp; м. Львів, вул. Стефаника, 7/1, Україна, 79005
+          //- вул. Стефаника, 7/1, м. Львів, Україна, 79005
+          |&nbsp; #{support_address} 
         p
           span.glyphicon.glyphicon-phone 
           |&nbsp; #{support_phone}
-        p 
+        //- p 
           span.glyphicon.glyphicon-envelope 
           |&nbsp; #{support_email}
       .col-sm-7.slideanim
-        .row
-          .col-sm-6.form-group
-            input.form-control#name(name="name" placeholder="Імʼя" type="text" required)
-          .col-sm-6.form-group
-            input.form-control#email(name="email" placeholder="E-пошта" type="email" required)
-        textarea.form-control#comments(name="comments" placeholder="Коментар" rows="5")
-        p
-        .row
-          .col-sm-12.form-group
-            button.btn.btn-default.pull-right(ype="submit") Надіслати
+        p Ми відповідаємо впродовж 24 годин
+        form(method='POST' action='/contact')
+          input(type='hidden', name='_csrf', value=_csrf)
+          .row
+            .col-sm-6.form-group
+              input.form-control#name(name="name" placeholder="Імʼя" type="text" required)
+            .col-sm-6.form-group
+              input.form-control#email(name="email" placeholder="Ваша е-пошта" type="email" required)
+          textarea.form-control#message(name="message" placeholder="Коментар" rows="5")
+          p
+          .row
+            .col-sm-12.form-group
+              button.btn.btn-default.pull-right(type="submit") Надіслати
