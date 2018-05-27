@@ -52,12 +52,10 @@ exports.lesson = (req, res, next) => {
   
   var alert = {
     uk: {
-      ws_err: 'Виглядає на те, що ваш бровзер не підтримує веб-сховище \n\
-        (web storage). Будь ласка, встановіть найновішу версію бровзера.'
+      ws_err: 'Виглядає на те, що ваш веб-переглядач не підтримує веб-сховище (Web Storage). Будь ласка, встановіть найновішу версію  веб-переглядача.'
     },
     en: {
-      ws_err: 'Looks like your browser has no Web Storage support. \n\
-        Please, use a newest browser version.'
+      ws_err: 'Looks like your browser has no Web Storage support. Please, use a newest browser version.'
     }
   };
   

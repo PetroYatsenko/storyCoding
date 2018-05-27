@@ -123,8 +123,8 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   key: process.env.KEY,
   cookie: {
-    secure: true,
-    domain: process.env.DOMAIN,
+//    secure: true, // Enable and test when SSL added 
+//    domain: process.env.DOMAIN, // Enable on production
     // Cookie will expire in 1 hour from when it's generated 
     // TODO: pay attention
     expires: new Date( Date.now() + 60 * 60 * 1000 )

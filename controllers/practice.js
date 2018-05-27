@@ -177,6 +177,7 @@ exports.arrangeStory = (req, res, next) => {
   var author_name = req.user.profile.name || req.user.email;
     
   Lesson.findOne(query, param).then(function(lsn) {
+    // Check for errors
     if (lsn === null) {
       return next();
     }
@@ -267,7 +268,9 @@ exports.diploma = (req, res, next) => {
     Step.findOne(queryStep),
     Story.findOne(queryStory)
   ]).spread(function(steps, story) {
-    
+    if (steps === null || story === null) {
+      return next();
+    }
     // Replace placeholders
     for (let i = 0; i < story[items].length; i++) {
       story[items][i] = genFunc.replacePlaceholders(genFunc.replaceButtonObj, story[items][i]);
@@ -313,7 +316,7 @@ exports.arrangeDiploma = (req, res, next) => {
       'А тоді вишле тобі іменний диплом, на який ти заслуговуєш!'
   };
   
-   // Add info message
+  // Add info message
   req.flash('info', {msg: strings[state].hint});
   if (typeof req.user.profile.name === 'undefined'  || req.user.profile.name === '') {
     req.flash('success', {msg: strings[state].add_name});
