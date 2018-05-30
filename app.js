@@ -82,7 +82,7 @@ app.use(function(req, res, next){
     support_email: 'support@greatprose.com',
     info_email: 'info@greatprose.com',
     support_phone: '+38 097 000 00 00', //TODO pass to the User Agreement
-    support_address: 'вул. Одеська, 23а/21, с. Крюківщина, Києво-Святошинський район, Київська обл., 08136',
+    support_address: 'м. Львів, вул. Стефаника, 7/1, 79000',
     global_str: {
       sandbox: 'пісочниця',
       basic: 'учень',
@@ -122,13 +122,13 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   key: process.env.KEY,
-  cookie: {
+//  cookie: {
 //    secure: true, // Enable and test when SSL added 
 //    domain: process.env.DOMAIN, // Enable on production
     // Cookie will expire in 1 hour from when it's generated 
     // TODO: pay attention
-    expires: new Date( Date.now() + 60 * 60 * 1000 )
-  },
+//    expires: new Date( Date.now() + 60 * 60 * 1000 )
+//  },
   store: new MongoStore({
     url: evenNodeConfig.mongo.hostString,
     autoReconnect: true,
@@ -185,7 +185,7 @@ app.use('/auth', auth);
  * Error Handling segment
  */
 if (process.env.NODE_ENV === 'development') {
-//  app.use(errorHandler());
+  app.use(errorHandler());
 }; 
 app.use((req, res, next) => {
   res.render('errors/404', {
