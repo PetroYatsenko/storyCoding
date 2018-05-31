@@ -38,3 +38,6 @@ dump/
 
 #NetBeans project
 nbproject/ 
+
+# Ignore redis binary dump (dump.rdb) files
+*.rdb
