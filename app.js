@@ -49,12 +49,10 @@ limiter({
  * Connect to MongoDB.
  */
 mongoose.Promise = require('bluebird');
-// Use with EvenNode hosting 
-var evenNodeConfig = JSON.parse(process.env.APP_CONFIG);
 
-mongoose.connect(evenNodeConfig.mongo.hostString, {
+mongoose.connect(process.env.MONGODB_URI, {
 // Options
-  user: evenNodeConfig.mongo.user,
+  user: process.env.MONGODB_USER,
   pass: encodeURIComponent(process.env.MONGODB_PASS)       
 });
 mongoose.connection.on('error', (err) => {
@@ -130,7 +128,7 @@ app.use(session({
 //    expires: new Date( Date.now() + 60 * 60 * 1000 )
 //  },
   store: new MongoStore({
-    url: evenNodeConfig.mongo.hostString,
+    url: process.env.MONGODB_URI,
     autoReconnect: true,
     clear_interval: 3600
   })
