@@ -37,7 +37,7 @@ const app = express();
 
 const limiter = require('express-limiter')(app, redisClient);
 /**
- * Bot`s protection. Limit requests to 100 per hour per ip address.
+ * Bots protection. Limits requests to 100 per hour per ip address.
  */
 limiter({
   lookup: ['connection.remoteAddress'],
@@ -53,7 +53,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI, {
 // Options
   user: process.env.MONGODB_USER,
-  pass: encodeURIComponent(process.env.MONGODB_PASS)       
+  pass: process.env.MONGODB_PASS       
 });
 mongoose.connection.on('error', (err) => {
   console.error(err);
@@ -80,7 +80,7 @@ app.use(function(req, res, next){
     support_email: 'support@greatprose.com',
     info_email: 'info@greatprose.com',
     support_phone: '+38 097 000 00 00', //TODO pass to the User Agreement
-    support_address: 'м. Львів, вул. Стефаника, 7/1, 79000',
+    support_address: 'м. Львів, вул. Стефаника, 7/1, 79000', //TODO 
     global_str: {
       sandbox: 'пісочниця',
       basic: 'учень',
