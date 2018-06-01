@@ -53,7 +53,14 @@ mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI, {
 // Options
   user: process.env.MONGODB_USER,
-  pass: process.env.MONGODB_PASS       
+  pass: process.env.MONGODB_PASS,
+  useMongoClient: true,
+  autoIndex: false, // Don't build indexes
+  reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  // If not connected, return errors immediately rather than waiting for reconnect
+  bufferMaxEntries: 0
 });
 mongoose.connection.on('error', (err) => {
   console.error(err);
@@ -79,7 +86,7 @@ app.use(function(req, res, next){
     url: 'www.greatprose.com',
     support_email: 'support@greatprose.com',
     info_email: 'info@greatprose.com',
-    support_phone: '+38 097 000 00 00', //TODO pass to the User Agreement
+    support_phone: '+38 098 61 55 611',
     support_address: 'м. Львів, вул. Стефаника, 7/1, 79000', //TODO 
     global_str: {
       sandbox: 'пісочниця',
