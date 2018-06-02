@@ -28,7 +28,8 @@ exports.paymentPage = (req, res, next) => {
   var str = {
     uk: {
       title: 'Дані для оплати',
-      intro_mess: 'Зазначте в коментарі до платежу на карту "Приватбанку" ваші <span class="text-uppercase">телефон</span> та <span class="text-uppercase">логін</span>',
+      intro_mess: 'Зазначте в коментарі до платежу на карту "Приватбанку" ваші <span class="text-uppercase">телефон</span>, <span class="text-uppercase">логін</span> та <span class="text-uppercase">повне імʼя</span>',
+      discount_mess: 'Промокод на знижку 49.00 UAH діє для профілю "Учень". Під час оплати обовʼязково напишіть промокод у коментарі до платежу.',
       activation_mess: 'Після отримання оплати ваш профіль буде активовано впродовж двох годин.',
       sender: sender,
       card_num: '4149 6293 1036 3361',
@@ -37,8 +38,8 @@ exports.paymentPage = (req, res, next) => {
       card_field: 'Номер карти Приватбанку',
       name_field: 'Імʼя отримувача',
       sum_field: 'Cума/профіль',
-      sum: req.body.sum,
-      acc: req.body.acc_type
+      sum: req.params.sum || 'undefined',
+      acc: req.params.acc_type || 'undefined'
     } 
   };
   res.render('payments', {

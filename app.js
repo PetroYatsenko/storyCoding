@@ -126,12 +126,12 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   key: process.env.KEY,
-  cookie: {
-    secure: true, // Enable and test when SSL added 
-    domain: process.env.DOMAIN, // Enable on production
+//  cookie: {
+//    secure: true, // Enable and test when SSL added 
+//    domain: process.env.DOMAIN, // Enable on production
      // Cookie will expire in 1 hour from when it's generated
-    expires: new Date( Date.now() + 60 * 60 * 1000 )
-  },
+//    expires: new Date( Date.now() + 60 * 60 * 1000 )
+//  },
 // ********************
 //  store: new MongoStore({
 //    url: process.env.MONGODB_URI,
