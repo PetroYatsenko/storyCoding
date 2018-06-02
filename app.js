@@ -10,7 +10,7 @@ const chalk = require('chalk');
 const errorHandler = require('errorhandler');
 const lusca = require('lusca');
 const dotenv = require('dotenv');
-const MongoStore = require('connect-mongo')(session);
+//const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -54,7 +54,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Options
   user: process.env.MONGODB_USER,
   pass: process.env.MONGODB_PASS,
-  useMongoClient: true,
   autoIndex: false, // Don't build indexes
   reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
   reconnectInterval: 500, // Reconnect every 500ms
@@ -127,18 +126,19 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   key: process.env.KEY,
-//  cookie: {
-//    secure: true, // Enable and test when SSL added 
-//    domain: process.env.DOMAIN, // Enable on production
-    // Cookie will expire in 1 hour from when it's generated 
-    // TODO: pay attention
-//    expires: new Date( Date.now() + 60 * 60 * 1000 )
-//  },
-  store: new MongoStore({
-    url: process.env.MONGODB_URI,
-    autoReconnect: true,
-    clear_interval: 3600
-  })
+  cookie: {
+    secure: true, // Enable and test when SSL added 
+    domain: process.env.DOMAIN, // Enable on production
+     // Cookie will expire in 1 hour from when it's generated
+    expires: new Date( Date.now() + 60 * 60 * 1000 )
+  },
+// ********************
+//  store: new MongoStore({
+//    url: process.env.MONGODB_URI,
+//    autoReconnect: true,
+//    clear_interval: 3600
+//  })
+// *********************
 }));
 app.use(passport.initialize());
 app.use(passport.session());

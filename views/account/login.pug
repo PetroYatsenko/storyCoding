@@ -24,15 +24,15 @@ block content
         hr
     .form-group
       .col-sm-offset-3.col-sm-7
-        a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
+        a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook' disabled)
           i.fa.fa-facebook
           span= str.sign_in_with + ' ' + str.fb
-        a.btn.btn-block.btn-twitter.btn-social(href='/auth/twitter')
+        a.btn.btn-block.btn-twitter.btn-social(href='/auth/twitter' disabled)
           i.fa.fa-twitter
           span= str.sign_in_with + ' ' + str.tw
-        a.btn.btn-block.btn-google.btn-social(href='/auth/google')
+        a.btn.btn-block.btn-google.btn-social(href='/auth/google' disabled)
           i.fa.fa-google-plus
           span= str.sign_in_with + ' ' + str.gl       
-        a.btn.btn-block.btn-instagram.btn-social(href='/auth/instagram')
+        a.btn.btn-block.btn-instagram.btn-social(href='/auth/instagram' disabled)
           i.fa.fa-instagram
           span= str.sign_in_with + ' ' + str.ig
