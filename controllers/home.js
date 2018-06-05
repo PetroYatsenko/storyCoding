@@ -28,16 +28,14 @@ exports.paymentPage = (req, res, next) => {
   var str = {
     uk: {
       title: 'Дані для оплати',
-      intro_mess: 'Зазначте в коментарі до платежу на карту "Приватбанку" ваші <span class="text-uppercase">телефон</span>, <span class="text-uppercase">логін</span> та <span class="text-uppercase">повне імʼя</span>',
-      discount_mess: 'Промокод на знижку 49.00 UAH діє для профілю "Учень". Під час оплати обовʼязково напишіть промокод у коментарі до платежу.',
+      intro_mess: 'Після переходу на безпечну сторінку оплати обовʼязково напишіть у полі "Призначення" ваші <span class="text-uppercase">телефон</span>, <span class="text-uppercase">логін</span> та <span class="text-uppercase">повне імʼя</span>',
+      discount_mess: 'Якщо маєте промокод на знижку, також зазначте його в полі "Призначення"',
       activation_mess: 'Після отримання оплати ваш профіль буде активовано впродовж двох годин.',
       sender: sender,
-      card_num: '4149 6293 1036 3361',
-      accepter: 'Яценко Петро Олександрович',
+      payment_page: 'Сторінка оплати',
       login_field: 'Ваш логін/повне імʼя',
-      card_field: 'Номер карти Приватбанку',
-      name_field: 'Імʼя отримувача',
       sum_field: 'Cума/профіль',
+      payment_page_url: 'https://www.liqpay.ua/uk/checkout/card/greatprose',
       sum: req.params.sum || 'undefined',
       acc: req.params.acc_type || 'undefined'
     } 

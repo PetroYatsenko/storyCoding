@@ -180,10 +180,9 @@ block content
               strong Особиста увага Таємного Редактора
           .panel-footer
             h3 UAH #{prices.premium}#{prices.suffix}
-            h4 за рік
+            h4 за рік            
             form#team(method='GET' action= '/payment/' + global_str.premium + '/' + prices.premium)
               button.btn.btn-lg(type='submit') Хочу!
-            //- button.btn.btn-lg#premium(disabled) Скоро!
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
@@ -208,7 +207,6 @@ block content
             h4 за півроку
             form#family(method='GET' action= '/payment/' + global_str.advanced + '/' + prices.advanced)
               button.btn.btn-lg(type='submit') Хочу!
-            //- button.btn.btn-lg#optimum(disabled) Скоро!
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading

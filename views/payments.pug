@@ -13,22 +13,16 @@ block content
               p= str.sum_field
             th(scope="col")
               p= str.login_field
-            th(scope="col")
-              p= str.card_field
-            th(scope="col")
-              p= str.name_field
         tbody
           tr
             td
               p= str.sum + prices.suffix + '/' + str.acc
             td
               p= str.sender
-            td
-              p= str.card_num
-            td
-              p= str.accepter
+    div.text-center          
+      a.btn.btn-lg.btn-success(href= str.payment_page_url target="_blank" rel="noopener noreferrer")= str.payment_page          
     h4 !{str.activation_mess}
-    h4 !{str.discount_mess}
+    h4 !{str.discount_mess}    
     h3 Контакти:      
     p
       span.glyphicon.glyphicon-phone 
