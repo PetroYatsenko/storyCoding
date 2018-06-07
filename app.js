@@ -79,11 +79,14 @@ app.use(function(req, res, next){
   res.locals = {
     lang: 'uk',
     siteLogo: 'ЧудоваПроза',
-    siteTitle: "Чудова проза", 
+    siteTitle: "Чудова проза",
+    siteTitleLong: 'Навчальна платформа "Чудова проза"',
+    siteDescription: 'Креативне письмо та основи програмування: легко, весело й вичерпно. \n\
+      Навчальний курс розроблено спеціально для гуманітаріїв.',
     course_id: 'storycoding',
     course_name: 'Програмуємо... страшні історії!', //TODO pass to the home page too
     url: 'www.greatprose.com',
-    support_email: 'support@greatprose.com',
+    support_email: 'support@greatprose.com',    
     info_email: 'info@greatprose.com',
     support_phone: '+38 098 61 55 611',
     support_address: 'м. Львів, вул. Стефаника, 7/1, 79000', //TODO 

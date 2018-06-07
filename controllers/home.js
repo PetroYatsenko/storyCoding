@@ -5,9 +5,9 @@ exports.index = (req, res) => {
   var q_param = {enabled: 0, _id: 0};
   var state = 'state_' + res.locals.lang; 
   
-  Monster.find(query, q_param).then(function(monsters) {
+  Monster.find(query, q_param).sort({number: 1}).then(function(monsters) {
     res.render('home', {
-      title: 'Домівка', // TODO
+      main_page: true,
       state: state,
       monsters: monsters
     });
@@ -28,7 +28,9 @@ exports.paymentPage = (req, res, next) => {
   var str = {
     uk: {
       title: 'Дані для оплати',
-      intro_mess: 'Після переходу на безпечну сторінку оплати обовʼязково напишіть у полі "Призначення" ваші <span class="text-uppercase">телефон</span>, <span class="text-uppercase">логін</span> та <span class="text-uppercase">повне імʼя</span>',
+      intro_mess: 'Після переходу на безпечну сторінку оплати обовʼязково напишіть \n\
+        у полі "Призначення" ваші <span class="text-uppercase">телефон</span>, \n\
+        <span class="text-uppercase">логін</span> та <span class="text-uppercase">повне імʼя</span>',
       discount_mess: 'Якщо маєте промокод на знижку, також зазначте його в полі "Призначення"',
       activation_mess: 'Після отримання оплати ваш профіль буде активовано впродовж двох годин.',
       sender: sender,
