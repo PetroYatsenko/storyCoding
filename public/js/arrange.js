@@ -9,8 +9,14 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $dload = $('#dload');
   var $story = $('#story');
   
-  var arrangeStory = function() {    
-    myStory = JSON.parse(sessionStorage.story);
+  var arrangeStory = function() {
+    // Check we call just a saved story viewer
+    if (typeof storyTxt !== 'undefined' && storyTxt) {
+      myStory = JSON.parse(storyTxt); 
+    } else {
+      myStory = JSON.parse(sessionStorage.story);
+    }
+    
     for (var i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
       p.className = 'story_text visible';
@@ -89,7 +95,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
         }
       },
       content: [
-        {text: sessionStorage.title.toUpperCase(), style: 'title'},
+        {text: sessionStorage.title.toUpperCase() || storyTitle, style: 'title'},
         {text: author, style: 'author'}
       ]
     };
@@ -106,7 +112,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
           pdfMake.createPdf(doc).open();
           break;  
         case 'dload':
-          pdfMake.createPdf(doc).download(sessionStorage.title + '.pdf');
+          pdfMake.createPdf(doc).download(sessionStorage.title || storyTitle + '.pdf');
           break;
         case 'print':
           pdfMake.createPdf(doc).print();
@@ -136,7 +142,6 @@ window.addEventListener("DOMContentLoaded", function(event) {
   };
   
   var recEditedStory = function() {
-    console.log('record');
     var newStory = [];    
     $('#story p').each(function() {
       newStory.push($(this).text());

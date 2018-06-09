@@ -117,7 +117,7 @@ exports.dashboard = (req, res, next) => {
   var param = {
     chapter: 1, 
     subj: 1, 
-    name: 1, 
+    name: 1,
     _id: 0
   };
   // Language var
@@ -140,6 +140,9 @@ exports.dashboard = (req, res, next) => {
         trials: 'Кількість монстрів та героїв, з якими ти вже написав свої історії.',
         diploma_story: 'Дипломна історія містить змінні, функції, цикл та умову.',
         continue: 'Продовжуй!',
+        read_practice_story: 'Прочитати попередню',
+        read_expl: 'Як зроблена ця історія?',
+        read_story: 'Пройти історію'
       },
       diploma: 'Отримай диплом',
       start: 'Починай!',
@@ -148,7 +151,6 @@ exports.dashboard = (req, res, next) => {
       get_diploma: 'Напиши фінальну історію та отримай диплом.',
       dipl_exists: 'Твою дипломну історію вже надіслано Таємному Редакторові.',
       diploma_story: 'Дипломна історія',
-      read_story: 'Прочитати',
     }
   }
   // TODO -- wether move it somewhere?
@@ -225,14 +227,81 @@ exports.dashboard = (req, res, next) => {
    });
 };
 
-exports.readDiplomaStory = (req, res, next) => {
-  UserDiploma.findOne({userId: req.user.id}, (err, story) => {
-    if (err) return next(err);
-    if (story) {
-      res.render('13_stories/read_story', {
-        //TODO
-      });
-    };
+exports.readStory = (req, res, next) => {
+  req.sanitize('story');
+  var lang = res.locals.lang;
+  var state = 'state_' + lang;  
+  var story_name = req.params.story;
+  
+  var query_story = {
+    lesson: story_name,
+    userId: req.user.id
+  };
+  
+  var param_story = {
+    _id: 0
+  };
+  
+  var query_lsn = {
+    name: story_name 
+  };
+  
+  var param_lsn = {
+    chapter: 1, 
+    subj: 1, 
+    name: 1,
+    _id: 0
+  };
+  param_lsn[state] = 1;  
+  
+  var str = {
+    uk: {
+      edit: 'Редагувати',
+      print: 'Друкувати',
+      pdf: 'Згенерувати .pdf файл',
+      dload: 'Завантажити',
+      complete: 'Зберегти',
+      author: 'Автор історії ',
+      hint: 'Ти можеш відредагувати свою історію, завантажити або роздрукувати.',
+      hint_edit: 'Май на увазі, що після того, як ти збережеш нову редакцію, вона перепише стару історію.',
+      save: 'Зберегти зміни',
+      record: 'Записати'
+    }
+  };
+  
+  var author_name = req.user.profile.name || req.user.email;
+  var prefix = '/images/practice';
+  
+  // Add info message
+  req.flash('info', {msg: str[lang].hint});
+  //req.flash('errors', {msg: str[lang].hint_edit});
+  
+  Promise.all([
+    Lesson.findOne(query_lsn, param_lsn),
+    UserStory.findOne(query_story, param_story).sort({$natural:-1})
+  ]).spread(function(lsn, story) {
+    if (lsn === null || story === null) return next(); //Check for vulnerabilities
+    
+    var image = story.hero + '_' + lsn.subj + '.png';
+    
+    res.render('13_stories/read_story', {
+      story_title: story.story_title,
+      watermark: JSON.stringify(
+        lsn[state].subname + '\n' + res.locals.course_name + '\n' +  
+        res.locals.siteTitle + ': ' + res.locals.url
+      ),
+      next_path: genFunc.getNextPath('dashboard'),
+      story_hero: JSON.stringify(story.hero),
+      story_name: JSON.stringify(story.lesson),
+      save_path: JSON.stringify('/practice/story_builder/save'),
+      author: JSON.stringify(
+        str[lang].author + author_name.toUpperCase()
+      ),
+      str: str[lang],
+      img_path: genFunc.makeImgPath(prefix, lsn.chapter, story.lesson, image),
+      next_btn: 'send',
+      story_text: JSON.stringify(story.story_txt)
+    });
   }); 
 };
 

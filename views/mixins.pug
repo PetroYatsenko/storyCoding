@@ -1,19 +1,37 @@
-mixin dashb_subj_label(subj, subname)
-  case subj
+mixin dashb_subj_label(val)
+  case val.subj
     when 'tutorial'
-      span.label.label-info #{subname}
+      span= val[lang].name
+      |&nbsp;
+      a(href= '/lessons/' + val.name + '/' + val.subj)
+        span.label.label-info #{val[lang].subname}
     when 'tests'
-      span.label.label-warning #{subname}
+      span= val[lang].name
+      |&nbsp;
+      a(href= '/practice/tests/' +  val.name)
+        span.label.label-warning #{val[lang].subname}
     default
-      span.label.label-success #{subname}
+      a(href= '/lessons/' + val.name + '/' + val.subj)
+        span.label.label-success #{val[lang].subname}
       
-mixin dashb_next_label(next, state, passed)
+mixin dashb_next_label(val, next, state, passed)
   if passed > 0 && next
-    | &nbsp;
-    span.label.label-info= state.next
+    a(href= val.subj === 'tests' ? '/practice/tests/' +  val.name : '/lessons/' + val.name + '/' + val.subj)
+      | &nbsp;
+      span.label.label-info= state.next
   else if next
-    | &nbsp;
-    span.label.label-info= state.start
+    a(href= val.subj === 'tests' ? '/practice/tests/' +  val.name : '/lessons/' + val.name + '/' + val.subj)
+      | &nbsp;
+      span.label.label-info= state.start
+  else if val.subj !== 'tests'
+    a(href= '/lessons/explanation/' + val.name data-toggle="tooltip" data-placement="top" title= state.tooltip.read_expl)
+      | &nbsp;
+      span.label.label-warning
+        i.fa.fa-info-circle.fa-left-margin
+    a(href= '/lessons/story/' + val.name + '/read' data-toggle="tooltip" data-placement="top" title= state.tooltip.read_practice_story)
+      | &nbsp;
+      span.label.label-info
+        i.fa.fa-eye.fa-left-margin
 
 mixin dashb_count_badge(subj, trials)
   case subj
@@ -22,10 +40,6 @@ mixin dashb_count_badge(subj, trials)
       | &nbsp;
     default
       span.badge #{trials}
-      
-mixin dashb_read_label(state)
-  | &nbsp;
-  span.label.label-info= state.read_story
 
 mixin account_label(acc_type, str)
   case acc_type

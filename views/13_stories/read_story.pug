@@ -1,1 +1,45 @@
-
+extends ../layout
+  
+block scripts
+  script.
+    var nextPath = !{next_path}
+    var savePath = !{save_path}
+    var watermark = !{watermark}
+    var author = !{author}
+    var storyTitle = !{JSON.stringify(story_title)}
+    var storyHero = !{story_hero}
+    var storyName = !{story_name}
+    var imgPath = !{JSON.stringify(img_path)}
+    var storyTxt = !{story_text}  
+  script(src='/js/lib/pdfmake/pdfmake.min.js')  
+  script(src='/js/lib/pdfmake/vfs_fonts.js')
+  script(src='/js/arrange.js')
+  //- script(src='/js/au.js')
+  
+block content  
+  .container
+    .col-sm-3.text-center
+      img#img1(src= img_path)
+    .col-sm-9
+      .raw.text-center
+        .col-sm-12         
+          h2.text-center= story_title            
+          .btn-group
+            button.btn.btn-success.btn-md(type='button' id='pdf' title= str.pdf) 
+              i.fa.fa-file-pdf-o            
+            button.btn.btn-info.btn-md(type='button' id='dload' title= str.dload) 
+              i.fa.fa-download      
+            button.btn.btn-success.btn-md(type='button' id='print' title= str.print) 
+              i.fa.fa-print
+          | &nbsp;    
+          .btn-group
+            button.btn.btn-info.btn-md(type='button' id='edit' title= str.edit)
+              i.fa.fa-pencil-square-o
+            button.btn.btn-default.btn-md(type='button' id='save' title= str.save 'disabled')
+              i.fa.fa-floppy-o
+      .raw
+        .col-sm-12
+          hr
+          #story
+          div.text-right
+            button.btn.btn-info.btn-lg(type='button' id= next_btn)= str.record 

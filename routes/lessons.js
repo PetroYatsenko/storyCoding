@@ -9,7 +9,6 @@ router.get('/dashboard', passportConfig.isAuthenticated, lessonController.dashbo
 router.get('/:chapter/tutorial', passportConfig.isAuthenticated, lessonController.tutorial);
 router.get('/explanation/:story', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.explanation);
 router.get('/:story/:subj', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.lesson);
-router.get('/story/diploma/read', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.readDiplomaStory);
-//router.get('/story/:name/read', passportConfig.isAuthenticated, lessonController.readStory); //TODO
+router.get('/story/:story/read', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.readStory);
 
 module.exports = router;
