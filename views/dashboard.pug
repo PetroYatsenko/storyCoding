@@ -59,6 +59,6 @@ block content
               p.list-group-item.bg-secondary #{state.diploma_story_disabled}
             else if (passed === max_val) && !diploma 
               a.list-group-item(href="/practice/diploma/story") #{state.get_diploma}
-                +dashb_next_label(true, state, passed)
+              //-  +dashb_next_label(val, next_step, state, passed)
             else if (passed === max_val) && diploma
               a.list-group-item(href="/lessons/story/diploma/read") #{state.dipl_exists}
