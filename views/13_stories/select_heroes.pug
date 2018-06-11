@@ -15,8 +15,8 @@ block content
         .col-sm-6
           .thumbnail
             img.pointer.w3-opacity.w3-hover-opacity-off(
-              src= '/images/heroes/' + val.monster 
-              +'.png' id= val.monster alt= val.name)
+              src= '/images/heroes/500x500/' + val.monster 
+              +'.png' id val.monster alt= val.name)
             p 
               strong= val.name
             p= val.talent
@@ -27,7 +27,7 @@ block content
             .col-sm-6
               .thumbnail.bg-secondary
                 img.w3-opacity(
-                  src= '/images/heroes/' + val.monster 
+                  src= '/images/heroes/500x500/' + val.monster 
                   +'.png' alt= val.name)
                 p 
                   strong= val.name
