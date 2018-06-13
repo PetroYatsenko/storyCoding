@@ -305,3 +305,6 @@ exports.readStory = (req, res, next) => {
   }); 
 };
 
+exports.readDiploma = (req, res, next) => {
+  
+};

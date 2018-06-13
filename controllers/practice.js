@@ -3,7 +3,9 @@ const Lesson = require('../models/Lesson');
 const Step = require('../models/Step');
 const Story = require('../models/Story');
 const Test = require('../models/Test');
+const User = require('../models/User');
 const UserStory = require('../models/UserStory');
+const winston = require('../config/winston');
 const genFunc = require('./gen_functions');
 const Promise = require('bluebird');
 const UserDiploma = require('../models/UserDiploma');
@@ -348,32 +350,48 @@ exports.arrangeDiploma = (req, res, next) => {
 exports.saveDiploma = (req, res, next) => {
   req.sanitize('story');
   req.sanitize('title');
-  var strings = {};
-  var state = 'state_' + res.locals.lang;
+  var lang = res.locals.lang;
+  var title = req.body.title;
+  var story = req.body.story;
+  var user_id = req.user.id;
   
-  strings.state_uk = {
-    hint: 'Твою дипломну історію успішно поставлено в чергу до Секретного ' + 
-      'Редактора. Зазвичай він відповідає впродовж 24 годин. Тримаємо кулачки!',
-    dipl_exists: 'Твою дипломну історію вже надіслано Таємному Редакторові.'
+  var str = {
+    uk: {
+      hint: 'Твою дипломну історію успішно поставлено в чергу до Таємного ' + 
+        'Редактора. Зазвичай він відповідає впродовж 24 годин. Тримаємо кулачки!',
+      dipl_exists: 'Твою дипломну історію вже надіслано Таємному Редакторові.',
+      mail_subj: 'Диплом готовий!',
+      mail_txt: 'Користувач ' + user_id + ' пройшов курс ' + res.locals.course_name + 
+        ' і написав дипломну історію. Час братися до роботи Таємному Редакторові.',
+      no_email: 'Не знайдена поштова адреса цього юзера'
+    }
   };
   
-  var query = {
-    userId: req.user.id
+  var query_d = {
+    userId: user_id
+  };
+  
+  var query_u = {
+    _id: user_id
   };
   
   const diploma = new UserDiploma({
-    d_title: req.body.title,
-    d_story: req.body.story,
-    userId: req.user.id
+    d_title: title,
+    d_story: story,
+    userId: user_id
   });
-
-  UserDiploma.findOne(query, (err, existingDiploma) => {    
-    if (err) {
-      console.error(err);
-      return res.status(500).send({error: 'Internal Server Error'});
-    }  
+  
+  Promise.all([
+    UserDiploma.findOne(query_d, {_id: 0}),
+    User.findOne(query_u, {_id: 0, email: 1}) 
+  ]).spread(function(existingDiploma, user) {
+    if (user === null) {
+      winston.log('error', 'user_id:' + user_id + ' -- ' + str[lang].no_email);
+      return next();
+    };
     if (existingDiploma) {
-      req.flash('errors', { msg: strings[state].dipl_exists });
+      winston.log('info', 'user_id:' + user_id + ' -- ' + str[lang].dipl_exists);
+      req.flash('errors', { msg: str[lang].dipl_exists });
       res.format({
         json: function(){
           res.send({status: 'OK'});
@@ -382,16 +400,23 @@ exports.saveDiploma = (req, res, next) => {
     } else {
       diploma.save((err) => {
         if (err) {
-          console.error(err);
+          winston.error('error','user_id:' + user_id + ' -- ' + err.message);
           return res.status(500).send({error: 'Internal Server Error'});
-        }  
-        req.flash('success', {msg: strings[state].hint});
+        }
+        var html_diploma = genFunc.renderHtml(res, title, story, user.email);
+        genFunc.sendServiceMail(res, str[lang].mail_subj, str[lang].mail_txt, html_diploma);
+        req.flash('success', {msg: str[lang].hint});
         res.format({
           json: function(){
             res.send({status: 'OK'});
           }
         });
       });
+    };
+  }).catch(function(err) {
+    if (err) {
+      winston.error('error', 'user_id:' + user_id + ' -- ' + err.message);
+      return res.status(500).send({error: 'Internal Server Error'});
     };
   });
 };
@@ -401,9 +426,10 @@ exports.saveTest = (req, res, next) => {
   req.sanitize('test_name');
   // TODO lang support
   var hint = 'Вітаємо! Ти переходиш до нового розділу!';
+  var user_id = req.user.id;
   var query = {
     lesson: req.body.test_name,
-    userId: req.user.id
+    userId: user_id
   };
   var params = {
     story_txt: req.body.score
@@ -412,7 +438,7 @@ exports.saveTest = (req, res, next) => {
   UserStory.findOneAndUpdate(query, params, {upsert: true}, 
     function(err, doc) {
       if (err) {
-        console.error(err);
+        winston.error('error', 'user_id:' + user_id + ' -- ' + err.message);
         return res.status(500).send({error: 'Internal Server Error'});
       }  
       req.flash('success', {msg: hint});
@@ -431,6 +457,7 @@ exports.saveStory = (req, res, next) => {
   req.sanitize('hero');
   req.sanitize('title');
   var lang = res.locals.lang;
+  var user_id = req.user.id;
   var str = {
     uk: {
       hint: 'Вітаємо! Твоя історія успішно записана.'
@@ -439,7 +466,7 @@ exports.saveStory = (req, res, next) => {
   var query = {
     hero: req.body.hero,
     lesson: req.body.story_name,
-    userId: req.user.id
+    userId: user_id
   };
   var params = {
     story_txt: req.body.story, 
@@ -453,7 +480,7 @@ exports.saveStory = (req, res, next) => {
     {upsert: true}, 
     function(err, doc) {
       if (err) {
-        console.error(err);
+        winston.error('error', 'user_id:' + user_id + ' -- ' + err.message);
         return res.status(500).send({error: 'Internal Server Error'});
       }  
       req.flash('success', {msg: str[lang].hint});

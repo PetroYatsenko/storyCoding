@@ -1,3 +1,5 @@
+const winston = require('./config/winston');
+
 // TODO Store paths within the database ?
 exports.getNextPath = function(storyType = undefined, story = undefined, hero = undefined, title = undefined) {
   var nextPath = '/'; // By default
@@ -108,4 +110,65 @@ exports.checkAccount = (req, res, next) => {
   };
   
   return next();
+};
+
+/**
+ * Sends system events mails (like new diploma has been added)  
+ * @param {type} res
+ * @param {type} to_addr
+ * @param {type} theme
+ * @param {type} msg
+ * @returns {undefined}
+ */
+exports.sendServiceMail = (res, subject, txt, diploma) => {
+  var email = res.locals.support_email; 
+  const mailOptions = {
+    to: email,
+    from: `${res.locals.siteTitle} <${res.locals.noreply_email}>`,
+    subject: subject,
+    text: txt,    
+    html: diploma || ''
+  };  
+  
+  var options = {
+    auth: {
+      api_user: process.env.SENDGRID_USER,
+      api_key: process.env.SENDGRID_PASSWORD
+    }
+  };
+  
+  const nodemailer = require('nodemailer');  
+  const sgTransport = require('nodemailer-sendgrid-transport');
+  
+  var client = nodemailer.createTransport(sgTransport(options));
+  
+  client.sendMail(mailOptions, (err) => {
+    if (err) {
+      return winston.error('error', err.message);
+    }
+    winston.log('info', 'Diploma ready message was sent to ' + email + 'address.')
+  });
+};
+
+exports.renderHtml = (res, title, story, email) => {
+  var myStory = JSON.parse(story);
+  var html = '';  
+  var lang = res.locals.lang;
+  
+  var str = {
+    uk: {
+      editor_msg: '<p><strong>Не відповідайте на цей лист! Пишіть на пошту автора: ' + 
+        email + '</strong></p>'
+    }
+  };
+  
+  html = '<h1>' + title + '</h1>';
+  
+  for (var i = 0; i < myStory.length; i++) {
+    html += '<p>' + myStory[i] + '</p>';
+  }
+  
+  html += str[lang].editor_msg;
+  
+  return html;
 };

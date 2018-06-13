@@ -10,5 +10,6 @@ router.get('/:chapter/tutorial', passportConfig.isAuthenticated, lessonControlle
 router.get('/explanation/:story', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.explanation);
 router.get('/:story/:subj', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.lesson);
 router.get('/story/:story/read', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.readStory);
+router.get('/story/diploma/:number', passportConfig.isAuthenticated, genFunc.checkAccount, lessonController.readDiploma);
 
 module.exports = router;

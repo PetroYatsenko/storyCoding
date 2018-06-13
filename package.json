@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@sendgrid/mail": "^6.2.1",
+    "app-root-path": "^2.0.1",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
@@ -60,7 +61,8 @@
     "tumblr.js": "^1.1.1",
     "twilio": "^3.17.0",
     "twit": "^2.2.9",
-    "validator": "^10.1.0"
+    "validator": "^10.1.0",
+    "winston": "^2.4.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",

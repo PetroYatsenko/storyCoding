@@ -5,12 +5,12 @@ const express = require('express');
 const compression = require('compression');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const logger = require('morgan');
+const morgan = require('morgan');
 const chalk = require('chalk');
 const errorHandler = require('errorhandler');
 const lusca = require('lusca');
 const dotenv = require('dotenv');
-//const MongoStore = require('connect-mongo')(session);
+const mongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -19,6 +19,7 @@ const expressValidator = require('express-validator');
 const sass = require('node-sass-middleware');
 const redisClient = require('redis').createClient();
 const helmet = require('helmet');
+const winston = require('./config/winston');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -62,7 +63,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   bufferMaxEntries: 0
 });
 mongoose.connection.on('error', (err) => {
-  console.error(err);
+  winston.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
@@ -88,6 +89,7 @@ app.use(function(req, res, next){
     url: 'www.greatprose.com',
     support_email: 'support@greatprose.com',    
     info_email: 'info@greatprose.com',
+    noreply_email: 'noreply@greatprose.com',
     support_phone: '+38 098 61 55 611',
     support_address: 'м. Львів, вул. Стефаника, 7/1, 79000', //TODO 
     global_str: {
@@ -120,12 +122,12 @@ app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
-app.use(logger('dev')); //TODO Change on taking param from the .env or so
+app.use(morgan('combined', { stream: winston.stream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(session({
-  resave: true,
+  resave: false,
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   key: process.env.KEY,
@@ -136,11 +138,10 @@ app.use(session({
 //    expires: new Date( Date.now() + 60 * 60 * 1000 )
 //  },
 // ********************
-//  store: new MongoStore({
-//    url: process.env.MONGODB_URI,
-//    autoReconnect: true,
-//    clear_interval: 3600
-//  })
+  store: new mongoStore({
+   mongooseConnection: mongoose.connection,
+     collection: 'sessions' // default
+  })
 // *********************
 }));
 app.use(passport.initialize());
@@ -196,13 +197,16 @@ if (process.env.NODE_ENV === 'development') {
   app.use(errorHandler());
 }; 
 app.use((req, res, next) => {
+  winston.error(`404 - not found - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  
   res.render('errors/404', {
     status: 404,
     url: req.url, //TODO - not used
   });
 });
 app.use((err, req, res, next) => {
-  console.error(err);
+  winston.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  
   res.render('errors/500', {
     status: err.status || 500
   });
@@ -212,7 +216,7 @@ app.use((err, req, res, next) => {
  * Start Express server.
  */
 app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+  winston.log('%s App is running at port:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
 });
 
 module.exports = app;
