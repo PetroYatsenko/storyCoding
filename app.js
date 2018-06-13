@@ -63,7 +63,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   bufferMaxEntries: 0
 });
 mongoose.connection.on('error', (err) => {
-  winston.error(err);
+  winston.error(err.message);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
@@ -139,8 +139,8 @@ app.use(session({
 //  },
 // ********************
   store: new mongoStore({
-   mongooseConnection: mongoose.connection,
-     collection: 'sessions' // default
+    mongooseConnection: mongoose.connection,
+    collection: 'sessions' // default
   })
 // *********************
 }));

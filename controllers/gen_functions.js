@@ -1,4 +1,4 @@
-const winston = require('./config/winston');
+const winston = require('../config/winston');
 
 // TODO Store paths within the database ?
 exports.getNextPath = function(storyType = undefined, story = undefined, hero = undefined, title = undefined) {
