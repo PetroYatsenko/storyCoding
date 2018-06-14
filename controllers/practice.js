@@ -91,7 +91,7 @@ exports.getMonstersCollection = (req, res, next) => {
 
 exports.getStoryBuilder = (req, res, next) => {
   //TODO figure out sanitization  
-  req.sanitize('mr');
+  req.sanitize('hero');
   req.sanitize('story');
   var story_name = req.params.story;
   var hero = req.params.hero; 
