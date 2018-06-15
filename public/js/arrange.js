@@ -10,11 +10,12 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $story = $('#story');
   
   var arrangeStory = function() {
-    // Check we call just a saved story viewer
-    if (typeof storyTxt !== 'undefined' && storyTxt) {
-      myStory = JSON.parse(storyTxt); 
-    } else {
+    // First check if it is a regular story arranger
+    if (sessionStorage.story !== 'undefined' && sessionStorage) {
       myStory = JSON.parse(sessionStorage.story);
+    // Check if it is a story viewer
+    } else if (typeof storyTxt !== 'undefined' && storyTxt) {
+      myStory = JSON.parse(storyTxt); 
     }
     
     for (var i = 0; i < myStory.length; i++) {
@@ -148,7 +149,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
     });   
     sessionStorage.story = JSON.stringify(newStory);
     endStoryEdit();
-  }
+  };
     
   $pdf.on('click', {action:'pdf'}, processStory);
   $print.on('click', {action: 'print'}, processStory);
