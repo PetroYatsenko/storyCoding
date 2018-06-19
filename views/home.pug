@@ -141,16 +141,14 @@ block content
     .row
       .col-sm-8
         h2 Як це працює
-        h4 Авторська методика Петра Яценка “9 кроків креативної інформатики”:        
+        h4 Авторська методика Петра Яценка “7 кроків креативної інформатики”:        
         ol
           li Читаємо страшну історію.
           li Дізнаємося, які поняття програмування в ній застосовані.
           li Вибираємо героя для своєї історії.
           li Пишемо власну історію з покроковими підказками.
           li Закріплюємо знання з «тестами без стресу».
-          li У кінці курсу пишемо дипломну історію.
-          li Надсилаємо на перевірку Таємному Редакторові.
-          li Якщо треба – редагуємо.
+          li Пишемо дипломну історію та надсилаємо Таємному Редакторові.
           li Отримуємо диплом курсу!
       .col-sm-4
         span.glyphicon.glyphicon-cog.logo.slideanim  
@@ -158,30 +156,30 @@ block content
     .text-center
       h2 Ціни
       h4 Оберіть, які можливості пасують вам більше
-    .row.slideanim      
+    .row.slideanim
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
-            h1 Гурток
+            h1 Учень
           .panel-body            
             p
-              strong До девʼяти дипломів!
+              strong Один диплом
             p
               strong 20 самостійних занять
             p
               strong 16 історій
             p 
-              strong До 64 конструкторів страшилок
-            p 
-              strong Два герої + додаткові монстри
+              strong 32 конструктори страшилок
+            p
+              strong Два герої для власних історій
             p 
               strong Понад 30 тестів без стресу!
             p
               strong Особиста увага Таємного Редактора
           .panel-footer
-            h3 UAH #{prices.premium}#{prices.suffix}
-            h4 за рік            
-            form#team(method='GET' action= '/payment/' + global_str.premium + '/' + prices.premium)
+            h3 Лише UAH #{prices.basic}#{prices.suffix}
+            h4 за три місяці
+            form#student(method='GET' action= '/payment/' + global_str.basic + '/' + prices.basic)
               button.btn.btn-lg(type='submit') Хочу!
       .col-sm-4
         .panel.panel-default.text-center
@@ -210,27 +208,27 @@ block content
       .col-sm-4
         .panel.panel-default.text-center
           .panel-heading
-            h1 Учень
+            h1 Гурток
           .panel-body            
             p
-              strong Один диплом
+              strong До девʼяти дипломів!
             p
               strong 20 самостійних занять
             p
               strong 16 історій
             p 
-              strong 32 конструктори страшилок
-            p
-              strong Два герої для власних історій
+              strong До 64 конструкторів страшилок
+            p 
+              strong Два герої + додаткові монстри
             p 
               strong Понад 30 тестів без стресу!
             p
               strong Особиста увага Таємного Редактора
           .panel-footer
-            h3 Лише UAH #{prices.basic}#{prices.suffix}
-            h4 за три місяці
-            form#student(method='GET' action= '/payment/' + global_str.basic + '/' + prices.basic)
-              button.btn.btn-lg(type='submit') Хочу!      
+            h3 UAH #{prices.premium}#{prices.suffix}
+            h4 за рік            
+            form#team(method='GET' action= '/payment/' + global_str.premium + '/' + prices.premium)
+              button.btn.btn-lg(type='submit') Хочу!        
   .container-fluid#faq   
     h2 Часто нас запитують...       
     .row.slideanim

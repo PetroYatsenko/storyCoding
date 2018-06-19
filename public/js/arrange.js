@@ -11,12 +11,12 @@ window.addEventListener("DOMContentLoaded", function(event) {
   
   var arrangeStory = function() {
     // First check if it is a regular story arranger
-    if (sessionStorage.story !== 'undefined' && sessionStorage) {
+    if (sessionStorage.story !== undefined) {
       myStory = JSON.parse(sessionStorage.story);
     // Check if it is a story viewer
-    } else if (typeof storyTxt !== 'undefined' && storyTxt) {
+    } else if (typeof storyTxt !== undefined) {
       myStory = JSON.parse(storyTxt); 
-    }
+    };
     
     for (var i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
@@ -37,7 +37,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
       },
       function(data) {
         if (data.status === 'OK') {
-           window.location.href = nextPath;
+          sessionStorage.clear();  
+          window.location.href = nextPath;
         }
       }            
     );

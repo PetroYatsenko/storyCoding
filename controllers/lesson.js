@@ -152,7 +152,7 @@ exports.dashboard = (req, res, next) => {
       dipl_exists: 'Твою дипломну історію вже надіслано Таємному Редакторові.',
       diploma_story: 'Дипломна історія',
     }
-  }
+  };
   // TODO -- wether move it somewhere?
   var chapters = ['demo', 'vars', 'cond', 'loop', 'func'];
   

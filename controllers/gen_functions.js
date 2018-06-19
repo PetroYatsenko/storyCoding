@@ -146,7 +146,7 @@ exports.sendServiceMail = (res, subject, txt, diploma) => {
     if (err) {
       return winston.error('error', err.message);
     }
-    winston.log('info', 'Diploma ready message was sent to ' + email + 'address.')
+    winston.log('info', 'Diploma ready message was sent to ' + email + ' address.');
   });
 };
 
