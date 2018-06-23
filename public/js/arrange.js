@@ -9,13 +9,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $dload = $('#dload');
   var $story = $('#story');
   
-  var arrangeStory = function() {
-    // First check if it is a regular story arranger
-    if (sessionStorage.story !== undefined) {
+  var arrangeStory = function() {    
+    // Check it is a story viewer
+    if (typeof viewer !== 'undefined' && viewer) {
+      myStory = JSON.parse(storyTxt);    
+    // Check it is a regular story arranger  
+    } else if (typeof sessionStorage.story !== 'undefined') {       
       myStory = JSON.parse(sessionStorage.story);
-    // Check if it is a story viewer
-    } else if (typeof storyTxt !== undefined) {
-      myStory = JSON.parse(storyTxt); 
     };
     
     for (var i = 0; i < myStory.length; i++) {

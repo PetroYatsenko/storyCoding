@@ -30,7 +30,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
       },
       function(data) {
         if (data.status === 'OK') {
-           window.location.href = nextPath;
+          sessionStorage.clear();  
+          window.location.href = nextPath;
         }
       }            
     );
