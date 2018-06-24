@@ -10,13 +10,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var $story = $('#story');
   
   var arrangeStory = function() {    
-    // Check it is a story viewer
+    // Check it is a story viewer and fill in the sessionStorage var
     if (typeof viewer !== 'undefined' && viewer) {
-      myStory = JSON.parse(storyTxt);    
-    // Check it is a regular story arranger  
-    } else if (typeof sessionStorage.story !== 'undefined') {       
-      myStory = JSON.parse(sessionStorage.story);
-    };
+      sessionStorage.story = storyTxt;
+      sessionStorage.title = storyTitle;
+    }; 
+    
+    myStory = JSON.parse(sessionStorage.story);
     
     for (var i = 0; i < myStory.length; i++) {
       var p = document.createElement("P");
@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   var saveRedirect = function() {       
     $.post(savePath,
       {
-        title: storyTitle,
+        title: sessionStorage.title,
         story_name: storyName,
         story: sessionStorage.story,
         hero: storyHero,
@@ -39,6 +39,8 @@ window.addEventListener("DOMContentLoaded", function(event) {
         if (data.status === 'OK') {
           sessionStorage.clear();  
           window.location.href = nextPath;
+        } else {
+          alert(data.status);
         }
       }            
     );
@@ -54,7 +56,14 @@ window.addEventListener("DOMContentLoaded", function(event) {
     return canvas.toDataURL("image/png");
   }
   
-  var processStory = function(e) {    
+  var processStory = function(e) {
+    // Open blank window to avoid popup blocker
+    switch(e.data.action) {
+      case 'pdf':
+      case 'print':
+         var win = window.open('', '_blank');
+        break;
+    };   
     var doc = {};    
     var dataURL;
     var img = new Image();    
@@ -97,7 +106,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
         }
       },
       content: [
-        {text: sessionStorage.title.toUpperCase() || storyTitle, style: 'title'},
+        {text: sessionStorage.title.toUpperCase(), style: 'title'}, //TODO
         {text: author, style: 'author'}
       ]
     };
@@ -111,13 +120,13 @@ window.addEventListener("DOMContentLoaded", function(event) {
       };
       switch(e.data.action) {
         case 'pdf':
-          pdfMake.createPdf(doc).open();
+          pdfMake.createPdf(doc).open({}, win);
           break;  
         case 'dload':
-          pdfMake.createPdf(doc).download(sessionStorage.title || storyTitle + '.pdf');
+          pdfMake.createPdf(doc).download(sessionStorage.title + '.pdf');
           break;
         case 'print':
-          pdfMake.createPdf(doc).print();
+          pdfMake.createPdf(doc).print({}, win);
           break;
       }
     };

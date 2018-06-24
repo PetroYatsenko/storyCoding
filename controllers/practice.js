@@ -164,9 +164,6 @@ exports.arrangeStory = (req, res, next) => {
     complete: 'Зберегти',
     author: 'Автор історії ',
     hint: 'Майже готово! Тепер ти можеш відредагувати свою історію, зберегти або роздрукувати',
-    popup_hint: 'Зверни увагу: коли натискаєш кнопки "Згенерувати .pdf файл" або \n\
-      "Друкувати", веб-переглядач може блокувати спливаючі вікна (pop-ups). \n\
-      Аби цього уникнути, слід натиснути на повідомленні переглядача та дозволити спливаючі вікна.',
     add_name: "Хочеш побачити замість мейла своє ім'я як автора? Клікни по аватарці, \n\
       зайди у \"Мій профіль\", напиши ім'я та натисни \"Зберегти\". \n\
       Повернися назад і не забудь оновити сторінку з історією.",
@@ -175,7 +172,6 @@ exports.arrangeStory = (req, res, next) => {
   };
   // Add info message
   req.flash('info', {msg: strings[state].hint});
-  req.flash('errors', {msg: strings[state].popup_hint});
     
   if (typeof req.user.profile.name === 'undefined' || req.user.profile.name === '') {
     req.flash('success', {msg: strings[state].add_name});
@@ -456,6 +452,19 @@ exports.saveStory = (req, res, next) => {
   req.sanitize('story');
   req.sanitize('hero');
   req.sanitize('title');
+  
+  if (req.body.hero === "" || 
+      req.body.story_name === "" || 
+      req.body.story === "" ||
+      req.body.title === "") {
+    winston.error('error', 'user_id:' + user_id + ' -- ' + 'empty value/s was send');
+    res.format({
+      json: function() {
+        return res.send({status: 'Спроба запису порожніх значень'}); //TODO
+      }
+    });  
+  };
+  
   var lang = res.locals.lang;
   var user_id = req.user.id;
   var str = {
