@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", function(event) {
   
   var arrangeStory = function() {    
     // Check it is a story viewer and fill in the sessionStorage var
-    if (typeof viewer !== 'undefined' && viewer) {
+    if (typeof viewer !== 'undefined' && viewer) { //TODO -- test how it works
       sessionStorage.story = storyTxt;
       sessionStorage.title = storyTitle;
     }; 
