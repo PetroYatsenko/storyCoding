@@ -23,11 +23,10 @@ $(document).ready(function() {
     pq.innerHTML = t[prop].q;
     $q.appendChild(pq);
     
-    var sml = Math.round(12 / t[prop].v.split(splitter).length); // TODO
     t[prop].v.split(splitter).forEach(function(val, ind) {      
       var pb = document.createElement("BUTTON");
       var div = document.createElement('DIV');
-      div.className = 'text-center col-sm-' + sml
+      div.className = 'text-center col-sm-6';
       pb.className = 'btn btn-success btn-md bm-10';
       pb.setAttribute('type','button');
       pb.setAttribute('id', ind);
@@ -41,7 +40,7 @@ $(document).ready(function() {
   initTest();
   
   var showAnsw = function() {
-    $(this).removeClass('btn-success').addClass('btn-basic');
+    $(this).removeClass('btn-success').addClass('btn-default');
     var pa = document.createElement("P");
     var nb = document.createElement('BUTTON');
     pa.className = 'story_text visible';
