@@ -324,7 +324,7 @@ exports.arrangeDiploma = (req, res, next) => {
   if (typeof req.user.profile.name === 'undefined'  || req.user.profile.name === '') {
     req.flash('success', {msg: strings[state].add_name});
   };
-  var author_name = req.user.profile.name.toUpperCase() || req.user.email;
+  var author_name = req.user.profile.name || req.user.email;
   
   res.render('13_stories/arrange_diploma', {
     watermark: JSON.stringify(
