@@ -100,12 +100,11 @@ app.use(function(req, res, next){
       devel: 'devel',
       editor: 'редактор',
       admin: 'адмін',
-      beta: '&beta;'
     },
     prices: {
       basic: '299',
       advanced: '749',
-      premium: '999',
+      premium: '1999',
       suffix: '.00'
     }
   };  

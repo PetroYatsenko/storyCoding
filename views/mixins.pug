@@ -54,8 +54,6 @@ mixin account_label(acc_type, str)
     when 'editor'
       span.label.label-warning= str.editor
     when 'admin'
-      span.label.label-warning= str.admin  
-    when 'development'
-      span.label.label-warning= str.devel
+      span.label.label-warning= str.admin
     default
-      span.label.label-warning !{str.beta}
+      span.label.label-warning= str.devel

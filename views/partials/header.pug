@@ -8,12 +8,11 @@
         span.icon-bar
       a.navbar-brand(href='/')        
         span.label.label-danger= siteLogo
-        small
-          | &nbsp;
-          +account_label(process.env.NODE_ENV, global_str)  
-          if user
-            | &nbsp;
-            +account_label(user.classes[course_id].account, global_str)
+        if user
+          +account_label(user.classes[course_id].account, global_str)  
+      a.navbar-brand(href='https://www.fb.me/greatProseStudy' target="_blank" rel="noopener noreferrer")  
+        span.label.label-info
+          i.fa.fa-facebook.fa-left-margin 
     .collapse.navbar-collapse
       if (main_page)
         ul.nav.navbar-nav          
